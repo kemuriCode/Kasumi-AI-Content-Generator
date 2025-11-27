@@ -33,6 +33,7 @@ rsync -av \
   --exclude='scripts' \
   --exclude='tests' \
   --exclude='phpunit.xml.dist' \
+  --exclude='.phpunit.result.cache' \
   --exclude='*.zip' \
   --exclude='*.log' \
   --exclude='.env' \
