@@ -1,72 +1,32 @@
-# Kasumi-AI-Content-Generator
+# Kasumi AI Content Generator
 
-Automatyzuje generowanie wpisów, komentarzy i grafik przy użyciu OpenAI oraz Google Gemini.
+WordPress plugin that automates post, comment, and image generation using OpenAI and Google Gemini.
 
-## Opis
+## Description
 
-Kasumi – Full AI Content Generator to wtyczka WordPress, która wykorzystuje sztuczną inteligencję do automatycznego generowania treści na stronach WordPress. Wtyczka obsługuje zarówno OpenAI jak i Google Gemini.
+Kasumi automates WordPress content creation with AI. It generates SEO-friendly posts, featured images, and comments using OpenAI GPT models and Google Gemini.
 
-## Gutenberg-ready output
+## Requirements
 
-- Markdown wygenerowany przez AI jest mapowany na natywne bloki `core/*` (nagłówki, akapity, listy, cytaty, obrazy, kod, separatory).
-- Nietypowe fragmenty trafiają do bloku `core/html`, więc nadal można je edytować po stronie Gutenberga bez utraty formatowania.
-- Jeżeli konwersja na bloki się nie powiedzie, logger zapisze ostrzeżenie i włączy się bezpieczny fallback do czystego HTML.
-
-### Jak przetestować bloki
-
-Po utworzeniu wpisu możesz zweryfikować wygenerowaną strukturę bloków poleceniem WP-CLI:
-
-```bash
-wp eval 'print_r( parse_blocks( get_post(123)->post_content ) );'
-```
-
-(Podmień `123` na ID świeżo wygenerowanego wpisu).
-
-## Wymagania
-
-- WordPress 5.8+
+- WordPress 6.0+
 - PHP 8.1+
-- Rozszerzenia PHP: cURL, mbstring
+- PHP extensions: cURL, mbstring
 
-## Instalacja
+## Installation
 
-1. Pobierz paczkę wtyczki
-2. Prześlij folder wtyczki do `/wp-content/plugins/`
-3. Uruchom `composer install` w katalogu wtyczki
-4. Aktywuj wtyczkę w panelu administracyjnym WordPress
+1. Download the plugin package
+2. Upload to `/wp-content/plugins/`
+3. Run `composer install` in the plugin directory
+4. Activate the plugin in WordPress admin
 
-## Wymagane zależności
+## Building Package
 
-```bash
-composer install
-```
+Run `./scripts/build.sh` to create a distribution ZIP file. The script automatically excludes tests, dev dependencies, and configuration files.
 
-## Budowanie paczki ZIP
-
-### Lokalnie
-
-Aby utworzyć paczkę ZIP wtyczki gotową do dystrybucji:
-
-```bash
-./scripts/build.sh
-```
-
-Skrypt utworzy plik `kasumi-ai-generator.zip` w katalogu głównym wtyczki.
-
-**Uwaga:** Skrypt automatycznie wyklucza:
-- Testy (`tests/`, `phpunit.xml.dist`)
-- Zależności deweloperskie (Composer `--no-dev`)
-- Pliki konfiguracyjne (`.git`, `.env`, itp.)
-
-### Automatyczny release na GitHub
-
-Release jest automatycznie budowany przez GitHub Actions przy tworzeniu nowego tagu. Użyj `./scripts/version-bump.sh` do zwiększenia wersji i utwórz tag, a workflow automatycznie zbuduje paczkę ZIP i utworzy release.
-
-## Autor
+## Author
 
 Marcin Dymek (KemuriCodes)
 
-## Licencja
+## License
 
 GPL-2.0-or-later
-

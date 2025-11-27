@@ -56,7 +56,7 @@ rm -f composer.lock
 echo "🗜️  Tworzenie archiwum ZIP..."
 
 # Utworzenie ZIP
-cd "${BUILD_DIR}"
+cd "${TEMP_DIR}"
 zip -r "${ZIP_NAME}" "${PLUGIN_NAME}" -q
 
 # Przeniesienie ZIP do katalogu głównego wtyczki
