@@ -25,6 +25,8 @@ echo "📦 Kopiowanie plików wtyczki..."
 rsync -av \
   --exclude='.git' \
   --exclude='.gitignore' \
+  --exclude='.gitattributes' \
+  --exclude='.github' \
   --exclude='node_modules' \
   --exclude='vendor' \
   --exclude='build' \
@@ -42,6 +44,8 @@ rsync -av \
   --exclude='.DS_Store' \
   --exclude='Thumbs.db' \
   --exclude='README.md' \
+  --exclude='CHANGELOG.md' \
+  --exclude='RELEASE.md' \
   "${PLUGIN_DIR}/" "${TEMP_DIR}/${PLUGIN_NAME}/"
 
 echo "📚 Instalacja zależności Composer..."
