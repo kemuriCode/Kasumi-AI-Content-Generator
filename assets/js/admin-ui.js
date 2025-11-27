@@ -22,10 +22,44 @@
 				return $( this ).attr( 'data-kasumi-tooltip' );
 			},
 			position: {
-				my: 'left+15 center',
-				at: 'right center',
+				my: 'left center',
+				at: 'right+15 center',
+				collision: 'flipfit',
 			},
+			tooltipClass: 'kasumi-tooltip',
 		} );
+
+		// Pokazywanie/ukrywanie pól w zależności od wyboru dostawcy AI
+		const toggleProviderFields = function() {
+			const providerSelect = $( 'select[name="kasumi_ai_options[ai_provider]"]' );
+			if ( ! providerSelect.length ) {
+				return;
+			}
+
+			const provider = providerSelect.val() || 'openai';
+			const openaiFields = $( '.kasumi-openai-fields' );
+			const geminiFields = $( '.kasumi-gemini-fields' );
+
+			// Ukryj wszystkie pola
+			openaiFields.removeClass( 'show' ).hide();
+			geminiFields.removeClass( 'show' ).hide();
+
+			// Pokaż odpowiednie pola
+			if ( provider === 'openai' ) {
+				openaiFields.addClass( 'show' ).show();
+			} else if ( provider === 'gemini' ) {
+				geminiFields.addClass( 'show' ).show();
+			} else if ( provider === 'auto' ) {
+				openaiFields.addClass( 'show' ).show();
+				geminiFields.addClass( 'show' ).show();
+			}
+		};
+
+		// Inicjalizacja przy załadowaniu
+		toggleProviderFields();
+
+		// Zmiana dostawcy
+		$( document ).on( 'change', 'select[name="kasumi_ai_options[ai_provider]"]', toggleProviderFields );
 
 		const fetchModels = function ( control, autoload ) {
 			const select = control.find( '[data-kasumi-model]' );

@@ -1072,3 +1072,7 @@ msgstr "Failed to reset settings."
 #: src/Rest/SettingsController.php:98
 msgid "Ustawienia zostały zresetowane do domyślnych."
 msgstr "Settings have been reset to defaults."
+
+#: src/Admin/SettingsPage.php:408
+msgid "Klucz API Pixabay używany do pobierania obrazów w trybie serwerowym."
+msgstr "Pixabay API key used to fetch images in server mode."

@@ -302,6 +302,24 @@ class SettingsPage {
 			self::PAGE_SLUG
 		);
 
+		// Dostawca AI - PIERWSZE POLE
+		$this->add_field(
+			'ai_provider',
+			__( 'Dostawca AI', 'kasumi-ai-generator' ),
+			$section,
+			array(
+				'type'        => 'select',
+				'choices'     => array(
+					'openai' => __( 'Tylko OpenAI', 'kasumi-ai-generator' ),
+					'gemini' => __( 'Tylko Google Gemini', 'kasumi-ai-generator' ),
+					'auto'   => __( 'Automatyczny (OpenAI → Gemini)', 'kasumi-ai-generator' ),
+				),
+				'description' => __( 'W trybie automatycznym system próbuje najpierw OpenAI, a w razie braku odpowiedzi przełącza się na Gemini.', 'kasumi-ai-generator' ),
+				'class'       => 'kasumi-provider-selector',
+			)
+		);
+
+		// Pola OpenAI - pokazywane gdy wybrano OpenAI lub Auto
 		$this->add_field(
 			'openai_api_key',
 			__( 'OpenAI API Key', 'kasumi-ai-generator' ),
@@ -319,6 +337,7 @@ class SettingsPage {
 					)
 				),
 				'help'        => __( 'Umożliwia korzystanie z modeli GPT-4.1 / GPT-4o.', 'kasumi-ai-generator' ),
+				'class'       => 'kasumi-openai-fields',
 			)
 		);
 
@@ -330,33 +349,11 @@ class SettingsPage {
 				'type'      => 'model-select',
 				'provider'  => 'openai',
 				'help'      => __( 'Lista modeli z konta OpenAI (np. GPT-4.1, GPT-4o).', 'kasumi-ai-generator' ),
+				'class'     => 'kasumi-openai-fields',
 			)
 		);
 
-		$this->add_field(
-			'ai_provider',
-			__( 'Dostawca AI', 'kasumi-ai-generator' ),
-			$section,
-			array(
-				'type'        => 'select',
-				'choices'     => array(
-					'openai' => __( 'Tylko OpenAI', 'kasumi-ai-generator' ),
-					'gemini' => __( 'Tylko Google Gemini', 'kasumi-ai-generator' ),
-					'auto'   => __( 'Automatyczny (OpenAI → Gemini)', 'kasumi-ai-generator' ),
-				),
-				'description' => __( 'W trybie automatycznym system próbuje najpierw OpenAI, a w razie braku odpowiedzi przełącza się na Gemini.', 'kasumi-ai-generator' ),
-			)
-		);
-
-		$this->add_field(
-			'pixabay_api_key',
-			__( 'Pixabay API Key', 'kasumi-ai-generator' ),
-			$section,
-			array(
-				'placeholder' => '12345678-abcdef...',
-			)
-		);
-
+		// Pola Gemini - pokazywane gdy wybrano Gemini lub Auto
 		$this->add_field(
 			'gemini_api_key',
 			__( 'Gemini API Key', 'kasumi-ai-generator' ),
@@ -374,6 +371,7 @@ class SettingsPage {
 					)
 				),
 				'help'        => __( 'Obsługuje modele Gemini 2.x flash/pro.', 'kasumi-ai-generator' ),
+				'class'       => 'kasumi-gemini-fields',
 			)
 		);
 
@@ -396,6 +394,18 @@ class SettingsPage {
 				'provider'  => 'gemini',
 				'description' => __( 'Wybierz model z Google Gemini (flash, pro, image).', 'kasumi-ai-generator' ),
 				'help'        => __( 'Lista pobierana jest bezpośrednio z API na podstawie klucza.', 'kasumi-ai-generator' ),
+				'class'     => 'kasumi-gemini-fields',
+			)
+		);
+
+		// Pixabay API Key - NA KOŃCU
+		$this->add_field(
+			'pixabay_api_key',
+			__( 'Pixabay API Key', 'kasumi-ai-generator' ),
+			$section,
+			array(
+				'placeholder' => '12345678-abcdef...',
+				'description' => __( 'Klucz API Pixabay używany do pobierania obrazów w trybie serwerowym.', 'kasumi-ai-generator' ),
 			)
 		);
 	}
@@ -995,14 +1005,18 @@ class SettingsPage {
 			);
 		}
 
+		// Przechowaj klasę w args dla późniejszego użycia w render_section
+		$field_id = 'kasumi_ai_' . $key;
+		
 		add_settings_field(
-			'kasumi_ai_' . $key,
+			$field_id,
 			wp_kses_post( $label ),
 			function () use ( $key, $args ): void {
 				$this->render_field( $key, $args );
 			},
 			self::PAGE_SLUG,
-			$section
+			$section,
+			$args // Przekaż args jako szósty parametr
 		);
 	}
 
@@ -1158,7 +1172,8 @@ class SettingsPage {
 		echo '<table class="form-table" role="presentation">';
 
 		foreach ( (array) $wp_settings_fields[ self::PAGE_SLUG ][ $section_id ] as $field ) {
-			echo '<tr>';
+			$field_class = ! empty( $field['args']['class'] ) ? esc_attr( $field['args']['class'] ) : '';
+			printf( '<tr%s>', $field_class ? ' class="' . $field_class . '"' : '' );
 			echo '<th scope="row">';
 			if ( ! empty( $field['args']['label_for'] ) ) {
 				echo '<label for="' . esc_attr( $field['args']['label_for'] ) . '">' . wp_kses_post( $field['title'] ) . '</label>';

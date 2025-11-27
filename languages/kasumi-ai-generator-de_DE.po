@@ -1072,3 +1072,7 @@ msgstr "Einstellungen konnten nicht zurückgesetzt werden."
 #: src/Rest/SettingsController.php:98
 msgid "Ustawienia zostały zresetowane do domyślnych."
 msgstr "Einstellungen wurden auf die Standardwerte zurückgesetzt."
+
+#: src/Admin/SettingsPage.php:408
+msgid "Klucz API Pixabay używany do pobierania obrazów w trybie serwerowym."
+msgstr "Pixabay-API-Schlüssel zum Abrufen von Bildern im Server-Modus."

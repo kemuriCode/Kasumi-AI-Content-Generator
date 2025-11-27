@@ -1077,3 +1077,7 @@ msgstr "No se pudieron restablecer la configuración."
 msgid "Ustawienia zostały zresetowane do domyślnych."
 msgstr "La configuración ha sido restablecida a los valores predeterminados."
 
+#: src/Admin/SettingsPage.php:408
+msgid "Klucz API Pixabay używany do pobierania obrazów w trybie serwerowym."
+msgstr "Clave API de Pixabay utilizada para obtener imágenes en modo servidor."
+
