@@ -1,0 +1,37 @@
+# Composer
+/vendor/
+composer.lock
+
+# Node modules
+node_modules/
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Build artifacts
+*.zip
+*.tar.gz
+dist/
+build/
+
+# Environment
+.env
+.env.local
+
+# OS
+Thumbs.db
+*.log
+
+# Temporary files
+*.tmp
+*.bak
+*.cache
+

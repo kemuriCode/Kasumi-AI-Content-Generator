@@ -1,0 +1,17 @@
+{
+  "name": "kasumi/ai-generator",
+  "description": "Kasumi – Full AI Content Generator",
+  "type": "wordpress-plugin",
+  "license": "GPL-2.0-or-later",
+  "require": {
+    "php": ">=8.1",
+    "openai-php/client": "^0.7",
+    "google-gemini-php/client": "^2.7",
+    "guzzlehttp/guzzle": "^7.9"
+  },
+  "autoload": {
+    "psr-4": {
+      "Kasumi\\AIGenerator\\": "src/"
+    }
+  }
+}

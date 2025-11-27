@@ -1,0 +1,136 @@
+.kasumi-ai-preview-box {
+	margin-bottom: 24px;
+}
+
+.kasumi-ai-preview-actions {
+	display: flex;
+	gap: 8px;
+	flex-wrap: wrap;
+}
+
+.kasumi-ai-preview-output {
+	margin-top: 12px;
+	padding: 12px;
+	background: #fff;
+	border: 1px solid #dcdcde;
+	min-height: 60px;
+}
+
+.kasumi-ai-tabs .kasumi-tab-panel {
+	margin-top: 16px;
+}
+
+.kasumi-help {
+	border: none;
+	background: transparent;
+	cursor: help;
+	vertical-align: middle;
+	color: #757575;
+}
+
+.kasumi-ai-status ul {
+	list-style: disc;
+	margin-left: 20px;
+}
+
+.kasumi-model-control {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	margin-top: 4px;
+}
+
+.kasumi-model-control .spinner {
+	margin: 0;
+}
+
+.kasumi-overview-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+	gap: 16px;
+	margin-bottom: 24px;
+}
+
+.kasumi-support-card {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px;
+	margin: 24px 0;
+	padding: 24px;
+	border: 1px solid #dcdcde;
+	border-radius: 14px;
+	background: #fffef7;
+	box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+}
+
+.kasumi-support-card__text {
+	flex: 1 1 320px;
+}
+
+.kasumi-support-card__actions {
+	flex: 0 0 260px;
+	min-width: 220px;
+	align-self: center;
+	text-align: center;
+	border: 1px dashed rgba(0, 0, 0, 0.1);
+	border-radius: 12px;
+	padding: 16px 12px 20px;
+	background: #fff;
+}
+
+@media (max-width: 782px) {
+	.kasumi-support-card {
+		padding: 20px;
+	}
+
+	.kasumi-support-card__actions {
+		width: 100%;
+	}
+}
+
+.kasumi-about ul,
+.kasumi-ai-status ul,
+.kasumi-info-card ul {
+	margin-left: 20px;
+}
+
+.kasumi-tabs-columns {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+	gap: 20px;
+	margin-top: 20px;
+}
+
+.kasumi-tab-panel .form-table {
+	margin-top: 0;
+}
+
+.kasumi-model-control .spinner {
+	margin: 0;
+}
+
+.kasumi-tabs-columns .card {
+	background: #fbfbfb;
+	border: 1px solid #dcdcde;
+}
+
+.kasumi-tab-col {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.kasumi-diag-list {
+	margin: 0;
+	padding-left: 18px;
+}
+
+.kasumi-diag-list .kasumi-ok {
+	color: #178239;
+	font-weight: 600;
+}
+
+.kasumi-diag-list .kasumi-error {
+	color: #b52727;
+	font-weight: 600;
+}
