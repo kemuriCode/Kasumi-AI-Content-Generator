@@ -188,8 +188,8 @@
 
 		populateSelect( elements.modelSelect, config.models, true );
 
-		if ( elements.form ) {
-			elements.form.addEventListener( 'submit', function( event ) {
+		if ( elements.submitBtn ) {
+			elements.submitBtn.addEventListener( 'click', function( event ) {
 				event.preventDefault();
 				saveSchedule();
 			} );
@@ -302,27 +302,51 @@
 			elements.alert.style.display = 'block';
 		}
 
+		function getField( name ) {
+			return elements.form ? elements.form.querySelector( '[name="' + name + '"]' ) : null;
+		}
+
+		function getFieldValue( name, fallback ) {
+			const field = getField( name );
+			if ( ! field ) {
+				return fallback || '';
+			}
+
+			if ( field.type === 'checkbox' ) {
+				return field.checked ? ( field.value || '1' ) : '';
+			}
+
+			return field.value ? field.value.toString() : ( fallback || '' );
+		}
+
+		function setFieldValue( name, value ) {
+			const field = getField( name );
+			if ( ! field ) {
+				return;
+			}
+
+			if ( field.type === 'checkbox' ) {
+				field.checked = Boolean( value );
+			} else {
+				field.value = value ?? '';
+			}
+		}
+
 		function serializeForm() {
 			if ( ! elements.form ) {
 				return {};
 			}
 
-			const formData = new window.FormData( elements.form );
-			const getValue = function( key, fallback ) {
-				const value = formData.get( key );
-				return value ? value.toString() : ( fallback || '' );
-			};
-
 			return {
-				postTitle: getValue( 'postTitle', '' ).trim(),
-				status: getValue( 'status', 'draft' ),
-				postType: getValue( 'postType', 'post' ),
-				postStatus: getValue( 'postStatus', 'draft' ),
-				authorId: getValue( 'authorId', '' ),
-				publishAt: getValue( 'publishAt', '' ),
-				model: getValue( 'model', '' ),
-				systemPrompt: getValue( 'systemPrompt', '' ),
-				userPrompt: getValue( 'userPrompt', '' ),
+				postTitle: getFieldValue( 'postTitle', '' ).trim(),
+				status: getFieldValue( 'status', 'draft' ),
+				postType: getFieldValue( 'postType', 'post' ),
+				postStatus: getFieldValue( 'postStatus', 'draft' ),
+				authorId: getFieldValue( 'authorId', '' ),
+				publishAt: getFieldValue( 'publishAt', '' ),
+				model: getFieldValue( 'model', '' ),
+				systemPrompt: getFieldValue( 'systemPrompt', '' ),
+				userPrompt: getFieldValue( 'userPrompt', '' ),
 			};
 		}
 
@@ -351,7 +375,10 @@
 				},
 				body: JSON.stringify( payload ),
 			} ).then( function() {
-				setNotice( 'success', state.editId ? config.i18n.updated : config.i18n.save );
+				const successMessage = state.editId
+					? ( config.i18n.updated || config.i18n.updateLabel || '' )
+					: ( config.i18n.saved || config.i18n.save || config.i18n.saveLabel || '' );
+				setNotice( 'success', successMessage );
 				resetForm();
 				fetchSchedules();
 			} ).catch( function() {
@@ -429,6 +456,10 @@
 		}
 
 		function fillForm( item ) {
+			if ( ! elements.form ) {
+				return;
+			}
+
 			state.editId = item.id;
 
 			elements.form.querySelector( '[name="postTitle"]' ).value = item.postTitle || '';
@@ -443,25 +474,37 @@
 			elements.form.querySelector( '[name="userPrompt"]' ).value = item.userPrompt || '';
 			elements.form.querySelector( '[name="publishAt"]' ).value = toDateInputValue( item.publishAt );
 
-			elements.submitBtn.textContent = config.i18n.updated;
+			if ( elements.submitBtn ) {
+				elements.submitBtn.textContent = config.i18n.updateLabel || config.i18n.updated || '';
+			}
 		}
 
 		function resetForm() {
 			state.editId = null;
 
-			if ( elements.form ) {
-				elements.form.reset();
-			}
+			const defaultPostType = ( Array.isArray( config.postTypes ) && config.postTypes.length ) ? config.postTypes[0].value : 'post';
 
-			if ( elements.postTypeSelect && Array.isArray( config.postTypes ) && config.postTypes.length ) {
-				elements.postTypeSelect.value = config.postTypes[0].value;
+			setFieldValue( 'postTitle', '' );
+			setFieldValue( 'status', 'draft' );
+			setFieldValue( 'postType', defaultPostType );
+			setFieldValue( 'postStatus', 'draft' );
+			setFieldValue( 'authorId', '' );
+			setFieldValue( 'publishAt', '' );
+			setFieldValue( 'model', '' );
+			setFieldValue( 'systemPrompt', '' );
+			setFieldValue( 'userPrompt', '' );
+
+			if ( elements.postTypeSelect ) {
+				elements.postTypeSelect.value = defaultPostType;
 			}
 
 			if ( elements.modelSelect ) {
 				elements.modelSelect.value = '';
 			}
 
-			elements.submitBtn.textContent = config.i18n.save;
+			if ( elements.submitBtn ) {
+				elements.submitBtn.textContent = config.i18n.saveLabel || config.i18n.save || '';
+			}
 			setNotice( '', '' );
 		}
 

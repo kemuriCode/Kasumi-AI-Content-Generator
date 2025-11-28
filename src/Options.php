@@ -6,6 +6,7 @@ namespace Kasumi\AIGenerator;
 
 use function __;
 use function absint;
+use function did_action;
 use function get_option;
 use function sanitize_hex_color_no_hash;
 use function sanitize_text_field;
@@ -18,6 +19,7 @@ use function wp_parse_args;
 final class Options {
 	public const OPTION_NAME = 'kasumi_ai_options';
 	public const OPTION_GROUP = 'kasumi-full-ai-content-generator-settings';
+	private const TEXT_DOMAIN = 'kasumi-full-ai-content-generator';
 
 	/**
 	 * Zwraca pełną tablicę ustawień z domyślnymi wartościami.
@@ -66,9 +68,9 @@ final class Options {
 			'image_generation_mode'   => 'server',
 			'image_remote_provider'   => 'openai',
 			'image_server_engine'     => 'imagick',
-			'image_template'          => __( 'Kasumi AI – {{title}}', 'kasumi-full-ai-content-generator' ),
+			'image_template'          => self::translate_default( 'Kasumi AI – {{title}}' ),
 			'image_overlay_color'     => '1b1f3b',
-			'pixabay_query'           => __( 'qr code technology interface', 'kasumi-full-ai-content-generator' ),
+			'pixabay_query'           => self::translate_default( 'qr code technology interface' ),
 			'pixabay_orientation'     => 'horizontal',
 			'link_keywords'           => '',
 			'comments_enabled'        => true,
@@ -210,5 +212,13 @@ final class Options {
 			'message' => __( 'Ustawienia zostały zaimportowane.', 'kasumi-full-ai-content-generator' ),
 			'data'    => $sanitized,
 		);
+	}
+
+	private static function translate_default( string $text ): string {
+		if ( did_action( 'init' ) ) {
+			return __( $text, self::TEXT_DOMAIN );
+		}
+
+		return $text;
 	}
 }

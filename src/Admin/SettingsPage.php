@@ -40,6 +40,7 @@ use function register_setting;
 use function rest_url;
 use function sanitize_text_field;
 use function selected;
+use function settings_errors;
 use function settings_fields;
 use function submit_button;
 use function time;
@@ -827,6 +828,7 @@ class SettingsPage {
 
 		?>
 		<div class="wrap">
+			<?php settings_errors(); ?>
 			<h1><i class="bi bi-robot"></i> <?php esc_html_e( 'Kasumi AI – konfiguracja', 'kasumi-full-ai-content-generator' ); ?></h1>
 			<p class="description"><i class="bi bi-sliders"></i> <?php esc_html_e( 'Steruj integracjami API, harmonogramem generowania treści, komentarzy oraz grafik.', 'kasumi-full-ai-content-generator' ); ?></p>
 			<?php if ( $show_support_card ) : ?>
@@ -1190,7 +1192,7 @@ class SettingsPage {
 			<div id="kasumi-schedule-manager" class="kasumi-schedule-grid">
 				<div class="kasumi-schedule-form-column">
 					<div data-kasumi-schedule-alert class="notice notice-success" style="display:none;"></div>
-					<form data-kasumi-schedule-form>
+					<div data-kasumi-schedule-form role="form" aria-live="polite">
 						<div class="kasumi-field">
 							<label for="kasumi-schedule-title"><?php esc_html_e( 'Tytuł roboczy', 'kasumi-full-ai-content-generator' ); ?></label>
 							<input type="text" id="kasumi-schedule-title" name="postTitle" class="regular-text" placeholder="<?php esc_attr_e( 'np. Strategie QR kodów na eventach', 'kasumi-full-ai-content-generator' ); ?>">
@@ -1237,10 +1239,10 @@ class SettingsPage {
 							<textarea id="kasumi-schedule-user" name="userPrompt" rows="5" class="large-text" placeholder="<?php esc_attr_e( 'Opisz temat, słowa kluczowe, ton wypowiedzi itd.', 'kasumi-full-ai-content-generator' ); ?>"></textarea>
 						</div>
 						<div class="kasumi-field kasumi-actions">
-							<button type="submit" class="button button-primary" data-kasumi-schedule-submit><i class="bi bi-save"></i> <?php esc_html_e( 'Zapisz zadanie', 'kasumi-full-ai-content-generator' ); ?></button>
+							<button type="button" class="button button-primary" data-kasumi-schedule-submit><i class="bi bi-save"></i> <?php esc_html_e( 'Zapisz zadanie', 'kasumi-full-ai-content-generator' ); ?></button>
 							<button type="button" class="button" data-kasumi-reset-form><i class="bi bi-x-circle"></i> <?php esc_html_e( 'Wyczyść formularz', 'kasumi-full-ai-content-generator' ); ?></button>
 						</div>
-					</form>
+					</div>
 				</div>
 				<div class="kasumi-schedule-list-column">
 					<div class="kasumi-schedule-toolbar">
@@ -1291,7 +1293,10 @@ class SettingsPage {
 				'systemPrompt' => (string) Options::get( 'system_prompt', '' ),
 			),
 			'i18n'      => array(
+				'saveLabel'   => __( 'Zapisz zadanie', 'kasumi-full-ai-content-generator' ),
 				'save'        => __( 'Zapisano zadanie.', 'kasumi-full-ai-content-generator' ),
+				'updateLabel' => __( 'Zaktualizuj zadanie', 'kasumi-full-ai-content-generator' ),
+				'saved'       => __( 'Zapisano zadanie.', 'kasumi-full-ai-content-generator' ),
 				'updated'     => __( 'Zaktualizowano zadanie.', 'kasumi-full-ai-content-generator' ),
 				'deleted'     => __( 'Usunięto zadanie.', 'kasumi-full-ai-content-generator' ),
 				'run'         => __( 'Uruchomiono generowanie.', 'kasumi-full-ai-content-generator' ),
