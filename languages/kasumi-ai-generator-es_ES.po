@@ -3,7 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Kasumi – Full AI Content Generator 0.1.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/kasumi-ai-generator\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/kasumi-ai-"
+"generator\n"
 "Last-Translator: KemuriCodes <contact@kemuri.codes>\n"
 "Language-Team: Español <contact@kemuri.codes>\n"
 "MIME-Version: 1.0\n"
@@ -23,8 +24,12 @@ msgstr "Kasumi – Generador Completo de Contenido IA"
 
 #. Description of the plugin
 #: kasumi-ai-generator.php
-msgid "Automatyzuje generowanie wpisów, komentarzy i grafik przy użyciu OpenAI oraz Google Gemini."
-msgstr "Automatiza la generación de entradas, comentarios y gráficos usando OpenAI y Google Gemini."
+msgid ""
+"Automatyzuje generowanie wpisów, komentarzy i grafik przy użyciu OpenAI oraz "
+"Google Gemini."
+msgstr ""
+"Automatiza la generación de entradas, comentarios y gráficos usando OpenAI y "
+"Google Gemini."
 
 #. Author of the plugin
 #: kasumi-ai-generator.php
@@ -32,21 +37,31 @@ msgid "Marcin Dymek (KemuriCodes)"
 msgstr "Marcin Dymek (KemuriCodes)"
 
 #: kasumi-ai-generator.php:28
-msgid "Kasumi AI wymaga PHP 8.1 lub wyższej wersji. Zaktualizuj środowisko, aby aktywować wtyczkę."
-msgstr "Kasumi AI requiere PHP 8.1 o superior. Actualiza el entorno para activar el complemento."
+msgid ""
+"Kasumi AI wymaga PHP 8.1 lub wyższej wersji. Zaktualizuj środowisko, aby "
+"aktywować wtyczkę."
+msgstr ""
+"Kasumi AI requiere PHP 8.1 o superior. Actualiza el entorno para activar el "
+"complemento."
 
 #: kasumi-ai-generator.php:44
-msgid "Brak katalogu vendor. Uruchom composer install w folderze wtyczki Kasumi."
-msgstr "Falta el directorio vendor. Ejecuta composer install en la carpeta del complemento Kasumi."
+msgid ""
+"Brak katalogu vendor. Uruchom composer install w folderze wtyczki Kasumi."
+msgstr ""
+"Falta el directorio vendor. Ejecuta composer install en la carpeta del "
+"complemento Kasumi."
 
 #. translators: %s list of extensions
 #: kasumi-ai-generator.php:82
 #, php-format
-msgid "Kasumi AI wymaga rozszerzeń PHP: %s. Skontaktuj się z administratorem serwera."
-msgstr "Kasumi AI requiere las extensiones de PHP: %s. Por favor, contacta con el administrador del servidor."
+msgid ""
+"Kasumi AI wymaga rozszerzeń PHP: %s. Skontaktuj się z administratorem "
+"serwera."
+msgstr ""
+"Kasumi AI requiere las extensiones de PHP: %s. Por favor, contacta con el "
+"administrador del servidor."
 
-#: src/Admin/ModelsController.php:27
-#: src/Admin/PreviewController.php:46
+#: src/Admin/ModelsController.php:27 src/Admin/PreviewController.php:46
 msgid "Brak uprawnień."
 msgstr "No tienes permisos."
 
@@ -66,8 +81,7 @@ msgstr "No hay contenido disponible para construir una imagen."
 msgid "Nie udało się wygenerować grafiki poglądowej."
 msgstr "No se pudo generar la imagen de vista previa."
 
-#: src/Admin/SettingsPage.php:48
-#: src/Admin/SettingsPage.php:49
+#: src/Admin/SettingsPage.php:48 src/Admin/SettingsPage.php:49
 msgid "AI Content"
 msgstr "Contenido IA"
 
@@ -96,8 +110,11 @@ msgid "Klucze API"
 msgstr "Claves API"
 
 #: src/Admin/SettingsPage.php:140
-msgid "Dodaj klucze OpenAI i Pixabay wykorzystywane do generowania treści i grafik."
-msgstr "Añade tus claves de OpenAI y Pixabay utilizadas para generar contenido e imágenes destacadas."
+msgid ""
+"Dodaj klucze OpenAI i Pixabay wykorzystywane do generowania treści i grafik."
+msgstr ""
+"Añade tus claves de OpenAI y Pixabay utilizadas para generar contenido e "
+"imágenes destacadas."
 
 #: src/Admin/SettingsPage.php:148
 msgid "OpenAI API Key"
@@ -123,7 +140,8 @@ msgstr "Modelo de OpenAI"
 
 #: src/Admin/SettingsPage.php:173
 msgid "Lista modeli z konta OpenAI (np. GPT-4.1, GPT-4o)."
-msgstr "Lista de modelos disponibles en tu cuenta de OpenAI (ej. GPT-4.1, GPT-4o)."
+msgstr ""
+"Lista de modelos disponibles en tu cuenta de OpenAI (ej. GPT-4.1, GPT-4o)."
 
 #: src/Admin/SettingsPage.php:179
 msgid "Dostawca AI"
@@ -142,8 +160,12 @@ msgid "Automatyczny (OpenAI → Gemini)"
 msgstr "Automático (OpenAI → Gemini)"
 
 #: src/Admin/SettingsPage.php:188
-msgid "W trybie automatycznym system próbuje najpierw OpenAI, a w razie braku odpowiedzi przełącza się na Gemini."
-msgstr "El modo automático intenta primero OpenAI y, si no hay respuesta, cambia a Gemini."
+msgid ""
+"W trybie automatycznym system próbuje najpierw OpenAI, a w razie braku "
+"odpowiedzi przełącza się na Gemini."
+msgstr ""
+"El modo automático intenta primero OpenAI y, si no hay respuesta, cambia a "
+"Gemini."
 
 #: src/Admin/SettingsPage.php:194
 msgid "Pixabay API Key"
@@ -159,8 +181,7 @@ msgstr "Clave API de Gemini"
 msgid "Wygeneruj klucz w %s."
 msgstr "Genera la clave en %s."
 
-#: src/Admin/SettingsPage.php:214
-#: src/Admin/SettingsPage.php:628
+#: src/Admin/SettingsPage.php:214 src/Admin/SettingsPage.php:628
 msgid "Google AI Studio"
 msgstr "Google AI Studio"
 
@@ -174,7 +195,9 @@ msgstr "Instrucción del sistema"
 
 #: src/Admin/SettingsPage.php:227
 msgid "Instrukcje przekazywane jako system prompt dla modeli OpenAI i Gemini."
-msgstr "Instrucciones enviadas como instrucción del sistema para los modelos OpenAI y Gemini."
+msgstr ""
+"Instrucciones enviadas como instrucción del sistema para los modelos OpenAI "
+"y Gemini."
 
 #: src/Admin/SettingsPage.php:233
 msgid "Model Gemini"
@@ -194,7 +217,9 @@ msgstr "Configuración de contenido"
 
 #: src/Admin/SettingsPage.php:253
 msgid "Ogólne ustawienia generowania wpisów, kategorii i harmonogramu."
-msgstr "Configuración general para la generación de entradas, categorías y programación."
+msgstr ""
+"Configuración general para la generación de entradas, categorías y "
+"programación."
 
 #: src/Admin/SettingsPage.php:261
 msgid "Strategia tematów"
@@ -226,15 +251,21 @@ msgstr "Publicar automáticamente"
 
 #: src/Admin/SettingsPage.php:287
 msgid "Określ czy wpis ma być szkicem czy publikacją."
-msgstr "Elige si las entradas generadas permanecen como borradores o se publican."
+msgstr ""
+"Elige si las entradas generadas permanecen como borradores o se publican."
 
 #: src/Admin/SettingsPage.php:293
 msgid "Interwał generowania (h)"
 msgstr "Intervalo de generación (h)"
 
 #: src/Admin/SettingsPage.php:298
-msgid "Wpisz docelową liczbę godzin (min. 72). System losuje publikację w przedziale 3‑7 dni i dopasuje ją do najlepszych godzin (np. 9:00, 11:30)."
-msgstr "Introduce el número objetivo de horas (mín. 72). El programador aleatoriza una ventana de 3-7 días y la ajusta a las mejores horas de publicación (ej. 9:00, 11:30)."
+msgid ""
+"Wpisz docelową liczbę godzin (min. 72). System losuje publikację w "
+"przedziale 3‑7 dni i dopasuje ją do najlepszych godzin (np. 9:00, 11:30)."
+msgstr ""
+"Introduce el número objetivo de horas (mín. 72). El programador aleatoriza "
+"una ventana de 3-7 días y la ajusta a las mejores horas de publicación (ej. "
+"9:00, 11:30)."
 
 #: src/Admin/SettingsPage.php:304
 msgid "Min. liczba słów"
@@ -249,8 +280,11 @@ msgid "Słowa kluczowe do linkowania"
 msgstr "Palabras clave para enlaces internos"
 
 #: src/Admin/SettingsPage.php:327
-msgid "Lista słów rozdzielona przecinkami wykorzystywana przy linkach wewnętrznych."
-msgstr "Lista de palabras separadas por comas utilizada al construir enlaces internos."
+msgid ""
+"Lista słów rozdzielona przecinkami wykorzystywana przy linkach wewnętrznych."
+msgstr ""
+"Lista de palabras separadas por comas utilizada al construir enlaces "
+"internos."
 
 #: src/Admin/SettingsPage.php:333
 msgid "Włącz linkowanie wewnętrzne"
@@ -262,7 +296,8 @@ msgstr "Imágenes destacadas"
 
 #: src/Admin/SettingsPage.php:350
 msgid "Parametry zdjęć Pixabay i nadpisów tworzonych przez Imagick."
-msgstr "Parámetros de búsqueda en Pixabay y superposiciones creadas por Imagick."
+msgstr ""
+"Parámetros de búsqueda en Pixabay y superposiciones creadas por Imagick."
 
 #: src/Admin/SettingsPage.php:358
 msgid "Generuj grafiki wyróżniające"
@@ -281,8 +316,12 @@ msgid "OpenAI Images API"
 msgstr "API de Imágenes de OpenAI"
 
 #: src/Admin/SettingsPage.php:375
-msgid "W trybie serwerowym obrazy pochodzą z Pixabay i są modyfikowane lokalnie. Tryb OpenAI generuje obraz przez API (wymaga klucza OpenAI)."
-msgstr "El modo servidor descarga fotos de Pixabay y las edita localmente. El modo OpenAI renderiza una imagen a través de la API (requiere la clave de OpenAI)."
+msgid ""
+"W trybie serwerowym obrazy pochodzą z Pixabay i są modyfikowane lokalnie. "
+"Tryb OpenAI generuje obraz przez API (wymaga klucza OpenAI)."
+msgstr ""
+"El modo servidor descarga fotos de Pixabay y las edita localmente. El modo "
+"OpenAI renderiza una imagen a través de la API (requiere la clave de OpenAI)."
 
 #: src/Admin/SettingsPage.php:381
 msgid "Silnik serwerowy"
@@ -297,8 +336,12 @@ msgid "Biblioteka GD"
 msgstr "Biblioteca GD"
 
 #: src/Admin/SettingsPage.php:389
-msgid "Używane tylko, gdy wybrano tryb serwerowy. Wybierz bibliotekę dostępna na Twoim hostingu."
-msgstr "Se utiliza solo en modo servidor. Elige la biblioteca disponible en tu hosting."
+msgid ""
+"Używane tylko, gdy wybrano tryb serwerowy. Wybierz bibliotekę dostępna na "
+"Twoim hostingu."
+msgstr ""
+"Se utiliza solo en modo servidor. Elige la biblioteca disponible en tu "
+"hosting."
 
 #: src/Admin/SettingsPage.php:395
 msgid "Szablon grafiki"
@@ -311,6 +354,70 @@ msgstr "Puedes hacer referencia a {{title}} y {{summary}}."
 #: src/Admin/SettingsPage.php:404
 msgid "Kolor nakładki (HEX)"
 msgstr "Color de superposición (HEX)"
+
+#: src/Admin/SettingsPage.php:598
+msgid "Moc nakładki (%)"
+msgstr "Intensidad de la superposición (%)"
+
+#: src/Admin/SettingsPage.php:605
+msgid "Wyższa wartość oznacza bardziej wyrazistą (ciemniejszą) nakładkę."
+msgstr "Un valor más alto produce una superposición más intensa (más oscura)."
+
+#: src/Admin/SettingsPage.php:611
+msgid "Styl kompozycji"
+msgstr "Estilo de composición"
+
+#: src/Admin/SettingsPage.php:619
+msgid ""
+"Dobiera krój pisma, kerning i proporcje tekstu. Wszystkie style wspierają "
+"polskie znaki."
+msgstr ""
+"Ajusta tipografía, kerning y proporciones. Todos los estilos admiten "
+"caracteres polacos."
+
+#: src/Admin/SettingsPage.php:626
+msgid "Wyświetl tekst na grafice"
+msgstr "Mostrar texto en la imagen"
+
+#: src/Admin/SettingsPage.php:630
+msgid ""
+"Odznacz, aby pozostawić wyłącznie zdjęcie z Pixabay lub zdalnego generatora."
+msgstr ""
+"Desactívalo para mantener solo la imagen de Pixabay o la generada de forma "
+"remota."
+
+#: src/Admin/SettingsPage.php:636
+msgid "Wyrównanie tekstu"
+msgstr "Alineación del texto"
+
+#: src/Admin/SettingsPage.php:645
+msgid "Kontroluje układ względem osi poziomej."
+msgstr "Controla la disposición en el eje horizontal."
+
+#: src/Admin/SettingsPage.php:650
+msgid "Pozycja pionowa tekstu"
+msgstr "Posición vertical del texto"
+
+#: src/Admin/SettingsPage.php:659
+msgid "Nakładka zachowuje bezpieczne marginesy niezależnie od położenia."
+msgstr "Mantiene márgenes seguros independientemente de la posición."
+
+#: src/Admin/SettingsPage.php:666
+msgid "Szerokość grafiki (px)"
+msgstr "Ancho de la imagen (px)"
+
+#: src/Admin/SettingsPage.php:673
+msgid "Grafika zostanie przeskalowana/przycięta do tej szerokości."
+msgstr "La imagen final se escalará o recortará a este ancho."
+
+#: src/Admin/SettingsPage.php:678
+msgid "Wysokość grafiki (px)"
+msgstr "Alto de la imagen (px)"
+
+#: src/Admin/SettingsPage.php:686
+msgid "Pozwala zachować określone proporcje (np. 675 px dla 16:9)."
+msgstr ""
+"Ayuda a conservar una relación de aspecto concreta (p. ej. 675 px para 16:9)."
 
 #: src/Admin/SettingsPage.php:410
 msgid "Słowa kluczowe Pixabay"
@@ -328,8 +435,7 @@ msgstr "Horizontal"
 msgid "Pionowa"
 msgstr "Vertical"
 
-#: src/Admin/SettingsPage.php:433
-#: src/Admin/SettingsPage.php:674
+#: src/Admin/SettingsPage.php:433 src/Admin/SettingsPage.php:674
 msgid "Komentarze AI"
 msgstr "Comentarios IA"
 
@@ -383,7 +489,9 @@ msgstr "Prefijo del alias"
 
 #: src/Admin/SettingsPage.php:504
 msgid "Opcjonalne. Gdy puste, AI generuje dowolne pseudonimy (np. mix PL/EN)."
-msgstr "Opcional. Déjalo vacío para que la IA sugiera cualquier alias (ej. mezcla ES/EN)."
+msgstr ""
+"Opcional. Déjalo vacío para que la IA sugiera cualquier alias (ej. mezcla ES/"
+"EN)."
 
 #: src/Admin/SettingsPage.php:514
 msgid "Pozostałe"
@@ -434,20 +542,32 @@ msgid "Kasumi AI – konfiguracja"
 msgstr "Kasumi IA – configuración"
 
 #: src/Admin/SettingsPage.php:597
-msgid "Steruj integracjami API, harmonogramem generowania treści, komentarzy oraz grafik."
-msgstr "Gestiona las integraciones de API además del horario para contenido, comentarios y gráficos."
+msgid ""
+"Steruj integracjami API, harmonogramem generowania treści, komentarzy oraz "
+"grafik."
+msgstr ""
+"Gestiona las integraciones de API además del horario para contenido, "
+"comentarios y gráficos."
 
 #: src/Admin/SettingsPage.php:600
-msgid "Kasumi rozwijam po godzinach – jeśli automatyzacja oszczędza Ci czas, możesz postawić mi symboliczną kawę."
-msgstr "Kasumi es un proyecto paralelo – si la automatización te ahorra tiempo, puedes invitarme a un café simbólico."
+msgid ""
+"Kasumi rozwijam po godzinach – jeśli automatyzacja oszczędza Ci czas, możesz "
+"postawić mi symboliczną kawę."
+msgstr ""
+"Kasumi es un proyecto paralelo – si la automatización te ahorra tiempo, "
+"puedes invitarme a un café simbólico."
 
 #: src/Admin/SettingsPage.php:601
 msgid "Postaw kawę twórcy Kasumi"
 msgstr "Invita un café al creador de Kasumi"
 
 #: src/Admin/SettingsPage.php:602
-msgid "Wspierasz koszty API, serwera i rozwój nowych modułów (bez reklam i paywalla)."
-msgstr "Ayudas a cubrir los costos de API y servidor para que pueda lanzar nuevos módulos sin anuncios ni muros de pago."
+msgid ""
+"Wspierasz koszty API, serwera i rozwój nowych modułów (bez reklam i "
+"paywalla)."
+msgstr ""
+"Ayudas a cubrir los costos de API y servidor para que pueda lanzar nuevos "
+"módulos sin anuncios ni muros de pago."
 
 #: src/Admin/SettingsPage.php:605
 msgid "Dziękuję za każdą kawę!"
@@ -466,8 +586,14 @@ msgid "O wtyczce"
 msgstr "Acerca del complemento"
 
 #: src/Admin/SettingsPage.php:618
-msgid "Kasumi automatyzuje generowanie wpisów WordPress, komentarzy i grafik AI. Wybierz dostawcę (OpenAI lub Gemini), skonfiguruj harmonogram i podglądaj efekty na żywo."
-msgstr "Kasumi automatiza las entradas de WordPress, comentarios IA e imágenes destacadas. Elige OpenAI o Gemini, configura el horario y visualiza el resultado en vivo."
+msgid ""
+"Kasumi automatyzuje generowanie wpisów WordPress, komentarzy i grafik AI. "
+"Wybierz dostawcę (OpenAI lub Gemini), skonfiguruj harmonogram i podglądaj "
+"efekty na żywo."
+msgstr ""
+"Kasumi automatiza las entradas de WordPress, comentarios IA e imágenes "
+"destacadas. Elige OpenAI o Gemini, configura el horario y visualiza el "
+"resultado en vivo."
 
 #: src/Admin/SettingsPage.php:620
 msgid "Autor: Marcin Dymek (KemuriCodes)"
@@ -556,8 +682,12 @@ msgid "Podgląd wygenerowanej treści i grafiki"
 msgstr "Vista previa del contenido y gráficos generados"
 
 #: src/Admin/SettingsPage.php:703
-msgid "Wygeneruj przykładowy tekst lub obrazek, aby przetestować konfigurację bez publikacji."
-msgstr "Genera un texto o imagen de ejemplo para probar la configuración sin publicarla."
+msgid ""
+"Wygeneruj przykładowy tekst lub obrazek, aby przetestować konfigurację bez "
+"publikacji."
+msgstr ""
+"Genera un texto o imagen de ejemplo para probar la configuración sin "
+"publicarla."
 
 #: src/Admin/SettingsPage.php:705
 msgid "Przykładowy tekst"
@@ -605,7 +735,8 @@ msgstr "Error del módulo IA en %s"
 
 #: src/Options.php:57
 msgid "Twórz wyczerpujące artykuły o QR kodach i zastosowaniach w marketingu."
-msgstr "Crea artículos exhaustivos sobre códigos QR y sus aplicaciones en marketing."
+msgstr ""
+"Crea artículos exhaustivos sobre códigos QR y sus aplicaciones en marketing."
 
 #: src/Options.php:68
 msgid "Kasumi AI – {{title}}"
@@ -722,16 +853,25 @@ msgid "Gemini (Imagen)"
 msgstr "Gemini (Imagen)"
 
 #: src/Admin/SettingsPage.php:440
-msgid "Używane tylko, gdy wybrano tryb zdalny. Wybierz provider do generowania obrazów przez API."
-msgstr "Se usa solo cuando se selecciona el modo remoto. Elige el proveedor para generar imágenes a través de la API."
+msgid ""
+"Używane tylko, gdy wybrano tryb zdalny. Wybierz provider do generowania "
+"obrazów przez API."
+msgstr ""
+"Se usa solo cuando se selecciona el modo remoto. Elige el proveedor para "
+"generar imágenes a través de la API."
 
 #: src/Admin/SettingsPage.php:424
 msgid "Zdalne (API AI)"
 msgstr "Remoto (API IA)"
 
 #: src/Admin/SettingsPage.php:426
-msgid "W trybie serwerowym obrazy pochodzą z Pixabay i są modyfikowane lokalnie. Tryb zdalny generuje obraz przez API AI (OpenAI lub Gemini)."
-msgstr "En modo servidor, las imágenes provienen de Pixabay y se modifican localmente. El modo remoto genera imágenes a través de la API de IA (OpenAI o Gemini)."
+msgid ""
+"W trybie serwerowym obrazy pochodzą z Pixabay i są modyfikowane lokalnie. "
+"Tryb zdalny generuje obraz przez API AI (OpenAI lub Gemini)."
+msgstr ""
+"En modo servidor, las imágenes provienen de Pixabay y se modifican "
+"localmente. El modo remoto genera imágenes a través de la API de IA (OpenAI "
+"o Gemini)."
 
 #: src/Admin/SettingsPage.php:324
 msgid "Wybierz kategorię, która ma otrzymywać nowe treści."
@@ -746,8 +886,13 @@ msgid "Planowanie wpisów i harmonogram"
 msgstr "Planificación de entradas y programación"
 
 #: src/Admin/SettingsPage.php:1037
-msgid "Twórz własne zadania – wybierz autora, typ wpisu, status i dokładną datę publikacji. Kasumi wygeneruje treść w wybranym momencie."
-msgstr "Crea tus propias tareas – elige autor, tipo de entrada, estado y fecha exacta de publicación. Kasumi generará el contenido en el momento seleccionado."
+msgid ""
+"Twórz własne zadania – wybierz autora, typ wpisu, status i dokładną datę "
+"publikacji. Kasumi wygeneruje treść w wybranym momencie."
+msgstr ""
+"Crea tus propias tareas – elige autor, tipo de entrada, estado y fecha "
+"exacta de publicación. Kasumi generará el contenido en el momento "
+"seleccionado."
 
 #: src/Admin/SettingsPage.php:1043
 msgid "Tytuł roboczy"
@@ -777,14 +922,6 @@ msgstr "Tipo de entrada"
 msgid "Status WordPress"
 msgstr "Estado de WordPress"
 
-#: src/Admin/SettingsPage.php:1061
-msgid "Szkic"
-msgstr "Borrador"
-
-#: src/Admin/SettingsPage.php:1062
-msgid "Publikuj automatycznie"
-msgstr "Publicar automáticamente"
-
 #: src/Admin/SettingsPage.php:1067
 msgid "Autor wpisu"
 msgstr "Autor de la entrada"
@@ -798,8 +935,12 @@ msgid "Data publikacji"
 msgstr "Fecha de publicación"
 
 #: src/Admin/SettingsPage.php:1073
-msgid "Wymagane, gdy status ustawisz na „Zaplanowane". Czas zostanie zapisany w strefie WordPress."
-msgstr "Requerido cuando el estado se establece en \"Programado\". La hora se guardará en la zona horaria de WordPress."
+msgid ""
+"Wymagane, gdy status ustawisz na „Zaplanowane\". Czas zostanie zapisany w "
+"strefie WordPress."
+msgstr ""
+"Requerido cuando el estado se establece en \"Programado\". La hora se "
+"guardará en la zona horaria de WordPress."
 
 #: src/Admin/SettingsPage.php:1076
 msgid "Model AI (opcjonalnie)"
@@ -828,6 +969,10 @@ msgstr "Describe el tema, palabras clave, tono de voz, etc."
 #: src/Admin/SettingsPage.php:1088
 msgid "Zapisz zadanie"
 msgstr "Guardar tarea"
+
+#: src/Admin/SettingsPage.php:1089
+msgid "Zaktualizuj zadanie"
+msgstr "Actualizar tarea"
 
 #: src/Admin/SettingsPage.php:1089
 msgid "Wyczyść formularz"
@@ -950,16 +1095,24 @@ msgid "Włącz wtyczkę"
 msgstr "Activar complemento"
 
 #: src/Options.php:84
-msgid "Wyłączenie wstrzymuje wszystkie automatyczne zadania (generowanie postów, komentarzy, harmonogramów)."
-msgstr "Desactivar suspende todas las tareas automáticas (generación de entradas, comentarios, programaciones)."
+msgid ""
+"Wyłączenie wstrzymuje wszystkie automatyczne zadania (generowanie postów, "
+"komentarzy, harmonogramów)."
+msgstr ""
+"Desactivar suspende todas las tareas automáticas (generación de entradas, "
+"comentarios, programaciones)."
 
 #: src/Options.php:648
 msgid "Usuń tabele przy deaktywacji"
 msgstr "Eliminar tablas al desactivar"
 
 #: src/Options.php:653
-msgid "UWAGA: Po deaktywacji wtyczki wszystkie dane harmonogramów zostaną trwale usunięte!"
-msgstr "ADVERTENCIA: Al desactivar el complemento, todos los datos de programación se eliminarán permanentemente."
+msgid ""
+"UWAGA: Po deaktywacji wtyczki wszystkie dane harmonogramów zostaną trwale "
+"usunięte!"
+msgstr ""
+"ADVERTENCIA: Al desactivar el complemento, todos los datos de programación "
+"se eliminarán permanentemente."
 
 #: src/Admin/SettingsPage.php:659
 msgid "Logi wtyczki"
@@ -976,10 +1129,6 @@ msgstr "Info"
 #: src/Admin/SettingsPage.php:1482
 msgid "Ostrzeżenia"
 msgstr "Advertencias"
-
-#: src/Admin/SettingsPage.php:1483
-msgid "Błędy"
-msgstr "Errores"
 
 #: src/Admin/SettingsPage.php:1485
 msgid "Brak logów."
@@ -1042,8 +1191,12 @@ msgid "Błąd podczas importu ustawień."
 msgstr "Error al importar la configuración."
 
 #: src/Admin/SettingsPage.php:1700
-msgid "Czy na pewno chcesz zresetować wszystkie ustawienia do domyślnych? Ta operacja jest nieodwracalna."
-msgstr "¿Estás seguro de que quieres restablecer toda la configuración a los valores predeterminados? Esta operación es irreversible."
+msgid ""
+"Czy na pewno chcesz zresetować wszystkie ustawienia do domyślnych? Ta "
+"operacja jest nieodwracalna."
+msgstr ""
+"¿Estás seguro de que quieres restablecer toda la configuración a los valores "
+"predeterminados? Esta operación es irreversible."
 
 #: src/Admin/SettingsPage.php:1707
 msgid "Ustawienia zostały zresetowane."
@@ -1061,10 +1214,6 @@ msgstr "Formato JSON no válido."
 msgid "Dane muszą być tablicą."
 msgstr "Los datos deben ser un array."
 
-#: src/Options.php:195
-msgid "Ustawienia zostały zaimportowane."
-msgstr "La configuración ha sido importada."
-
 #: src/Rest/SettingsController.php:67
 msgid "Brak danych JSON do zaimportowania."
 msgstr "Faltan datos JSON para importar."
@@ -1080,4 +1229,3 @@ msgstr "La configuración ha sido restablecida a los valores predeterminados."
 #: src/Admin/SettingsPage.php:408
 msgid "Klucz API Pixabay używany do pobierania obrazów w trybie serwerowym."
 msgstr "Clave API de Pixabay utilizada para obtener imágenes en modo servidor."
-

@@ -101,6 +101,11 @@ The Diagnostics tab and admin notices alert you if PHP < 8.1 or extensions like 
 
 == Changelog ==
 
+= 0.1.4 =
+* Dodano trzy style nakładki tekstu (nowoczesny, klasyczny, oldschool) z wbudowanym wsparciem dla polskich znaków.
+* Nowe opcje grafiki: kontrola koloru/siły nakładki, własne wyrównanie i pozycja tekstu, możliwość wyłączenia podpisu, niestandardowa szerokość/wysokość płótna.
+* Ujednolicono tłumaczenia en/de/es dla nowych opcji graficznych i opisów panelu.
+
 = 0.1.3 =
 * Poprawiono escaping danych wyjściowych zgodnie z wytycznymi WordPress.org (escape late)
 * Weryfikacja kompletności bezpieczeństwa wtyczki
