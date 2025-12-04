@@ -4,7 +4,7 @@
  * Plugin URI: https://wordpress.org/plugins/kasumi-ai-generator
  * Description: Nowoczesna wtyczka AI z pełnym wsparciem dla najnowszych modeli GPT-5.1, GPT-4o (OpenAI) oraz Gemini 3 (Google). Obsługuje także starsze modele (GPT-4.1, GPT-4o-mini, Gemini 2.0 Flash) - wybierz model odpowiedni dla Ciebie!
  * Author: Marcin Dymek (KemuriCodes)
- * Version: 0.1.8
+ * Version: 0.1.8.1
  * License: GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: kasumi-ai-generator
@@ -18,18 +18,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'KASUMI_AI_VERSION', '0.1.8' );
+define( 'KASUMI_AI_VERSION', '0.1.8.1' );
 define( 'KASUMI_AI_PATH', plugin_dir_path( __FILE__ ) );
 define( 'KASUMI_AI_URL', plugin_dir_url( __FILE__ ) );
 define( 'KASUMI_AI_DB_VERSION', '2024112701' );
 
-if ( version_compare( PHP_VERSION, '8.1', '<' ) ) {
+if ( version_compare( PHP_VERSION, '8.2', '<' ) ) {
 	add_action(
 		'admin_notices',
 		static function (): void {
 			printf(
 				'<div class="notice notice-error"><p>%s</p></div>',
-				esc_html__( 'Kasumi AI wymaga PHP 8.1 lub wyższej wersji. Zaktualizuj środowisko, aby aktywować wtyczkę.', 'kasumi-ai-generator' )
+				esc_html__( 'Kasumi AI wymaga PHP 8.2 lub wyższej wersji. Zaktualizuj środowisko, aby aktywować wtyczkę.', 'kasumi-ai-generator' )
 			);
 		}
 	);
@@ -121,7 +121,7 @@ add_action(
 	}
 );
 
-// Dodaj link do ustawień na liście wtyczek
+// Add a Settings shortcut on the plugins list.
 add_filter(
 	'plugin_action_links_' . plugin_basename( __FILE__ ),
 	static function ( array $links ): array {
@@ -141,7 +141,7 @@ add_filter(
 	}
 );
 
-// Dodaj linki w meta informacjach wtyczki (row meta)
+// Append extra meta links below the plugin description.
 add_filter(
 	'plugin_row_meta',
 	static function ( array $links, string $file ): array {

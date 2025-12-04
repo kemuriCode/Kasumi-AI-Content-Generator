@@ -121,7 +121,8 @@
 }
 
 .kasumi-ai-tabs > ul li.ui-state-active a,
-.kasumi-ai-tabs > ul li.ui-tabs-active a {
+.kasumi-ai-tabs > ul li.ui-tabs-active a,
+.kasumi-ai-tabs > ul li.is-active a {
     color: var(--wp-admin-theme-color);
     font-weight: 600;
     background: var(--wp-admin-white);
@@ -135,6 +136,12 @@
     background: var(--wp-admin-white);
     border-radius: 0 0 4px 4px;
     min-height: 400px;
+    display: none;
+}
+
+.kasumi-ai-tabs .kasumi-tab-panel.kasumi-tab-panel-active,
+.kasumi-ai-tabs .kasumi-tab-panel:first-of-type {
+    display: block;
 }
 
 /* Ukryj domyślne style jQuery UI dla zakładek */
@@ -292,15 +299,6 @@
     display: table-row !important;
 }
 
-.kasumi-ai-status ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-
-    list-style: disc;
-    margin-left: 20px;
-}
-
 .kasumi-status-note {
     margin-bottom: 12px;
 }
@@ -329,12 +327,25 @@
     gap: 12px;
 }
 
+.kasumi-automation-status {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+}
+
 .kasumi-automation-header {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: 8px;
+}
+
+.kasumi-automation-header-actions {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
 }
 
 .kasumi-automation-state {
@@ -375,8 +386,99 @@
     margin-top: 4px;
 }
 
+.kasumi-automation-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px 20px;
+    padding: 8px 0;
+}
+
+.kasumi-automation-summary span {
+    display: block;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--wp-admin-text-color);
+    opacity: 0.8;
+}
+
+.kasumi-automation-summary strong {
+    display: block;
+    font-size: 14px;
+    margin-top: 4px;
+}
+
+.kasumi-automation-message {
+    margin: 0;
+    padding: 12px;
+    border-radius: 4px;
+    border-left: 4px solid var(--wp-admin-border-color);
+    background: var(--wp-admin-bg-light);
+    color: var(--wp-admin-text-color);
+}
+
+.kasumi-automation-message--success {
+    border-left-color: var(--wp-admin-success-color);
+}
+
+.kasumi-automation-message--error {
+    border-left-color: var(--wp-admin-notification-color);
+    background: rgba(213, 78, 33, 0.08);
+}
+
+.kasumi-automation-message--info {
+    border-left-color: var(--wp-admin-theme-color);
+}
+
+.kasumi-automation-actions button.is-busy {
+    position: relative;
+    padding-left: 32px;
+}
+
+.kasumi-automation-actions button.is-busy::before {
+    content: "";
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    border-top-color: var(--wp-admin-theme-color);
+    animation: kasumi-spin 0.8s linear infinite;
+    transform: translateY(-50%);
+}
+
+.kasumi-automation-updated {
+    margin: 0;
+    font-size: 12px;
+    color: var(--wp-admin-text-color);
+    opacity: 0.75;
+}
+
 .kasumi-automation-controls .notice {
     margin: 0;
+}
+
+.kasumi-automation-row {
+    margin: 16px 0 24px;
+    width: 100%;
+}
+
+.kasumi-automation-row .kasumi-automation-controls {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+@keyframes kasumi-spin {
+    from {
+        transform: rotate(0);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .kasumi-support-card {
@@ -849,6 +951,39 @@ ul li .bi {
     opacity: 0.7;
 }
 
+.kasumi-settings-notice {
+    width: auto;
+    max-width: 360px;
+    margin: 14px 0 0;
+    padding: 10px 14px;
+    border-radius: 6px;
+    border-left: 3px solid var(--wp-admin-border-color);
+    background: var(--wp-admin-bg-light);
+    color: var(--wp-admin-text-color);
+    font-weight: 500;
+    display: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+}
+
+.kasumi-settings-notice.notice-success {
+    border-left-color: var(--wp-admin-success-color);
+    background: rgba(23, 130, 57, 0.08);
+}
+
+.kasumi-settings-notice.notice-error {
+    border-left-color: var(--wp-admin-notification-color);
+    background: rgba(213, 78, 33, 0.08);
+}
+
+.kasumi-settings-submit {
+    margin: 24px 0 40px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
 /* Wykresy */
 .kasumi-chart-container {
     background: var(--wp-admin-white);
@@ -860,6 +995,14 @@ ul li .bi {
 
 .kasumi-chart-container:last-child {
     margin-bottom: 0;
+}
+
+.kasumi-chart-empty {
+    padding: 16px 20px;
+    border-left: 4px solid var(--wp-admin-border-color);
+    border-radius: 4px;
+    background: var(--wp-admin-bg-light);
+    color: var(--wp-admin-text-color);
 }
 
 /* Linki w wtyczce używają kolorów WordPress */

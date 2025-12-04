@@ -1,22 +1,13 @@
 (function ($) {
+    const wpApi = window.wp || {};
+
     $(function () {
-        const tabs = $("#kasumi-ai-tabs");
+        const tabs = $(".kasumi-ai-tabs");
         const adminData = window.kasumiAiAdmin || {};
-        const wpApi = window.wp || {};
 
         if (tabs.length) {
-            tabs.tabs({
-                history: false,
-                activate: function (event, ui) {
-                    // Usuń hash z URL jeśli został dodany
-                    if (window.location.hash) {
-                        window.history.replaceState(
-                            null,
-                            "",
-                            window.location.pathname + window.location.search,
-                        );
-                    }
-                },
+            tabs.each(function () {
+                initKasumiTabs($(this));
             });
         }
 
@@ -209,7 +200,205 @@
         }
 
         initPrimaryLinksRepeater();
+
+        if (adminData.automation) {
+            initAutomationControls(adminData.automation);
+        }
+
+        initAjaxSettingsForm(adminData.settingsSave || null);
     });
+
+    function initAjaxSettingsForm(config) {
+        const form = document.querySelector("[data-kasumi-settings-form]");
+
+        if (
+            !form ||
+            !config ||
+            !config.ajaxUrl ||
+            !config.action ||
+            !window.FormData
+        ) {
+            return;
+        }
+
+        const notice = form.querySelector("[data-kasumi-settings-notice]");
+        const spinner = form.querySelector(
+            "[data-kasumi-settings-spinner]",
+        );
+        const submitButton =
+            form.querySelector("[data-kasumi-save-button]") ||
+            form.querySelector('[type="submit"]');
+        let busy = false;
+        let noticeTimeout = null;
+
+        form.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            if (busy) {
+                return;
+            }
+
+            const formData = new window.FormData(form);
+            sendRequest(formData);
+        });
+
+        function sendRequest(formData) {
+            busy = true;
+            clearNotice();
+            setSavingState(true);
+
+            formData.append("action", config.action);
+
+            if (config.nonce) {
+                formData.append("nonce", config.nonce);
+            }
+
+            request(formData)
+                .then(function (payload) {
+                    if (!payload || !payload.success) {
+                        const message =
+                            (payload &&
+                                payload.data &&
+                                payload.data.message) ||
+                            config.messageError ||
+                            "Error";
+                        throw new Error(message);
+                    }
+
+                    const data = payload.data || {};
+
+                    if (data.nonce) {
+                        config.nonce = data.nonce;
+                    }
+
+                    if (data.settingsNonce) {
+                        const nonceField = form.querySelector(
+                            'input[name="_wpnonce"]',
+                        );
+                        if (nonceField) {
+                            nonceField.value = data.settingsNonce;
+                        }
+                    }
+
+                    showNotice(
+                        "success",
+                        data.message || config.messageSuccess || "",
+                    );
+                })
+                .catch(function (error) {
+                    const message =
+                        (error && error.message) ||
+                        config.messageError ||
+                        "Error";
+                    showNotice("error", message);
+                })
+                .finally(function () {
+                    busy = false;
+                    setSavingState(false);
+                });
+        }
+
+        function request(formData) {
+            if (wpApi.apiFetch) {
+                return wpApi.apiFetch({
+                    url: config.ajaxUrl,
+                    method: "POST",
+                    body: formData,
+                });
+            }
+
+            return window
+                .fetch(config.ajaxUrl, {
+                    method: "POST",
+                    credentials: "same-origin",
+                    body: formData,
+                })
+                .then(function (response) {
+                    if (!response.ok) {
+                        return response
+                            .json()
+                            .then(function (data) {
+                                const error = new Error(
+                                    (data &&
+                                        data.data &&
+                                        data.data.message) ||
+                                        config.messageError ||
+                                        "Error",
+                                );
+                                throw error;
+                            })
+                            .catch(function (error) {
+                                if (error && error.message) {
+                                    throw error;
+                                }
+                                throw new Error(
+                                    config.messageError || "Error",
+                                );
+                            });
+                    }
+
+                    return response.json();
+                });
+        }
+
+        function showNotice(type, message) {
+            if (!notice) {
+                if (type === "error" && message) {
+                    window.alert(message);
+                }
+                return;
+            }
+
+            notice.className =
+                "notice kasumi-settings-notice notice-" + type;
+            notice.textContent = message;
+            notice.style.display = message ? "block" : "none";
+            if (message) {
+                notice.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center",
+                });
+            }
+
+            window.clearTimeout(noticeTimeout);
+
+            if (type === "success" && message) {
+                noticeTimeout = window.setTimeout(function () {
+                    clearNotice();
+                }, 6000);
+            }
+        }
+
+        function clearNotice() {
+            if (!notice) {
+                return;
+            }
+
+            notice.textContent = "";
+            notice.style.display = "none";
+            notice.className = "notice kasumi-settings-notice";
+            window.clearTimeout(noticeTimeout);
+            noticeTimeout = null;
+        }
+
+        function setSavingState(active) {
+            if (submitButton) {
+                if (active) {
+                    submitButton.setAttribute("disabled", "disabled");
+                } else {
+                    submitButton.removeAttribute("disabled");
+                }
+            }
+
+            if (spinner) {
+                if (active) {
+                    spinner.classList.add("is-active");
+                } else {
+                    spinner.classList.remove("is-active");
+                }
+            }
+        }
+    }
 
     function initScheduler(config) {
         const root = document.getElementById("kasumi-schedule-manager");
@@ -907,5 +1096,485 @@
                 heightField.value = height;
             }
         });
+    }
+
+    function initKasumiTabs(container) {
+        if ($.fn.tabs) {
+            try {
+                container.tabs({
+                    history: false,
+                    create: function (event, ui) {
+                        setPanelState(container, ui.panel, true);
+                    },
+                    activate: function (event, ui) {
+                        setPanelState(container, ui.oldPanel, false);
+                        setPanelState(container, ui.newPanel, true);
+                        if (window.location.hash) {
+                            window.history.replaceState(
+                                null,
+                                "",
+                                window.location.pathname +
+                                    window.location.search,
+                            );
+                        }
+                    },
+                });
+
+                if (!container.find(".kasumi-tab-panel-active").length) {
+                    const activePanel = container
+                        .find(".ui-tabs-panel")
+                        .not(".ui-tabs-hide")
+                        .first();
+                    setPanelState(container, activePanel, true);
+                }
+                return;
+            } catch (error) {
+                // fall through to manual tabs
+            }
+        }
+
+        initTabsFallback(container);
+    }
+
+    function initTabsFallback(container) {
+        const nav = container.children("ul");
+        const items = nav.find("li");
+        const links = items.find("a");
+        const panels = container.children(".kasumi-tab-panel");
+
+        if (!panels.length || !links.length) {
+            return;
+        }
+
+        function activateTab(target) {
+            if (!target) {
+                return;
+            }
+
+            const panel = container.find(target);
+            if (!panel.length) {
+                return;
+            }
+
+            items.removeClass("is-active");
+            links.each(function () {
+                if ($(this).attr("href") === target) {
+                    $(this).parent().addClass("is-active");
+                }
+            });
+
+            panels.each(function () {
+                setPanelState(container, $(this), false);
+            });
+            setPanelState(container, panel, true);
+        }
+
+        let initialTarget = "";
+        if (
+            window.location.hash &&
+            container.find(window.location.hash).length
+        ) {
+            initialTarget = window.location.hash;
+        } else if (links.length) {
+            initialTarget = links.first().attr("href") || "";
+        }
+
+        if (initialTarget) {
+            activateTab(initialTarget);
+        }
+
+        links.on("click", function (event) {
+            event.preventDefault();
+            const target = $(this).attr("href");
+            if (!target) {
+                return;
+            }
+
+            activateTab(target);
+            if (window.location.hash) {
+                window.history.replaceState(
+                    null,
+                    "",
+                    window.location.pathname + window.location.search,
+                );
+            }
+        });
+    }
+
+    function setPanelState(container, panel, isActive) {
+        if (!panel || !panel.length) {
+            if (isActive) {
+                const firstPanel = container
+                    .children(".kasumi-tab-panel")
+                    .first();
+                if (firstPanel.length) {
+                    setPanelState(container, firstPanel, true);
+                }
+            }
+            return;
+        }
+
+        if (isActive) {
+            panel
+                .addClass("kasumi-tab-panel-active")
+                .show()
+                .removeAttr("hidden");
+        } else {
+            panel
+                .removeClass("kasumi-tab-panel-active")
+                .hide()
+                .attr("hidden", "hidden");
+        }
+    }
+
+    function initAutomationControls(config) {
+        if (!config) {
+            return;
+        }
+
+        var root = document.querySelector("[data-kasumi-automation]");
+        if (!root || !config.restUrl) {
+            return;
+        }
+
+        var forms = root.querySelectorAll("[data-kasumi-automation-form]");
+        var message = root.querySelector("[data-kasumi-automation-message]");
+        var stateEl = root.querySelector(
+            "[data-kasumi-automation-state]",
+        );
+        var blockNotice = root.querySelector(
+            "[data-kasumi-automation-block]",
+        );
+        var blockParagraph = blockNotice
+            ? blockNotice.querySelector("p")
+            : null;
+        var infoNotice = root.querySelector(
+            "[data-kasumi-automation-notice]",
+        );
+        var infoParagraph = infoNotice
+            ? infoNotice.querySelector("p")
+            : null;
+        var refreshBtn = root.querySelector(
+            "[data-kasumi-automation-refresh]",
+        );
+        var updatedEl = root.querySelector(
+            "[data-kasumi-automation-updated]",
+        );
+        var i18n = config.i18n || {};
+        var fields = {
+            next_post: root.querySelector(
+                '[data-kasumi-automation-field="next_post"]',
+            ),
+            manual: root.querySelector(
+                '[data-kasumi-automation-field="manual"]',
+            ),
+            comment: root.querySelector(
+                '[data-kasumi-automation-field="comment"]',
+            ),
+            queue: root.querySelector(
+                '[data-kasumi-automation-field="queue"]',
+            ),
+            last_run: root.querySelector(
+                '[data-kasumi-automation-field="last_run"]',
+            ),
+            last_error: root.querySelector(
+                '[data-kasumi-automation-field="last_error"]',
+            ),
+        };
+        var snapshot = config.snapshot || null;
+
+        function formatTimestamp(timestamp) {
+            if (!timestamp) {
+                return "";
+            }
+
+            try {
+                var date = new Date(timestamp * 1000);
+                return date.toLocaleString();
+            } catch (error) {
+                return "";
+            }
+        }
+
+        function setMessage(type, text) {
+            if (!message) {
+                return;
+            }
+
+            if (!text) {
+                message.hidden = true;
+                message.textContent = "";
+                message.className = "kasumi-automation-message";
+                return;
+            }
+
+            message.hidden = false;
+            message.textContent = text;
+            message.className =
+                "kasumi-automation-message kasumi-automation-message--" +
+                type;
+        }
+
+        function updateField(name, value) {
+            var target = fields[name];
+            if (!target) {
+                return;
+            }
+
+            if (value) {
+                target.textContent = value;
+            } else {
+                var placeholder =
+                    target.getAttribute("data-placeholder") || "";
+                target.textContent = placeholder;
+            }
+        }
+
+        function applySnapshot(data) {
+            if (!data) {
+                return;
+            }
+
+            snapshot = data;
+
+            if (stateEl) {
+                stateEl.textContent = data.status_label || "";
+            }
+
+
+            if (blockNotice && blockParagraph) {
+                if (data.block_reason) {
+                    blockNotice.removeAttribute("hidden");
+                    blockParagraph.textContent = data.block_reason;
+                } else {
+                    blockNotice.setAttribute("hidden", "hidden");
+                    blockParagraph.textContent = "";
+                }
+            }
+
+            if (infoNotice && infoParagraph) {
+                if (data.notice) {
+                    infoNotice.removeAttribute("hidden");
+                    infoParagraph.textContent = data.notice;
+                } else {
+                    infoNotice.setAttribute("hidden", "hidden");
+                    infoParagraph.textContent = "";
+                }
+            }
+
+            if (data.meta) {
+                updateField(
+                    "next_post",
+                    data.meta.next_post ? data.meta.next_post.label : "",
+                );
+                updateField(
+                    "manual",
+                    data.meta.manual ? data.meta.manual.label : "",
+                );
+                updateField(
+                    "comment",
+                    data.meta.comment ? data.meta.comment.label : "",
+                );
+            }
+
+            if (data.queue) {
+                updateField("queue", data.queue.label || "");
+            }
+
+            if (data.last_run) {
+                updateField("last_run", data.last_run.label || "");
+            }
+
+            updateField("last_error", data.last_error || "");
+
+            if (updatedEl) {
+                updatedEl.textContent = formatTimestamp(data.fetched_at);
+            }
+
+            updateButtons(data);
+        }
+
+        function updateButtons(data) {
+            var disabledAll = !data.available;
+            var paused = !!data.paused;
+
+            forms.forEach(function (form) {
+                var action = form.getAttribute(
+                    "data-kasumi-automation-action",
+                );
+                var button = form.querySelector(
+                    "[data-kasumi-automation-action]",
+                );
+
+                if (!action || !button) {
+                    return;
+                }
+
+                var disabled = disabledAll;
+
+                if ("start" === action) {
+                    disabled = disabledAll || !paused;
+                } else if ("stop" === action) {
+                    disabled = disabledAll || paused;
+                }
+
+                if (disabled) {
+                    button.setAttribute("disabled", "disabled");
+                } else {
+                    button.removeAttribute("disabled");
+                }
+            });
+        }
+
+        function setBusy(action, busy) {
+            var button = root.querySelector(
+                '[data-kasumi-automation-action="' + action + '"]',
+            );
+
+            if (!button) {
+                return;
+            }
+
+            if (busy) {
+                button.setAttribute("disabled", "disabled");
+                button.classList.add("is-busy");
+            } else {
+                button.classList.remove("is-busy");
+                if (snapshot) {
+                    updateButtons(snapshot);
+                } else {
+                    button.removeAttribute("disabled");
+                }
+            }
+        }
+
+        function sendRequest(action) {
+            var base = config.restUrl.replace(/\/$/, "");
+            var url = action ? base + "/" + action : base;
+            var options = {
+                method: action ? "POST" : "GET",
+                headers: {
+                    "X-WP-Nonce": config.nonce || "",
+                },
+            };
+
+            if (wpApi.apiFetch) {
+                return wpApi.apiFetch({
+                    url: url,
+                    method: options.method,
+                    headers: options.headers,
+                });
+            }
+
+            return window.fetch(url, options).then(function (response) {
+                if (!response.ok) {
+                    return response
+                        .json()
+                        .then(function (errorData) {
+                            var error = new Error(
+                                errorData && errorData.message
+                                    ? errorData.message
+                                    : i18n.error ||
+                                          "Nieznany błąd automatyzacji.",
+                            );
+                            error.data = errorData || {};
+                            throw error;
+                        })
+                        .catch(function (error) {
+                            throw error;
+                        });
+                }
+
+                return response.json();
+            });
+        }
+
+        function handleAction(action) {
+            setMessage("info", i18n.refreshing || i18n.checking || "");
+            setBusy(action, true);
+
+            sendRequest(action)
+                .then(function (payload) {
+                    var ui = payload && payload.ui ? payload.ui : null;
+                    if (ui) {
+                        applySnapshot(ui);
+                    }
+
+                    var successMessage =
+                        (payload && payload.message) || i18n.success || "";
+                    if (successMessage) {
+                        setMessage("success", successMessage);
+                    } else {
+                        setMessage("success", "");
+                    }
+                })
+                .catch(function (error) {
+                    var errorMessage =
+                        (error && error.message) ||
+                        i18n.error ||
+                        "Nieznany błąd automatyzacji.";
+                    setMessage("error", errorMessage);
+                    if (error && error.data && error.data.ui) {
+                        applySnapshot(error.data.ui);
+                    }
+                })
+                .finally(function () {
+                    setBusy(action, false);
+                });
+        }
+
+        function refreshStatus() {
+            setMessage("info", i18n.checking || "");
+            sendRequest("")
+                .then(function (payload) {
+                    var ui = payload && payload.ui ? payload.ui : null;
+                    if (ui) {
+                        applySnapshot(ui);
+                    }
+
+                    var successMessage =
+                        (payload && payload.message) || i18n.success || "";
+                    if (successMessage) {
+                        setMessage("success", successMessage);
+                    } else {
+                        setMessage("success", "");
+                    }
+                })
+                .catch(function (error) {
+                    var errorMessage =
+                        (error && error.message) ||
+                        i18n.error ||
+                        "Nieznany błąd automatyzacji.";
+                    setMessage("error", errorMessage);
+                    if (error && error.data && error.data.ui) {
+                        applySnapshot(error.data.ui);
+                    }
+                });
+        }
+
+        forms.forEach(function (form) {
+            var action = form.getAttribute("data-kasumi-automation-action");
+            if (!action) {
+                return;
+            }
+
+            form.addEventListener("submit", function (event) {
+                event.preventDefault();
+                handleAction(action);
+            });
+        });
+
+        if (refreshBtn) {
+            refreshBtn.addEventListener("click", function (event) {
+                event.preventDefault();
+                refreshStatus();
+            });
+        }
+
+        if (snapshot) {
+            applySnapshot(snapshot);
+        }
+
+        refreshStatus();
     }
 })(window.jQuery);

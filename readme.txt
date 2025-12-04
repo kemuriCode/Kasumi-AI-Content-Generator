@@ -3,8 +3,8 @@ Contributors: kemuricodes
 Donate link: https://kemuri.codes
 Requires at least: 6.0
 Tested up to: 6.9
-Requires PHP: 8.1
-Stable tag: 0.1.8
+Requires PHP: 8.2
+Stable tag: 0.1.8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Tags: ai, openai, gemini, pixabay, wp-cron
@@ -100,6 +100,13 @@ The Diagnostics tab and admin notices alert you if PHP < 8.1 or extensions like 
 5. Diagnostics tab showing PHP version and required extensions.
 
 == Changelog ==
+
+= 0.1.8.1 =
+* Kompletnie przebudowany panel „Kontrola WP-Cron”: przyciski start/stop/restart/publikuj działają natychmiast (REST + AJAX), status odświeża się na żądanie, a blokady/komunikaty są widoczne bez przeładowania.
+* Dodano fallback jQuery UI tabs (naprawiono przełączanie zakładek) oraz wizualne wskaźniki stanu automatyzacji; ujednolicono listy w kartach statusu.
+* Dodano opis przy kluczu Pixabay z linkiem do darmowego API i aktualizowane tłumaczenia en/de/es/pl.
+* Dopieszczono kartę statusu modułu (usunięte punktorów z listy) i drobne poprawki stylistyczne.
+* Minimalna wersja PHP podniesiona do 8.2, aby zachować zgodność z najnowszymi bibliotekami AI.
 
 = 0.1.8 =
 * Panel „Kontrola WP-Cron” został przebudowany na natywne formularze WordPressa (bez JavaScript) – wszystkie akcje start/stop/restart/publikuj działają natychmiast i wyświetlają komunikaty w standardowych notyfikacjach.

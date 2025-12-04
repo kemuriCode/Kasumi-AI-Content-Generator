@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Kasumi\AIGenerator\Rest;
 
+use Kasumi\AIGenerator\Admin\AutomationStatus;
 use Kasumi\AIGenerator\Cron\Scheduler;
 use WP_Error;
 use WP_REST_Request;
@@ -132,6 +133,7 @@ final class AutomationController {
 		$payload = array(
 			'success' => true,
 			'status'  => $this->scheduler->get_status_snapshot(),
+			'ui'      => AutomationStatus::snapshot( $this->scheduler ),
 		);
 
 		if ( '' !== $message ) {
@@ -149,7 +151,10 @@ final class AutomationController {
 		return new WP_Error(
 			$code,
 			$message,
-			array( 'status' => $status )
+			array(
+				'status' => $status,
+				'ui'     => AutomationStatus::snapshot( $this->scheduler ),
+			)
 		);
 	}
 }
