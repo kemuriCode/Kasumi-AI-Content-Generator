@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Kasumi – Full AI Content Generator 0.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/kasumi-ai-"
 "generator\n"
-"POT-Creation-Date: 2025-12-04T13:28:51+01:00\n"
+"POT-Creation-Date: 2025-12-04T13:37:30+01:00\n"
 "PO-Revision-Date: 2025-11-27T13:31:53+01:00\n"
 "Last-Translator: KemuriCodes <contact@kemuri.codes>\n"
 "Language-Team: Deutsch <contact@kemuri.codes>\n"
@@ -41,7 +41,7 @@ msgstr ""
 msgid "Marcin Dymek (KemuriCodes)"
 msgstr "Marcin Dymek (KemuriCodes)"
 
-#: kasumi-ai-generator.php:32
+#: kasumi-ai-generator.php:43
 msgid ""
 "Kasumi AI wymaga PHP 8.1 lub wyższej wersji. Zaktualizuj środowisko, aby "
 "aktywować wtyczkę."
@@ -49,7 +49,7 @@ msgstr ""
 "Kasumi AI benötigt PHP 8.1 oder neuer. Aktualisiere die Umgebung, um das "
 "Plugin zu aktivieren."
 
-#: kasumi-ai-generator.php:48
+#: kasumi-ai-generator.php:59
 msgid ""
 "Brak katalogu vendor. Uruchom composer install w folderze wtyczki Kasumi."
 msgstr ""
@@ -57,7 +57,7 @@ msgstr ""
 "aus."
 
 #. translators: %s list of extensions
-#: kasumi-ai-generator.php:106
+#: kasumi-ai-generator.php:117
 #, php-format
 msgid ""
 "Kasumi AI wymaga rozszerzeń PHP: %s. Skontaktuj się z administratorem "
@@ -66,12 +66,12 @@ msgstr ""
 "Kasumi AI benötigt die PHP-Erweiterungen %s. Wende dich an den "
 "Serveradministrator."
 
-#: kasumi-ai-generator.php:135
+#: kasumi-ai-generator.php:146
 #, fuzzy
 msgid "Ustawienia"
 msgstr "Einstellungen importieren"
 
-#: kasumi-ai-generator.php:156
+#: kasumi-ai-generator.php:167
 #, fuzzy
 msgid "Postaw kawę"
 msgstr "Spendiere dem Kasumi-Entwickler einen Kaffee"
@@ -580,28 +580,28 @@ msgstr "Schnelle Seitenverhältnisse"
 msgid "— Wybierz gotowy rozmiar —"
 msgstr "— Vordefiniertes Format wählen —"
 
-#. translators: 1: image width in px, 2: image height in px
+#. translators: 1: image width in px, 2: image height in px.
 #: src/Admin/SettingsPage.php:1103
 #, php-format
-msgid "16:9 – %1$d × %2$d px"
+msgid "16:9 – %1$s × %2$s px"
 msgstr ""
 
-#. translators: 1: image width in px, 2: image height in px
+#. translators: 1: image width in px, 2: image height in px.
 #: src/Admin/SettingsPage.php:1113
 #, php-format
-msgid "4:3 – %1$d × %2$d px"
+msgid "4:3 – %1$s × %2$s px"
 msgstr ""
 
-#. translators: 1: image width in px, 2: image height in px
+#. translators: 1: image width in px, 2: image height in px.
 #: src/Admin/SettingsPage.php:1123
 #, php-format
-msgid "1:1 – %1$d × %2$d px"
+msgid "1:1 – %1$s × %2$s px"
 msgstr ""
 
-#. translators: 1: image width in px, 2: image height in px
+#. translators: 1: image width in px, 2: image height in px.
 #: src/Admin/SettingsPage.php:1133
 #, php-format
-msgid "2:3 – %1$d × %2$d px"
+msgid "2:3 – %1$s × %2$s px"
 msgstr ""
 
 #: src/Admin/SettingsPage.php:1141
@@ -831,10 +831,9 @@ msgstr ""
 
 #. translators: 1: number of days using Kasumi, 2: coffee link
 #: src/Admin/SettingsPage.php:1560
-#, php-format
 msgid ""
-"Korzystasz z Kasumi od %1$s dni. Jeśli narzędzie Ci pomaga, możesz zawsze "
-"%2$s."
+"Korzystasz z Kasumi od %1\\$s dni. Jeśli narzędzie Ci pomaga, możesz zawsze "
+"%2\\$s."
 msgstr ""
 
 #: src/Admin/SettingsPage.php:1577
@@ -1313,6 +1312,12 @@ msgstr "Generierte Kommentare"
 msgid "Całkowita liczba tokenów"
 msgstr "Gesamte Tokenanzahl"
 
+#. translators: 1: total input tokens, 2: total output tokens.
+#: src/Admin/SettingsPage.php:2984
+#, fuzzy, php-format
+msgid "Wejście: %1$s | Wyjście: %2$s"
+msgstr "Eingabe: %s | Ausgabe: %s"
+
 #: src/Admin/SettingsPage.php:2995
 msgid "Szacunkowy koszt"
 msgstr "Geschätzte Kosten"
@@ -1669,10 +1674,6 @@ msgstr "%1$s – Illustration für einen Artikel über %2$s"
 #, fuzzy
 #~ msgid "Zaktualizowano stan automatyzacji."
 #~ msgstr "Aufgabe aktualisiert."
-
-#, php-format
-#~ msgid "Wejście: %s | Wyjście: %s"
-#~ msgstr "Eingabe: %s | Ausgabe: %s"
 
 #~ msgid "np. Strategie QR kodów na eventach"
 #~ msgstr "z.B. QR-Code-Strategien für Veranstaltungen"

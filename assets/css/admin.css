@@ -293,6 +293,10 @@
 }
 
 .kasumi-ai-status ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
     list-style: disc;
     margin-left: 20px;
 }
@@ -459,9 +463,19 @@
 }
 
 .kasumi-about ul,
-.kasumi-ai-status ul,
 .kasumi-info-card ul {
     margin-left: 20px;
+}
+
+.kasumi-ai-status ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.kasumi-ai-status ul li {
+    margin: 4px 0;
+    padding-left: 0;
 }
 
 .kasumi-tabs-columns {

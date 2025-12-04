@@ -536,7 +536,7 @@ class SettingsPage
                         "kasumi-ai-generator",
                     ),
                     sprintf(
-                        '<a href="%1$s" target="_blank" rel="noopener">%2$s</a>',
+                        '<a href="%s" target="_blank" rel="noopener">%s</a>',
                         esc_url("https://platform.openai.com/account/api-keys"),
                         esc_html__(
                             "panelu OpenAI",
@@ -582,7 +582,7 @@ class SettingsPage
                         "kasumi-ai-generator",
                     ),
                     sprintf(
-                        '<a href="%1$s" target="_blank" rel="noopener">%2$s</a>',
+                        '<a href="%s" target="_blank" rel="noopener">%s</a>',
                         esc_url("https://aistudio.google.com/app/apikey"),
                         esc_html__(
                             "Google AI Studio",
@@ -1099,40 +1099,40 @@ class SettingsPage
                 "presets" => [
                     [
                         "label" => sprintf(
-                            /* translators: 1: image width in px, 2: image height in px */
-                            __('16:9 – %1$d × %2$d px', 'kasumi-ai-generator'),
-                            1200,
-                            675,
+                            /* translators: 1: image width in px, 2: image height in px. */
+                            __('16:9 – %s × %s px', 'kasumi-ai-generator'),
+                            number_format_i18n(1200),
+                            number_format_i18n(675),
                         ),
                         "width" => 1200,
                         "height" => 675,
                     ],
                     [
                         "label" => sprintf(
-                            /* translators: 1: image width in px, 2: image height in px */
-                            __('4:3 – %1$d × %2$d px', 'kasumi-ai-generator'),
-                            1200,
-                            900,
+                            /* translators: 1: image width in px, 2: image height in px. */
+                            __('4:3 – %s × %s px', 'kasumi-ai-generator'),
+                            number_format_i18n(1200),
+                            number_format_i18n(900),
                         ),
                         "width" => 1200,
                         "height" => 900,
                     ],
                     [
                         "label" => sprintf(
-                            /* translators: 1: image width in px, 2: image height in px */
-                            __('1:1 – %1$d × %2$d px', 'kasumi-ai-generator'),
-                            1200,
-                            1200,
+                            /* translators: 1: image width in px, 2: image height in px. */
+                            __('1:1 – %s × %s px', 'kasumi-ai-generator'),
+                            number_format_i18n(1200),
+                            number_format_i18n(1200),
                         ),
                         "width" => 1200,
                         "height" => 1200,
                     ],
                     [
                         "label" => sprintf(
-                            /* translators: 1: image width in px, 2: image height in px */
-                            __('2:3 – %1$d × %2$d px', 'kasumi-ai-generator'),
-                            1200,
-                            1800,
+                            /* translators: 1: image width in px, 2: image height in px. */
+                            __('2:3 – %s × %s px', 'kasumi-ai-generator'),
+                            number_format_i18n(1200),
+                            number_format_i18n(1800),
                         ),
                         "width" => 1200,
                         "height" => 1800,
@@ -1559,7 +1559,7 @@ class SettingsPage
         $support_message = sprintf(
             __(
                 /* translators: 1: number of days using Kasumi, 2: coffee link */
-                'Korzystasz z Kasumi od %1$s dni. Jeśli narzędzie Ci pomaga, możesz zawsze %2$s.',
+                'Korzystasz z Kasumi od %s dni. Jeśli narzędzie Ci pomaga, możesz zawsze %s.',
                 "kasumi-ai-generator",
             ),
             number_format_i18n($days_using),
@@ -1949,7 +1949,7 @@ class SettingsPage
         switch ($type) {
             case "textarea":
                 printf(
-                    '<textarea name="%1$s[%2$s]" rows="3" class="large-text">%3$s</textarea>',
+                    '<textarea name="%s[%s]" rows="3" class="large-text">%3$s</textarea>',
                     esc_attr(Options::OPTION_NAME),
                     esc_attr($key),
                     esc_textarea((string) $value),
@@ -1958,7 +1958,7 @@ class SettingsPage
             case "select":
                 $is_multiple = !empty($args["multiple"]);
                 $field_name = sprintf(
-                    '%1$s[%2$s]%3$s',
+                    '%s[%s]%3$s',
                     Options::OPTION_NAME,
                     $key,
                     $is_multiple ? "[]" : "",
@@ -1970,7 +1970,7 @@ class SettingsPage
                 }
 
                 printf(
-                    '<select name="%1$s"%2$s>',
+                    '<select name="%s"%s>',
                     esc_attr($field_name),
                     $attributes,
                 );
@@ -1997,7 +1997,7 @@ class SettingsPage
                         );
 
                     printf(
-                        '<option value="%1$s" %2$s>%3$s</option>',
+                        '<option value="%s" %s>%3$s</option>',
                         esc_attr((string) $option_value),
                         $selected_attr,
                         esc_html($label),
@@ -2008,7 +2008,7 @@ class SettingsPage
                 break;
             case "checkbox":
                 printf(
-                    '<label><input type="checkbox" name="%1$s[%2$s]" value="1" %3$s> %4$s</label>',
+                    '<label><input type="checkbox" name="%s[%s]" value="1" %3$s> %4$s</label>',
                     esc_attr(Options::OPTION_NAME),
                     esc_attr($key),
                     checked(!empty($value), true, false),
@@ -2022,7 +2022,7 @@ class SettingsPage
                     esc_attr($provider) .
                     '" data-autoload="1">';
                 printf(
-                    '<select name="%1$s[%2$s]" data-kasumi-model="%3$s" data-current-value="%4$s" class="regular-text">',
+                    '<select name="%s[%s]" data-kasumi-model="%3$s" data-current-value="%4$s" class="regular-text">',
                     esc_attr(Options::OPTION_NAME),
                     esc_attr($key),
                     esc_attr($provider),
@@ -2060,7 +2060,7 @@ class SettingsPage
                     "order" => "ASC",
                 ]);
                 printf(
-                    '<select name="%1$s[%2$s]" class="regular-text">',
+                    '<select name="%s[%s]" class="regular-text">',
                     esc_attr(Options::OPTION_NAME),
                     esc_attr($key),
                 );
@@ -2072,7 +2072,7 @@ class SettingsPage
                     "</option>";
                 foreach ($categories as $category) {
                     printf(
-                        '<option value="%1$s" %2$s>%3$s</option>',
+                        '<option value="%s" %s>%3$s</option>',
                         esc_attr((string) $category->term_id),
                         selected($value, (string) $category->term_id, false),
                         esc_html($category->name),
@@ -2091,7 +2091,7 @@ class SettingsPage
                 }
                 $field_id = "kasumi_ai_" . $key;
                 printf(
-                    '<input type="text" id="%1$s" name="%2$s[%3$s]" value="%4$s" class="wp-color-picker-field" data-default-color="%5$s" />',
+                    '<input type="text" id="%s" name="%s[%3$s]" value="%4$s" class="wp-color-picker-field" data-default-color="%5$s" />',
                     esc_attr($field_id),
                     esc_attr(Options::OPTION_NAME),
                     esc_attr($key),
@@ -2185,7 +2185,7 @@ class SettingsPage
 					}
 
 					echo sprintf(
-						'<option value="%1$s" data-width="%2$d" data-height="%3$d">%4$s</option>',
+						'<option value="%s" data-width="%2$d" data-height="%3$d">%4$s</option>',
 						esc_attr( $label_text ),
 						(int) $width,
 						(int) $height,
@@ -2215,7 +2215,7 @@ class SettingsPage
                     : "";
 
                 printf(
-                    '<input type="%5$s" class="regular-text" name="%1$s[%2$s]" value="%3$s" placeholder="%4$s" %6$s>',
+                    '<input type="%5$s" class="regular-text" name="%s[%s]" value="%3$s" placeholder="%4$s" %6$s>',
                     esc_attr(Options::OPTION_NAME),
                     esc_attr($key),
                     esc_attr((string) $value),
@@ -2983,7 +2983,7 @@ class SettingsPage
      printf(
          esc_html__(
              /* translators: 1: total input tokens, 2: total output tokens. */
-             "Wejście: %1$s | Wyjście: %2$s",
+             "Wejście: %s | Wyjście: %s",
              "kasumi-ai-generator",
          ),
          number_format_i18n($total_input_tokens),

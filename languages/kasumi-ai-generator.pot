@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-12-04T13:28:51+01:00\n"
+"POT-Creation-Date: 2025-12-04T13:37:30+01:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: kasumi-ai-generator\n"
@@ -34,25 +34,25 @@ msgstr ""
 msgid "Marcin Dymek (KemuriCodes)"
 msgstr ""
 
-#: kasumi-ai-generator.php:32
+#: kasumi-ai-generator.php:43
 msgid "Kasumi AI wymaga PHP 8.1 lub wyższej wersji. Zaktualizuj środowisko, aby aktywować wtyczkę."
 msgstr ""
 
-#: kasumi-ai-generator.php:48
+#: kasumi-ai-generator.php:59
 msgid "Brak katalogu vendor. Uruchom composer install w folderze wtyczki Kasumi."
 msgstr ""
 
 #. translators: %s list of extensions
-#: kasumi-ai-generator.php:106
+#: kasumi-ai-generator.php:117
 #, php-format
 msgid "Kasumi AI wymaga rozszerzeń PHP: %s. Skontaktuj się z administratorem serwera."
 msgstr ""
 
-#: kasumi-ai-generator.php:135
+#: kasumi-ai-generator.php:146
 msgid "Ustawienia"
 msgstr ""
 
-#: kasumi-ai-generator.php:156
+#: kasumi-ai-generator.php:167
 msgid "Postaw kawę"
 msgstr ""
 
@@ -529,28 +529,28 @@ msgstr ""
 msgid "— Wybierz gotowy rozmiar —"
 msgstr ""
 
-#. translators: 1: image width in px, 2: image height in px
+#. translators: 1: image width in px, 2: image height in px.
 #: src/Admin/SettingsPage.php:1103
 #, php-format
-msgid "16:9 – %1$d × %2$d px"
+msgid "16:9 – %1$s × %2$s px"
 msgstr ""
 
-#. translators: 1: image width in px, 2: image height in px
+#. translators: 1: image width in px, 2: image height in px.
 #: src/Admin/SettingsPage.php:1113
 #, php-format
-msgid "4:3 – %1$d × %2$d px"
+msgid "4:3 – %1$s × %2$s px"
 msgstr ""
 
-#. translators: 1: image width in px, 2: image height in px
+#. translators: 1: image width in px, 2: image height in px.
 #: src/Admin/SettingsPage.php:1123
 #, php-format
-msgid "1:1 – %1$d × %2$d px"
+msgid "1:1 – %1$s × %2$s px"
 msgstr ""
 
-#. translators: 1: image width in px, 2: image height in px
+#. translators: 1: image width in px, 2: image height in px.
 #: src/Admin/SettingsPage.php:1133
 #, php-format
-msgid "2:3 – %1$d × %2$d px"
+msgid "2:3 – %1$s × %2$s px"
 msgstr ""
 
 #: src/Admin/SettingsPage.php:1141
@@ -756,8 +756,7 @@ msgstr ""
 
 #. translators: 1: number of days using Kasumi, 2: coffee link
 #: src/Admin/SettingsPage.php:1560
-#, php-format
-msgid "Korzystasz z Kasumi od %1$s dni. Jeśli narzędzie Ci pomaga, możesz zawsze %2$s."
+msgid "Korzystasz z Kasumi od %1\\$s dni. Jeśli narzędzie Ci pomaga, możesz zawsze %2\\$s."
 msgstr ""
 
 #: src/Admin/SettingsPage.php:1577
@@ -1221,6 +1220,12 @@ msgstr ""
 
 #: src/Admin/SettingsPage.php:2976
 msgid "Całkowita liczba tokenów"
+msgstr ""
+
+#. translators: 1: total input tokens, 2: total output tokens.
+#: src/Admin/SettingsPage.php:2984
+#, php-format
+msgid "Wejście: %1$s | Wyjście: %2$s"
 msgstr ""
 
 #: src/Admin/SettingsPage.php:2995
