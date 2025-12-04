@@ -4,7 +4,7 @@ Donate link: https://kemuri.codes
 Requires at least: 6.0
 Tested up to: 6.9
 Requires PHP: 8.2
-Stable tag: 0.1.8.1
+Stable tag: 0.1.8.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Tags: ai, openai, gemini, pixabay, wp-cron
@@ -100,6 +100,10 @@ The Diagnostics tab and admin notices alert you if PHP < 8.1 or extensions like 
 5. Diagnostics tab showing PHP version and required extensions.
 
 == Changelog ==
+
+= 0.1.8.2 =
+* AJAX-owy zapis ustawień: formularz wysyła dane w tle, serwer waliduje/nielu, a użytkownik dostaje spinner + wąskie potwierdzenie z automatycznym autohide.
+* Statystyki tokenów rozmieszczają tłumaczenia bez „Unknown format specifier”, a UI potwierdzenia zapisu skaluje się do 360px i przewija się na ekran.
 
 = 0.1.8.1 =
 * Kompletnie przebudowany panel „Kontrola WP-Cron”: przyciski start/stop/restart/publikuj działają natychmiast (REST + AJAX), status odświeża się na żądanie, a blokady/komunikaty są widoczne bez przeładowania.
