@@ -67,7 +67,7 @@ final class AutomationController {
 		$this->scheduler->resume();
 
 		return $this->respond_with_status(
-			__( 'Automatyzacja została uruchomiona.', 'kasumi-full-ai-content-generator' )
+			__( 'Automatyzacja została uruchomiona.', 'kasumi-ai-generator' )
 		);
 	}
 
@@ -75,7 +75,7 @@ final class AutomationController {
 		$this->scheduler->pause();
 
 		return $this->respond_with_status(
-			__( 'Automatyzacja została zatrzymana.', 'kasumi-full-ai-content-generator' )
+			__( 'Automatyzacja została zatrzymana.', 'kasumi-ai-generator' )
 		);
 	}
 
@@ -83,7 +83,7 @@ final class AutomationController {
 		$this->scheduler->restart();
 
 		return $this->respond_with_status(
-			__( 'Zadania WP-Cron zostały odświeżone.', 'kasumi-full-ai-content-generator' )
+			__( 'Zadania WP-Cron zostały odświeżone.', 'kasumi-ai-generator' )
 		);
 	}
 
@@ -98,12 +98,12 @@ final class AutomationController {
 				'kasumi_run_post_failed',
 				'' !== $reason
 					? $reason
-					: __( 'Nie udało się wymusić publikacji. Sprawdź konfigurację API i logi.', 'kasumi-full-ai-content-generator' )
+					: __( 'Nie udało się wymusić publikacji. Sprawdź konfigurację API i logi.', 'kasumi-ai-generator' )
 			);
 		}
 
 		return $this->respond_with_status(
-			__( 'Rozpoczęto natychmiastowe generowanie posta.', 'kasumi-full-ai-content-generator' )
+			__( 'Rozpoczęto natychmiastowe generowanie posta.', 'kasumi-ai-generator' )
 		);
 	}
 
@@ -119,7 +119,7 @@ final class AutomationController {
 		}
 
 		return $this->respond_with_status(
-			__( 'W kolejce zadań sprawdzono oczekujące wpisy.', 'kasumi-full-ai-content-generator' ),
+			__( 'W kolejce zadań sprawdzono oczekujące wpisy.', 'kasumi-ai-generator' ),
 			array( 'processed' => $processed )
 		);
 	}

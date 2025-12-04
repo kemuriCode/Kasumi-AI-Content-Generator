@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Kasumi – Full AI Content Generator 0.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/kasumi-ai-"
 "generator\n"
-"POT-Creation-Date: 2025-12-04T13:17:26+01:00\n"
+"POT-Creation-Date: 2025-12-04T13:28:51+01:00\n"
 "PO-Revision-Date: 2025-11-27T13:31:53+01:00\n"
 "Last-Translator: KemuriCodes <contact@kemuri.codes>\n"
 "Language-Team: English <contact@kemuri.codes>\n"
@@ -24,7 +24,7 @@ msgstr "Kasumi – Full AI Content Generator"
 
 #. Plugin URI of the plugin
 #: kasumi-ai-generator.php
-msgid "https://wordpress.org/plugins/kasumi-full-ai-content-generator"
+msgid "https://wordpress.org/plugins/kasumi-ai-generator"
 msgstr ""
 
 #. Description of the plugin
@@ -101,7 +101,7 @@ msgstr "Could not generate a preview image."
 msgid "AI Content"
 msgstr "AI Content"
 
-#: src/Admin/SettingsPage.php:181 src/Admin/SettingsPage.php:1728
+#: src/Admin/SettingsPage.php:181 src/Admin/SettingsPage.php:1729
 msgid ""
 "Automatyzacja jest chwilowo niedostępna. Odśwież stronę i spróbuj ponownie."
 msgstr "Automation is temporarily unavailable. Refresh the page and try again."
@@ -236,7 +236,7 @@ msgstr "Gemini API Key"
 msgid "Wygeneruj klucz w %s."
 msgstr "Generate the key in %s."
 
-#: src/Admin/SettingsPage.php:587 src/Admin/SettingsPage.php:1619
+#: src/Admin/SettingsPage.php:587 src/Admin/SettingsPage.php:1620
 msgid "Google AI Studio"
 msgstr "Google AI Studio"
 
@@ -300,12 +300,12 @@ msgstr "Select the category that should receive new content."
 msgid "Status wpisów"
 msgstr "Post status"
 
-#: src/Admin/SettingsPage.php:706 src/Admin/SettingsPage.php:2430
-#: src/Admin/SettingsPage.php:2659
+#: src/Admin/SettingsPage.php:706 src/Admin/SettingsPage.php:2431
+#: src/Admin/SettingsPage.php:2660
 msgid "Szkic"
 msgstr "Draft"
 
-#: src/Admin/SettingsPage.php:707 src/Admin/SettingsPage.php:2434
+#: src/Admin/SettingsPage.php:707 src/Admin/SettingsPage.php:2435
 msgid "Publikuj automatycznie"
 msgstr "Publish automatically"
 
@@ -341,7 +341,7 @@ msgstr ""
 msgid "Stały autor wpisów"
 msgstr "Post status"
 
-#: src/Admin/SettingsPage.php:754 src/Admin/SettingsPage.php:2446
+#: src/Admin/SettingsPage.php:754 src/Admin/SettingsPage.php:2447
 msgid "— Wybierz autora —"
 msgstr "— Select author —"
 
@@ -562,11 +562,11 @@ msgstr ""
 msgid "Nakładka zachowuje bezpieczne marginesy niezależnie od położenia."
 msgstr "Maintains safe margins regardless of the chosen position."
 
-#: src/Admin/SettingsPage.php:1088 src/Admin/SettingsPage.php:2167
+#: src/Admin/SettingsPage.php:1088 src/Admin/SettingsPage.php:2168
 msgid "Szybkie ustawienia proporcji"
 msgstr "Quick aspect presets"
 
-#: src/Admin/SettingsPage.php:1095 src/Admin/SettingsPage.php:2160
+#: src/Admin/SettingsPage.php:1095 src/Admin/SettingsPage.php:2161
 msgid "— Wybierz gotowy rozmiar —"
 msgstr "— Choose a preset —"
 
@@ -631,7 +631,7 @@ msgstr "Horizontal"
 msgid "Pionowa"
 msgstr "Vertical"
 
-#: src/Admin/SettingsPage.php:1208 src/Admin/SettingsPage.php:1829
+#: src/Admin/SettingsPage.php:1208 src/Admin/SettingsPage.php:1830
 msgid "Komentarze AI"
 msgstr "AI comments"
 
@@ -811,27 +811,27 @@ msgstr ""
 msgid "Obsługiwane przez buymeacoffee.com"
 msgstr "Powered by buymeacoffee.com"
 
+#: src/Admin/SettingsPage.php:1557
+msgid "postawić kawę"
+msgstr ""
+
 #. translators: 1: number of days using Kasumi, 2: coffee link
-#: src/Admin/SettingsPage.php:1556
+#: src/Admin/SettingsPage.php:1560
 #, php-format
 msgid ""
 "Korzystasz z Kasumi od %1$s dni. Jeśli narzędzie Ci pomaga, możesz zawsze "
 "%2$s."
 msgstr ""
 
-#: src/Admin/SettingsPage.php:1566
-msgid "postawić kawę"
-msgstr ""
-
-#: src/Admin/SettingsPage.php:1576
+#: src/Admin/SettingsPage.php:1577
 msgid "Pokaż ponownie kartę wsparcia"
 msgstr ""
 
-#: src/Admin/SettingsPage.php:1586
+#: src/Admin/SettingsPage.php:1587
 msgid "O wtyczce"
 msgstr "About the plugin"
 
-#: src/Admin/SettingsPage.php:1590
+#: src/Admin/SettingsPage.php:1591
 msgid ""
 "Kasumi automatyzuje generowanie wpisów WordPress, komentarzy i grafik AI. "
 "Wybierz dostawcę (OpenAI lub Gemini), skonfiguruj harmonogram i podglądaj "
@@ -840,155 +840,155 @@ msgstr ""
 "Kasumi automates WordPress posts, AI comments, and featured images. Pick "
 "OpenAI or Gemini, configure the schedule, and preview the output live."
 
-#: src/Admin/SettingsPage.php:1595
+#: src/Admin/SettingsPage.php:1596
 msgid "Autor: Marcin Dymek (KemuriCodes)"
 msgstr "Author: Marcin Dymek (KemuriCodes)"
 
-#: src/Admin/SettingsPage.php:1599
+#: src/Admin/SettingsPage.php:1600
 msgid "Kontakt: contact@kemuri.codes"
 msgstr "Contact: contact@kemuri.codes"
 
-#: src/Admin/SettingsPage.php:1606
+#: src/Admin/SettingsPage.php:1607
 msgid "Szybkie linki"
 msgstr "Quick links"
 
-#: src/Admin/SettingsPage.php:1613
+#: src/Admin/SettingsPage.php:1614
 msgid "Panel OpenAI"
 msgstr "OpenAI dashboard"
 
-#: src/Admin/SettingsPage.php:1623
+#: src/Admin/SettingsPage.php:1624
 msgid "Wsparcie KemuriCodes"
 msgstr "KemuriCodes support"
 
 #. translators: %s – relative time
-#: src/Admin/SettingsPage.php:1640
+#: src/Admin/SettingsPage.php:1641
 #, php-format
 msgid "za %s"
 msgstr "in %s"
 
-#: src/Admin/SettingsPage.php:1644
+#: src/Admin/SettingsPage.php:1645
 msgid "Brak zaplanowanych zadań"
 msgstr "No scheduled tasks"
 
-#: src/Admin/SettingsPage.php:1647
+#: src/Admin/SettingsPage.php:1648
 msgid "Brak błędów"
 msgstr "No errors"
 
-#: src/Admin/SettingsPage.php:1650
+#: src/Admin/SettingsPage.php:1651
 msgid "Status modułu AI"
 msgstr "AI module status"
 
-#: src/Admin/SettingsPage.php:1660
+#: src/Admin/SettingsPage.php:1661
 msgid "Ostatni post ID:"
 msgstr "Last post ID:"
 
-#: src/Admin/SettingsPage.php:1666
+#: src/Admin/SettingsPage.php:1667
 msgid "Ostatnie uruchomienie:"
 msgstr "Last run:"
 
-#: src/Admin/SettingsPage.php:1671 src/Admin/SettingsPage.php:2865
+#: src/Admin/SettingsPage.php:1672 src/Admin/SettingsPage.php:2866
 msgid "Brak"
 msgstr "None"
 
-#: src/Admin/SettingsPage.php:1672
+#: src/Admin/SettingsPage.php:1673
 msgid "Następne zadanie:"
 msgstr "Next task:"
 
-#: src/Admin/SettingsPage.php:1676
+#: src/Admin/SettingsPage.php:1677
 msgid "Kolejka komentarzy:"
 msgstr "Comment queue:"
 
-#: src/Admin/SettingsPage.php:1682
+#: src/Admin/SettingsPage.php:1683
 msgid "Ostatni błąd:"
 msgstr "Last error:"
 
-#: src/Admin/SettingsPage.php:1693
+#: src/Admin/SettingsPage.php:1694
 msgid "Automatyzacja zatrzymana"
 msgstr "Automation paused"
 
-#: src/Admin/SettingsPage.php:1697
+#: src/Admin/SettingsPage.php:1698
 msgid "Automatyzacja aktywna"
 msgstr "Automation active"
 
-#: src/Admin/SettingsPage.php:1702
+#: src/Admin/SettingsPage.php:1703
 msgid "Automatyzacja niedostępna"
 msgstr "Automation unavailable"
 
-#: src/Admin/SettingsPage.php:1714
+#: src/Admin/SettingsPage.php:1715
 msgid "Kontrola WP-Cron"
 msgstr "WP-Cron Control"
 
-#: src/Admin/SettingsPage.php:1722
+#: src/Admin/SettingsPage.php:1723
 msgid ""
 "Startuj lub zatrzymuj automatyczne generowanie oraz wymuszaj natychmiastową "
 "publikację."
 msgstr "Start or stop automation and trigger an instant publication."
 
-#: src/Admin/SettingsPage.php:1743
+#: src/Admin/SettingsPage.php:1744
 msgid "Następny post"
 msgstr "Next post"
 
-#: src/Admin/SettingsPage.php:1750
+#: src/Admin/SettingsPage.php:1751
 msgid "Zadania ręczne"
 msgstr "Manual jobs"
 
-#: src/Admin/SettingsPage.php:1757
+#: src/Admin/SettingsPage.php:1758
 msgid "Cron komentarzy"
 msgstr "Comment cron"
 
-#: src/Admin/SettingsPage.php:1764
+#: src/Admin/SettingsPage.php:1765
 msgid "Kolejka komentarzy"
 msgstr "Comment queue"
 
-#: src/Admin/SettingsPage.php:1775
+#: src/Admin/SettingsPage.php:1776
 msgid "Start"
 msgstr "Start"
 
-#: src/Admin/SettingsPage.php:1782
+#: src/Admin/SettingsPage.php:1783
 msgid "Zatrzymaj"
 msgstr "Stop"
 
-#: src/Admin/SettingsPage.php:1789
+#: src/Admin/SettingsPage.php:1790
 msgid "Restartuj WP-Cron"
 msgstr "Restart WP-Cron"
 
-#: src/Admin/SettingsPage.php:1796
+#: src/Admin/SettingsPage.php:1797
 msgid "Publikuj teraz"
 msgstr "Publish now"
 
-#: src/Admin/SettingsPage.php:1803
+#: src/Admin/SettingsPage.php:1804
 msgid "Wykonaj harmonogram"
 msgstr "Run schedule"
 
-#: src/Admin/SettingsPage.php:1817
+#: src/Admin/SettingsPage.php:1818
 msgid "Integracje API"
 msgstr "API integrations"
 
-#: src/Admin/SettingsPage.php:1821
+#: src/Admin/SettingsPage.php:1822
 msgid "Treści i harmonogram"
 msgstr "Content & schedule"
 
-#: src/Admin/SettingsPage.php:1825
+#: src/Admin/SettingsPage.php:1826
 msgid "Grafiki AI"
 msgstr "AI graphics"
 
-#: src/Admin/SettingsPage.php:1833
+#: src/Admin/SettingsPage.php:1834
 msgid "Statystyki"
 msgstr "Statistics"
 
-#: src/Admin/SettingsPage.php:1837
+#: src/Admin/SettingsPage.php:1838
 msgid "Zaawansowane"
 msgstr "Advanced"
 
-#: src/Admin/SettingsPage.php:1841
+#: src/Admin/SettingsPage.php:1842
 msgid "Diagnostyka"
 msgstr "Diagnostics"
 
-#: src/Admin/SettingsPage.php:1873
+#: src/Admin/SettingsPage.php:1874
 msgid "Podgląd wygenerowanej treści i grafiki"
 msgstr "Preview generated content and graphics"
 
-#: src/Admin/SettingsPage.php:1878
+#: src/Admin/SettingsPage.php:1879
 msgid ""
 "Wygeneruj przykładowy tekst lub obrazek, aby przetestować konfigurację bez "
 "publikacji."
@@ -996,68 +996,68 @@ msgstr ""
 "Generate a sample text or image to test the configuration without publishing "
 "it."
 
-#: src/Admin/SettingsPage.php:1883
+#: src/Admin/SettingsPage.php:1884
 msgid "Przykładowy tekst"
 msgstr "Sample text"
 
-#: src/Admin/SettingsPage.php:1887
+#: src/Admin/SettingsPage.php:1888
 msgid "Podgląd grafiki"
 msgstr "Image preview"
 
-#: src/Admin/SettingsPage.php:2014
+#: src/Admin/SettingsPage.php:2015
 msgid "Aktywne"
 msgstr "Active"
 
-#: src/Admin/SettingsPage.php:2037
+#: src/Admin/SettingsPage.php:2038
 msgid "Wybierz model…"
 msgstr "Choose a model…"
 
-#: src/Admin/SettingsPage.php:2047
+#: src/Admin/SettingsPage.php:2048
 msgid "Odśwież listę"
 msgstr "Refresh list"
 
-#: src/Admin/SettingsPage.php:2067
+#: src/Admin/SettingsPage.php:2068
 msgid "— Wybierz kategorię —"
 msgstr "— Select Category —"
 
-#: src/Admin/SettingsPage.php:2114
+#: src/Admin/SettingsPage.php:2115
 msgid "Adres URL"
 msgstr ""
 
-#: src/Admin/SettingsPage.php:2119
+#: src/Admin/SettingsPage.php:2120
 msgid "Frazy kluczowe"
 msgstr ""
 
-#: src/Admin/SettingsPage.php:2139
+#: src/Admin/SettingsPage.php:2140
 msgid "Dodaj wiersz"
 msgstr ""
 
-#: src/Admin/SettingsPage.php:2278
+#: src/Admin/SettingsPage.php:2279
 #, fuzzy
 msgid "— Wybierz stronę —"
 msgstr "— Select Category —"
 
-#: src/Admin/SettingsPage.php:2291
+#: src/Admin/SettingsPage.php:2292
 msgid "Wstaw adres"
 msgstr ""
 
-#: src/Admin/SettingsPage.php:2298
+#: src/Admin/SettingsPage.php:2299
 msgid "np. poradnik marketingowy, oferta usług, kontakt"
 msgstr "e.g. marketing guide, service offering, contact"
 
-#: src/Admin/SettingsPage.php:2302
+#: src/Admin/SettingsPage.php:2303
 msgid "Frazy rozdziel przecinkami – wybierz 2-4 naturalne warianty."
 msgstr ""
 
-#: src/Admin/SettingsPage.php:2309 src/Admin/SettingsPage.php:2645
+#: src/Admin/SettingsPage.php:2310 src/Admin/SettingsPage.php:2646
 msgid "Usuń"
 msgstr "Delete"
 
-#: src/Admin/SettingsPage.php:2378
+#: src/Admin/SettingsPage.php:2379
 msgid "Planowanie wpisów i harmonogram"
 msgstr "Post Planning and Schedule"
 
-#: src/Admin/SettingsPage.php:2382
+#: src/Admin/SettingsPage.php:2383
 msgid ""
 "Twórz własne zadania – wybierz autora, typ wpisu, status i dokładną datę "
 "publikacji. Kasumi wygeneruje treść w wybranym momencie."
@@ -1065,44 +1065,44 @@ msgstr ""
 "Create your own tasks – choose author, post type, status, and exact "
 "publication date. Kasumi will generate content at the selected time."
 
-#: src/Admin/SettingsPage.php:2391
+#: src/Admin/SettingsPage.php:2392
 msgid "Tytuł roboczy"
 msgstr "Working title"
 
-#: src/Admin/SettingsPage.php:2395
+#: src/Admin/SettingsPage.php:2396
 msgid "np. Raport trendów e-commerce 2026"
 msgstr "e.g. E-commerce trends report 2026"
 
-#: src/Admin/SettingsPage.php:2401
+#: src/Admin/SettingsPage.php:2402
 msgid "Status zadania"
 msgstr "Task status"
 
-#: src/Admin/SettingsPage.php:2406
+#: src/Admin/SettingsPage.php:2407
 msgid "Szkic (bez daty)"
 msgstr "Draft (no date)"
 
-#: src/Admin/SettingsPage.php:2410 src/Admin/SettingsPage.php:2517
-#: src/Admin/SettingsPage.php:2660
+#: src/Admin/SettingsPage.php:2411 src/Admin/SettingsPage.php:2518
+#: src/Admin/SettingsPage.php:2661
 msgid "Zaplanowane"
 msgstr "Scheduled"
 
-#: src/Admin/SettingsPage.php:2418
+#: src/Admin/SettingsPage.php:2419
 msgid "Typ wpisu"
 msgstr "Post type"
 
-#: src/Admin/SettingsPage.php:2425
+#: src/Admin/SettingsPage.php:2426
 msgid "Status WordPress"
 msgstr "WordPress status"
 
-#: src/Admin/SettingsPage.php:2442
+#: src/Admin/SettingsPage.php:2443
 msgid "Autor wpisu"
 msgstr "Post author"
 
-#: src/Admin/SettingsPage.php:2452
+#: src/Admin/SettingsPage.php:2453
 msgid "Data publikacji"
 msgstr "Publication date"
 
-#: src/Admin/SettingsPage.php:2457
+#: src/Admin/SettingsPage.php:2458
 #, fuzzy
 msgid ""
 "Wymagane, gdy status ustawisz na „Zaplanowane”. Czas zostanie zapisany w "
@@ -1111,321 +1111,321 @@ msgstr ""
 "Required when status is set to \"Scheduled\". Time will be saved in "
 "WordPress timezone."
 
-#: src/Admin/SettingsPage.php:2463
+#: src/Admin/SettingsPage.php:2464
 msgid "Model AI (opcjonalnie)"
 msgstr "AI Model (optional)"
 
-#: src/Admin/SettingsPage.php:2467
+#: src/Admin/SettingsPage.php:2468
 msgid "Auto (globalny)"
 msgstr "Auto (global)"
 
-#: src/Admin/SettingsPage.php:2473
+#: src/Admin/SettingsPage.php:2474
 msgid "System prompt (opcjonalnie)"
 msgstr "System prompt (optional)"
 
-#: src/Admin/SettingsPage.php:2477
+#: src/Admin/SettingsPage.php:2478
 msgid "Pozostaw pusty aby użyć globalnego ustawienia."
 msgstr "Leave empty to use global setting."
 
-#: src/Admin/SettingsPage.php:2483
+#: src/Admin/SettingsPage.php:2484
 msgid "Polecenie dla AI"
 msgstr "Instruction for AI"
 
-#: src/Admin/SettingsPage.php:2487
+#: src/Admin/SettingsPage.php:2488
 msgid "Opisz temat, słowa kluczowe, ton wypowiedzi itd."
 msgstr "Describe the topic, keywords, tone of voice, etc."
 
-#: src/Admin/SettingsPage.php:2493 src/Admin/SettingsPage.php:2595
+#: src/Admin/SettingsPage.php:2494 src/Admin/SettingsPage.php:2596
 msgid "Zapisz zadanie"
 msgstr "Save task"
 
-#: src/Admin/SettingsPage.php:2497
+#: src/Admin/SettingsPage.php:2498
 msgid "Wyczyść formularz"
 msgstr "Clear form"
 
-#: src/Admin/SettingsPage.php:2507 src/Admin/SettingsPage.php:2650
+#: src/Admin/SettingsPage.php:2508 src/Admin/SettingsPage.php:2651
 msgid "Status"
 msgstr "Status"
 
-#: src/Admin/SettingsPage.php:2509
+#: src/Admin/SettingsPage.php:2510
 msgid "Wszystkie"
 msgstr "All"
 
-#: src/Admin/SettingsPage.php:2513
+#: src/Admin/SettingsPage.php:2514
 msgid "Szkice"
 msgstr "Drafts"
 
-#: src/Admin/SettingsPage.php:2521 src/Admin/SettingsPage.php:2664
+#: src/Admin/SettingsPage.php:2522 src/Admin/SettingsPage.php:2665
 msgid "W trakcie"
 msgstr "Running"
 
-#: src/Admin/SettingsPage.php:2525
+#: src/Admin/SettingsPage.php:2526
 msgid "Wykonane"
 msgstr "Completed"
 
-#: src/Admin/SettingsPage.php:2529 src/Admin/SettingsPage.php:3268
+#: src/Admin/SettingsPage.php:2530 src/Admin/SettingsPage.php:3269
 msgid "Błędy"
 msgstr "Failed"
 
-#: src/Admin/SettingsPage.php:2536
+#: src/Admin/SettingsPage.php:2537
 msgid "Autor"
 msgstr "Author"
 
-#: src/Admin/SettingsPage.php:2537 src/Admin/SettingsPage.php:2541
+#: src/Admin/SettingsPage.php:2538 src/Admin/SettingsPage.php:2542
 msgid "Wszyscy"
 msgstr "All"
 
-#: src/Admin/SettingsPage.php:2548
+#: src/Admin/SettingsPage.php:2549
 msgid "Szukaj"
 msgstr "Search"
 
-#: src/Admin/SettingsPage.php:2552
+#: src/Admin/SettingsPage.php:2553
 msgid "Szukaj po tytule/poleceniu…"
 msgstr "Search by title/instruction…"
 
-#: src/Admin/SettingsPage.php:2558 src/Admin/SettingsPage.php:3273
+#: src/Admin/SettingsPage.php:2559 src/Admin/SettingsPage.php:3274
 msgid "Odśwież"
 msgstr "Refresh"
 
-#: src/Admin/SettingsPage.php:2565
+#: src/Admin/SettingsPage.php:2566
 msgid "Brak zadań w kolejce."
 msgstr "No tasks in queue."
 
-#: src/Admin/SettingsPage.php:2599 src/Admin/SettingsPage.php:2607
+#: src/Admin/SettingsPage.php:2600 src/Admin/SettingsPage.php:2608
 msgid "Zapisano zadanie."
 msgstr "Task saved."
 
-#: src/Admin/SettingsPage.php:2603
+#: src/Admin/SettingsPage.php:2604
 msgid "Zaktualizuj zadanie"
 msgstr "Update task"
 
-#: src/Admin/SettingsPage.php:2611
+#: src/Admin/SettingsPage.php:2612
 msgid "Zaktualizowano zadanie."
 msgstr "Task updated."
 
-#: src/Admin/SettingsPage.php:2615
+#: src/Admin/SettingsPage.php:2616
 msgid "Usunięto zadanie."
 msgstr "Task deleted."
 
-#: src/Admin/SettingsPage.php:2619
+#: src/Admin/SettingsPage.php:2620
 msgid "Uruchomiono generowanie."
 msgstr "Generation started."
 
-#: src/Admin/SettingsPage.php:2623
+#: src/Admin/SettingsPage.php:2624
 msgid "Coś poszło nie tak. Sprawdź logi i spróbuj ponownie."
 msgstr "Something went wrong. Check logs and try again."
 
-#: src/Admin/SettingsPage.php:2627
+#: src/Admin/SettingsPage.php:2628
 msgid "Wczytywanie…"
 msgstr "Loading…"
 
-#: src/Admin/SettingsPage.php:2631
+#: src/Admin/SettingsPage.php:2632
 msgid "Brak zaplanowanych zadań."
 msgstr "No scheduled tasks."
 
-#: src/Admin/SettingsPage.php:2635
+#: src/Admin/SettingsPage.php:2636
 msgid "Brak daty"
 msgstr "No date"
 
-#: src/Admin/SettingsPage.php:2636
+#: src/Admin/SettingsPage.php:2637
 msgid "Czy na pewno usunąć to zadanie?"
 msgstr "Are you sure you want to delete this task?"
 
-#: src/Admin/SettingsPage.php:2640
+#: src/Admin/SettingsPage.php:2641
 msgid "Edytuj"
 msgstr "Edit"
 
-#: src/Admin/SettingsPage.php:2641
+#: src/Admin/SettingsPage.php:2642
 msgid "Uruchom teraz"
 msgstr "Run now"
 
-#: src/Admin/SettingsPage.php:2646
+#: src/Admin/SettingsPage.php:2647
 msgid "Zadanie"
 msgstr "Task"
 
-#: src/Admin/SettingsPage.php:2654
+#: src/Admin/SettingsPage.php:2655
 msgid "Publikacja"
 msgstr "Publication"
 
-#: src/Admin/SettingsPage.php:2668
+#: src/Admin/SettingsPage.php:2669
 msgid "Zakończone"
 msgstr "Completed"
 
-#: src/Admin/SettingsPage.php:2672
+#: src/Admin/SettingsPage.php:2673
 msgid "Błąd"
 msgstr "Error"
 
-#: src/Admin/SettingsPage.php:2674
+#: src/Admin/SettingsPage.php:2675
 msgid "Podaj tytuł zadania."
 msgstr "Provide a task title."
 
-#: src/Admin/SettingsPage.php:2678 src/Rest/SchedulesController.php:203
+#: src/Admin/SettingsPage.php:2679 src/Rest/SchedulesController.php:203
 msgid "Wybierz autora zadania."
 msgstr "Select an author for this task."
 
-#: src/Admin/SettingsPage.php:2682 src/Rest/SchedulesController.php:215
+#: src/Admin/SettingsPage.php:2683 src/Rest/SchedulesController.php:215
 msgid "Ustaw dokładną datę publikacji."
 msgstr "Set the exact publication date."
 
-#: src/Admin/SettingsPage.php:2769
+#: src/Admin/SettingsPage.php:2770
 msgid "Strona główna"
 msgstr ""
 
-#: src/Admin/SettingsPage.php:2786
+#: src/Admin/SettingsPage.php:2787
 msgid "(Bez tytułu)"
 msgstr ""
 
-#: src/Admin/SettingsPage.php:2947
+#: src/Admin/SettingsPage.php:2948
 msgid "Statystyki użycia API"
 msgstr "API Usage Statistics"
 
-#: src/Admin/SettingsPage.php:2954
+#: src/Admin/SettingsPage.php:2955
 msgid "Wygenerowane posty"
 msgstr "Generated Posts"
 
-#: src/Admin/SettingsPage.php:2961
+#: src/Admin/SettingsPage.php:2962
 msgid "Wygenerowane grafiki"
 msgstr "Generated Images"
 
-#: src/Admin/SettingsPage.php:2968
+#: src/Admin/SettingsPage.php:2969
 msgid "Wygenerowane komentarze"
 msgstr "Generated Comments"
 
-#: src/Admin/SettingsPage.php:2975
+#: src/Admin/SettingsPage.php:2976
 msgid "Całkowita liczba tokenów"
 msgstr "Total Tokens"
 
-#: src/Admin/SettingsPage.php:2994
+#: src/Admin/SettingsPage.php:2995
 msgid "Szacunkowy koszt"
 msgstr "Estimated Cost"
 
-#: src/Admin/SettingsPage.php:2999
+#: src/Admin/SettingsPage.php:3000
 msgid "USD (szacunkowo)"
 msgstr "USD (estimated)"
 
-#: src/Admin/SettingsPage.php:3006
+#: src/Admin/SettingsPage.php:3007
 msgid "Użycie w ciągu ostatnich 30 dni"
 msgstr "Usage in the last 30 days"
 
-#: src/Admin/SettingsPage.php:3054
+#: src/Admin/SettingsPage.php:3055
 msgid "Tokeny"
 msgstr "Tokens"
 
-#: src/Admin/SettingsPage.php:3069
+#: src/Admin/SettingsPage.php:3070
 msgid "Użycie tokenów w czasie"
 msgstr "Token Usage Over Time"
 
-#: src/Admin/SettingsPage.php:3090
+#: src/Admin/SettingsPage.php:3091
 msgid "Koszt (USD)"
 msgstr "Cost (USD)"
 
-#: src/Admin/SettingsPage.php:3103
+#: src/Admin/SettingsPage.php:3104
 msgid "Dzienne koszty API"
 msgstr "Daily API Costs"
 
-#: src/Admin/SettingsPage.php:3124
+#: src/Admin/SettingsPage.php:3125
 msgid "Posty"
 msgstr "Posts"
 
-#: src/Admin/SettingsPage.php:3130
+#: src/Admin/SettingsPage.php:3131
 msgid "Grafiki"
 msgstr "Images"
 
-#: src/Admin/SettingsPage.php:3137
+#: src/Admin/SettingsPage.php:3138
 msgid "Komentarze"
 msgstr "Comments"
 
-#: src/Admin/SettingsPage.php:3151
+#: src/Admin/SettingsPage.php:3152
 msgid "Dzienna aktywność"
 msgstr "Daily Activity"
 
-#: src/Admin/SettingsPage.php:3189
+#: src/Admin/SettingsPage.php:3190
 msgid "Wersja PHP"
 msgstr "PHP version"
 
 #. translators: %s is the PHP extension name.
-#: src/Admin/SettingsPage.php:3208
+#: src/Admin/SettingsPage.php:3209
 #, php-format
 msgid "Rozszerzenie %s"
 msgstr "%s extension"
 
-#: src/Admin/SettingsPage.php:3217
+#: src/Admin/SettingsPage.php:3218
 msgid "dostępne"
 msgstr "available"
 
-#: src/Admin/SettingsPage.php:3223
+#: src/Admin/SettingsPage.php:3224
 msgid "brak"
 msgstr "missing"
 
-#: src/Admin/SettingsPage.php:3250
+#: src/Admin/SettingsPage.php:3251
 msgid "Wszystkie poziomy"
 msgstr "All levels"
 
-#: src/Admin/SettingsPage.php:3254
+#: src/Admin/SettingsPage.php:3255
 msgid "Info"
 msgstr "Info"
 
-#: src/Admin/SettingsPage.php:3261
+#: src/Admin/SettingsPage.php:3262
 msgid "Ostrzeżenia"
 msgstr "Warnings"
 
-#: src/Admin/SettingsPage.php:3279
+#: src/Admin/SettingsPage.php:3280
 msgid "Brak logów."
 msgstr "No logs."
 
-#: src/Admin/SettingsPage.php:3284
+#: src/Admin/SettingsPage.php:3285
 msgid "Data/Czas"
 msgstr "Date/Time"
 
-#: src/Admin/SettingsPage.php:3288
+#: src/Admin/SettingsPage.php:3289
 msgid "Poziom"
 msgstr "Level"
 
-#: src/Admin/SettingsPage.php:3292
+#: src/Admin/SettingsPage.php:3293
 msgid "Wiadomość"
 msgstr "Message"
 
-#: src/Admin/SettingsPage.php:3293
+#: src/Admin/SettingsPage.php:3294
 msgid "Kontekst"
 msgstr "Context"
 
-#: src/Admin/SettingsPage.php:3314
+#: src/Admin/SettingsPage.php:3315
 msgid "Pokaż"
 msgstr "Show"
 
-#: src/Admin/SettingsPage.php:3368
+#: src/Admin/SettingsPage.php:3369
 msgid "Eksportuj, importuj lub zresetuj ustawienia wtyczki."
 msgstr "Export, import, or reset plugin settings."
 
-#: src/Admin/SettingsPage.php:3374
+#: src/Admin/SettingsPage.php:3375
 msgid "Eksportuj ustawienia"
 msgstr "Export settings"
 
-#: src/Admin/SettingsPage.php:3380
+#: src/Admin/SettingsPage.php:3381
 msgid "Importuj ustawienia"
 msgstr "Import settings"
 
-#: src/Admin/SettingsPage.php:3386
+#: src/Admin/SettingsPage.php:3387
 msgid "Resetuj do domyślnych"
 msgstr "Reset to defaults"
 
-#: src/Admin/SettingsPage.php:3424
+#: src/Admin/SettingsPage.php:3425
 msgid "Ustawienia zostały wyeksportowane."
 msgstr "Settings have been exported."
 
-#: src/Admin/SettingsPage.php:3431 src/Admin/SettingsPage.php:3440
+#: src/Admin/SettingsPage.php:3432 src/Admin/SettingsPage.php:3441
 msgid "Błąd podczas eksportu ustawień."
 msgstr "Error exporting settings."
 
-#: src/Admin/SettingsPage.php:3477 src/Options.php:339
+#: src/Admin/SettingsPage.php:3478 src/Options.php:339
 msgid "Ustawienia zostały zaimportowane."
 msgstr "Settings have been imported."
 
-#: src/Admin/SettingsPage.php:3485 src/Admin/SettingsPage.php:3494
+#: src/Admin/SettingsPage.php:3486 src/Admin/SettingsPage.php:3495
 msgid "Błąd podczas importu ustawień."
 msgstr "Error importing settings."
 
-#: src/Admin/SettingsPage.php:3510
+#: src/Admin/SettingsPage.php:3511
 msgid ""
 "Czy na pewno chcesz zresetować wszystkie ustawienia do domyślnych? Ta "
 "operacja jest nieodwracalna."
@@ -1433,11 +1433,11 @@ msgstr ""
 "Are you sure you want to reset all settings to defaults? This operation is "
 "irreversible."
 
-#: src/Admin/SettingsPage.php:3528
+#: src/Admin/SettingsPage.php:3529
 msgid "Ustawienia zostały zresetowane."
 msgstr "Settings have been reset."
 
-#: src/Admin/SettingsPage.php:3536 src/Admin/SettingsPage.php:3546
+#: src/Admin/SettingsPage.php:3537 src/Admin/SettingsPage.php:3547
 msgid "Błąd podczas resetowania ustawień."
 msgstr "Error resetting settings."
 

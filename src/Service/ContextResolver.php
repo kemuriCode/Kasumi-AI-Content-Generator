@@ -99,10 +99,10 @@ class ContextResolver {
 			$candidates[] = array(
 				'title'    => get_bloginfo( 'name' ),
 				'url'      => $home_url,
-				'summary'  => __( 'Strona główna Kasumi – generator treści i kodów QR.', 'kasumi-full-ai-content-generator' ),
+				'summary'  => __( 'Strona główna Kasumi – generator treści i kodów QR.', 'kasumi-ai-generator' ),
 				'anchors'  => array(
-					__( 'Kasumi AI', 'kasumi-full-ai-content-generator' ),
-					__( 'generator treści Kasumi', 'kasumi-full-ai-content-generator' ),
+					__( 'Kasumi AI', 'kasumi-ai-generator' ),
+					__( 'generator treści Kasumi', 'kasumi-ai-generator' ),
 				),
 				'priority' => 'secondary',
 			);
@@ -200,12 +200,12 @@ class ContextResolver {
 		if ( ! empty( $anchors ) ) {
 			return sprintf(
 				/* translators: %s: comma separated list of preferred phrases. */
-				__( 'Preferowane frazy: %s.', 'kasumi-full-ai-content-generator' ),
+				__( 'Preferowane frazy: %s.', 'kasumi-ai-generator' ),
 				implode( ', ', $anchors )
 			);
 		}
 
-		return __( 'Ręcznie wskazany link kluczowy.', 'kasumi-full-ai-content-generator' );
+		return __( 'Ręcznie wskazany link kluczowy.', 'kasumi-ai-generator' );
 	}
 
 	/**

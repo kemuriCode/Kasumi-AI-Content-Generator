@@ -106,7 +106,7 @@ class SchedulesController {
 		$existing = $this->schedule_service->find( $id );
 
 		if ( ! $existing ) {
-			return new WP_REST_Response( new WP_Error( 'kag_schedule_not_found', __( 'Nie znaleziono zadania.', 'kasumi-full-ai-content-generator' ), array( 'status' => 404 ) ) );
+			return new WP_REST_Response( new WP_Error( 'kag_schedule_not_found', __( 'Nie znaleziono zadania.', 'kasumi-ai-generator' ), array( 'status' => 404 ) ) );
 		}
 
 		$payload = $this->extract_payload( $request, true );
@@ -125,7 +125,7 @@ class SchedulesController {
 		$id = (int) $request['id'];
 
 		if ( ! $this->schedule_service->delete( $id ) ) {
-			return new WP_REST_Response( new WP_Error( 'kag_schedule_not_found', __( 'Nie znaleziono zadania.', 'kasumi-full-ai-content-generator' ), array( 'status' => 404 ) ) );
+			return new WP_REST_Response( new WP_Error( 'kag_schedule_not_found', __( 'Nie znaleziono zadania.', 'kasumi-ai-generator' ), array( 'status' => 404 ) ) );
 		}
 
 		return new WP_REST_Response( array( 'deleted' => true ) );
@@ -136,7 +136,7 @@ class SchedulesController {
 		$existing = $this->schedule_service->find( $id );
 
 		if ( ! $existing ) {
-			return new WP_REST_Response( new WP_Error( 'kag_schedule_not_found', __( 'Nie znaleziono zadania.', 'kasumi-full-ai-content-generator' ), array( 'status' => 404 ) ) );
+			return new WP_REST_Response( new WP_Error( 'kag_schedule_not_found', __( 'Nie znaleziono zadania.', 'kasumi-ai-generator' ), array( 'status' => 404 ) ) );
 		}
 
 		$success = $this->schedule_service->run_now( $id );
@@ -188,7 +188,7 @@ class SchedulesController {
 			if ( '' === $title ) {
 				return new WP_Error(
 					'kag_schedule_missing_title',
-					__( 'Tytuł zadania jest wymagany.', 'kasumi-full-ai-content-generator' ),
+					__( 'Tytuł zadania jest wymagany.', 'kasumi-ai-generator' ),
 					array( 'status' => 400 )
 				);
 			}
@@ -200,7 +200,7 @@ class SchedulesController {
 			if ( $author <= 0 ) {
 				return new WP_Error(
 					'kag_schedule_missing_author',
-					__( 'Wybierz autora zadania.', 'kasumi-full-ai-content-generator' ),
+					__( 'Wybierz autora zadania.', 'kasumi-ai-generator' ),
 					array( 'status' => 400 )
 				);
 			}
@@ -212,7 +212,7 @@ class SchedulesController {
 			if ( '' === $date ) {
 				return new WP_Error(
 					'kag_schedule_missing_date',
-					__( 'Ustaw dokładną datę publikacji.', 'kasumi-full-ai-content-generator' ),
+					__( 'Ustaw dokładną datę publikacji.', 'kasumi-ai-generator' ),
 					array( 'status' => 400 )
 				);
 			}

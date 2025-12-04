@@ -30,7 +30,7 @@ use function wp_parse_args;
  */
 final class Options {
 	public const OPTION_NAME = 'kasumi_ai_options';
-	public const OPTION_GROUP = 'kasumi-full-ai-content-generator-settings';
+	public const OPTION_GROUP = 'kasumi-ai-generator-settings';
 
 	/**
 	 * Zwraca pełną tablicę ustawień z domyślnymi wartościami.
@@ -68,7 +68,7 @@ final class Options {
 			'pixabay_api_key'         => '',
 			'system_prompt'           => __(
 				"Jestem doświadczonym copywriterem i specjalistą od content marketingu. Tworzę teksty techniczne, marketingowe i kreatywne tak, aby były merytoryczne, zrozumiałe i użyteczne dla czytelnika.\n\nPisz w pierwszej osobie, w tonie profesjonalnym, ale spokojnym i przystępnym. Unikaj przesadnego entuzjazmu i nachalnego języka sprzedażowego. Zadbaj o naturalny rytm: mieszaj krótsze i dłuższe zdania, a akapity buduj tak, aby prowadziły czytelnika krok po kroku przez temat.\n\nTraktuj słowa kluczowe jak naturalny element wypowiedzi, nie upychaj ich na siłę. Pokazuj zarówno plusy, jak i minusy rozwiązań. Wspieraj tezy konkretnymi przykładami oraz odwołaniami do praktyki.\n\nDbaj o logiczną strukturę z nagłówkiem głównym i sekcjami z podtytułami, stosuj listy tam, gdzie poprawiają czytelność i pogrubiaj tylko najważniejsze informacje.\n\nUnikaj wstawek o sztucznej inteligencji i metakomentarzy o tym, jak tekst powstał. Tekst ma brzmieć jak napisany przez człowieka. Nie używaj pauz typograficznych, stosuj zwykły myślnik.",
-				'kasumi-full-ai-content-generator'
+				'kasumi-ai-generator'
 			),
 			'topic_strategy'          => '',
 			'target_category'         => '',
@@ -317,14 +317,14 @@ final class Options {
 		if ( json_last_error() !== JSON_ERROR_NONE ) {
 			return array(
 				'success' => false,
-				'message' => __( 'Nieprawidłowy format JSON.', 'kasumi-full-ai-content-generator' ),
+				'message' => __( 'Nieprawidłowy format JSON.', 'kasumi-ai-generator' ),
 			);
 		}
 
 		if ( ! is_array( $data ) ) {
 			return array(
 				'success' => false,
-				'message' => __( 'Dane muszą być tablicą.', 'kasumi-full-ai-content-generator' ),
+				'message' => __( 'Dane muszą być tablicą.', 'kasumi-ai-generator' ),
 			);
 		}
 
@@ -336,7 +336,7 @@ final class Options {
 
 		return array(
 			'success' => true,
-			'message' => __( 'Ustawienia zostały zaimportowane.', 'kasumi-full-ai-content-generator' ),
+			'message' => __( 'Ustawienia zostały zaimportowane.', 'kasumi-ai-generator' ),
 			'data'    => $sanitized,
 		);
 	}

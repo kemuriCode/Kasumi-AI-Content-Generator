@@ -2,7 +2,7 @@
 Contributors: kemuricodes
 Donate link: https://kemuri.codes
 Requires at least: 6.0
-Tested up to: 6.8
+Tested up to: 6.9
 Requires PHP: 8.1
 Stable tag: 0.1.8
 License: GPLv2 or later
@@ -136,7 +136,7 @@ The Diagnostics tab and admin notices alert you if PHP < 8.1 or extensions like 
   * Dodano nagłówek License (GPLv2 or later)
   * Usunięto przestarzałą funkcję load_plugin_textdomain()
   * Zaktualizowano "Tested up to" do WordPress 6.8
-  * Zmieniono Text Domain na kasumi-full-ai-content-generator zgodnie ze slugiem wtyczki
+  * Zmieniono Text Domain na kasumi-ai-generator zgodnie ze slugiem wtyczki
   * Ujednolicono nazwę wtyczki w readme.txt
 
 = 0.1.1 =

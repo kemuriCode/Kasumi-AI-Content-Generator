@@ -108,7 +108,7 @@ class Scheduler {
 		StatusStore::merge(
 			array(
 				'next_post_run'     => null,
-				'automation_notice' => __( 'Automatyzacja została ręcznie zatrzymana. Uruchom ją ponownie, aby wznowić publikację.', 'kasumi-full-ai-content-generator' ),
+				'automation_notice' => __( 'Automatyzacja została ręcznie zatrzymana. Uruchom ją ponownie, aby wznowić publikację.', 'kasumi-ai-generator' ),
 			)
 		);
 	}
@@ -232,11 +232,11 @@ class Scheduler {
 
 	private function automation_block_reason( bool $respect_manual_pause = true ): ?string {
 		if ( $respect_manual_pause && $this->is_paused() ) {
-			return __( 'Automatyzacja jest wstrzymana – włącz ją w panelu Kasumi, aby wznowić harmonogram.', 'kasumi-full-ai-content-generator' );
+			return __( 'Automatyzacja jest wstrzymana – włącz ją w panelu Kasumi, aby wznowić harmonogram.', 'kasumi-ai-generator' );
 		}
 
 		if ( ! Options::get( 'plugin_enabled', true ) ) {
-			return __( 'Automatyzacja jest wyłączona – włącz moduł Kasumi w sekcji „Pozostałe”.', 'kasumi-full-ai-content-generator' );
+			return __( 'Automatyzacja jest wyłączona – włącz moduł Kasumi w sekcji „Pozostałe”.', 'kasumi-ai-generator' );
 		}
 
 		$provider   = (string) Options::get( 'ai_provider', 'openai' );
@@ -244,15 +244,15 @@ class Scheduler {
 		$has_gemini = '' !== trim( (string) Options::get( 'gemini_api_key', '' ) );
 
 		if ( 'openai' === $provider && ! $has_openai ) {
-			return __( 'Dodaj klucz API OpenAI, aby uruchomić automatyczne generowanie.', 'kasumi-full-ai-content-generator' );
+			return __( 'Dodaj klucz API OpenAI, aby uruchomić automatyczne generowanie.', 'kasumi-ai-generator' );
 		}
 
 		if ( 'gemini' === $provider && ! $has_gemini ) {
-			return __( 'Dodaj klucz API Gemini, aby uruchomić automatyczne generowanie.', 'kasumi-full-ai-content-generator' );
+			return __( 'Dodaj klucz API Gemini, aby uruchomić automatyczne generowanie.', 'kasumi-ai-generator' );
 		}
 
 		if ( 'auto' === $provider && ! $has_openai && ! $has_gemini ) {
-			return __( 'Dodaj przynajmniej jeden klucz API (OpenAI lub Gemini), aby uruchomić automat.', 'kasumi-full-ai-content-generator' );
+			return __( 'Dodaj przynajmniej jeden klucz API (OpenAI lub Gemini), aby uruchomić automat.', 'kasumi-ai-generator' );
 		}
 
 		return null;
