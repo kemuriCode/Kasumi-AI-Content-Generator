@@ -79,7 +79,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: '8.2'
           extensions: curl, mbstring, imagick
 
       - name: Get version
@@ -158,4 +158,3 @@ jobs:
           echo "✅ Build completed successfully!"
           echo "📦 Package: kasumi-ai-generator-${{ steps.get_version.outputs.version }}.zip"
           echo "📊 Size: $(du -h kasumi-ai-generator-${{ steps.get_version.outputs.version }}.zip | cut -f1)"
-
