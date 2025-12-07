@@ -5,7 +5,7 @@
 
 set -e
 
-PLUGIN_NAME="kasumi-ai-generator"
+PLUGIN_NAME="kasumi-ai-studio"
 # Przejdź do katalogu głównego wtyczki (jeden poziom wyżej od scripts/)
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PLUGIN_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"

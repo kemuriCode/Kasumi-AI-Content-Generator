@@ -1,6 +1,6 @@
 {
   "name": "kasumi/ai-generator",
-  "description": "Kasumi – Full AI Content Generator",
+  "description": "Kasumi – Full AI Studio",
   "type": "wordpress-plugin",
   "license": "GPL-2.0-or-later",
   "require": {

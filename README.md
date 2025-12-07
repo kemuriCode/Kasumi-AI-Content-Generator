@@ -1,4 +1,4 @@
-# Kasumi AI Content Generator
+# Kasumi AI Studio
 
 WordPress plugin that automates post, comment, and image generation using OpenAI and Google Gemini.
 

@@ -50,20 +50,20 @@ final class AutomationStatus {
 
 		$status_label = __(
 			'Automatyzacja aktywna',
-			'kasumi-ai-generator'
+			'kasumi-ai-studio'
 		);
 
 		if ( $paused ) {
 			$status_label = __(
 				'Automatyzacja zatrzymana',
-				'kasumi-ai-generator'
+				'kasumi-ai-studio'
 			);
 		}
 
 		if ( '' !== $block_reason ) {
 			$status_label = __(
 				'Automatyzacja wymaga uwagi',
-				'kasumi-ai-generator'
+				'kasumi-ai-studio'
 			);
 		}
 
@@ -106,7 +106,7 @@ final class AutomationStatus {
 				? $last_error
 				: __(
 					'Brak błędów',
-					'kasumi-ai-generator'
+					'kasumi-ai-studio'
 				),
 			'fetched_at'    => current_time( 'timestamp' ),
 		);
@@ -124,7 +124,7 @@ final class AutomationStatus {
 			'state'         => 'unavailable',
 			'status_label'  => __(
 				'Automatyzacja niedostępna',
-				'kasumi-ai-generator'
+				'kasumi-ai-studio'
 			),
 			'block_reason'  => '',
 			'notice'        => '',
@@ -141,7 +141,7 @@ final class AutomationStatus {
 			'last_run'      => self::format_timestamp( null, false ),
 			'last_error'    => __(
 				'Brak błędów',
-				'kasumi-ai-generator'
+				'kasumi-ai-studio'
 			),
 			'fetched_at'    => current_time( 'timestamp' ),
 		);
@@ -156,7 +156,7 @@ final class AutomationStatus {
 				'timestamp' => null,
 				'label'     => __(
 					'Brak',
-					'kasumi-ai-generator'
+					'kasumi-ai-studio'
 				),
 			);
 		}
@@ -170,13 +170,13 @@ final class AutomationStatus {
 			if ( $timestamp > $now ) {
 				$relative = sprintf(
 					/* translators: %s human readable time diff. */
-					__( '(za %s)', 'kasumi-ai-generator' ),
+					__( '(za %s)', 'kasumi-ai-studio' ),
 					human_time_diff( $now, $timestamp )
 				);
 			} elseif ( $timestamp < $now ) {
 				$relative = sprintf(
 					/* translators: %s human readable time diff. */
-					__( '(%s temu)', 'kasumi-ai-generator' ),
+					__( '(%s temu)', 'kasumi-ai-studio' ),
 					human_time_diff( $timestamp, $now )
 				);
 			}

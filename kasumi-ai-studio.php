@@ -1,13 +1,13 @@
 <?php
 /**
- * Plugin Name: KasumiAI - Full AI Content Generator
- * Plugin URI: https://wordpress.org/plugins/kasumi-ai-generator
+ * Plugin Name: KasumiAI - Full AI Studio
+ * Plugin URI: https://wordpress.org/plugins/kasumi-ai-studio
  * Description: Nowoczesna wtyczka AI z pełnym wsparciem dla najnowszych modeli GPT-5.1, GPT-4o (OpenAI) oraz Gemini 3 (Google). Obsługuje także starsze modele (GPT-4.1, GPT-4o-mini, Gemini 2.0 Flash) - wybierz model odpowiedni dla Ciebie!
  * Author: Marcin Dymek (KemuriCodes)
- * Version: 0.1.8.4
+ * Version: 0.1.8.7
  * License: GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain: kasumi-ai-generator
+ * Text Domain: kasumi-ai-studio
  *
  * @package Kasumi\AIGenerator
  */
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'KASUMI_AI_VERSION', '0.1.8.4' );
+define( 'KASUMI_AI_VERSION', '0.1.8.7' );
 define( 'KASUMI_AI_PATH', plugin_dir_path( __FILE__ ) );
 define( 'KASUMI_AI_URL', plugin_dir_url( __FILE__ ) );
 define( 'KASUMI_AI_DB_VERSION', '2024112701' );
@@ -29,7 +29,7 @@ if ( version_compare( PHP_VERSION, '8.2', '<' ) ) {
 		static function (): void {
 			printf(
 				'<div class="notice notice-error"><p>%s</p></div>',
-				esc_html__( 'Kasumi AI wymaga PHP 8.2 lub wyższej wersji. Zaktualizuj środowisko, aby aktywować wtyczkę.', 'kasumi-ai-generator' )
+				esc_html__( 'Kasumi AI wymaga PHP 8.2 lub wyższej wersji. Zaktualizuj środowisko, aby aktywować wtyczkę.', 'kasumi-ai-studio' )
 			);
 		}
 	);
@@ -45,7 +45,7 @@ if ( ! file_exists( $kasumi_autoload ) ) {
 		static function (): void {
 			printf(
 				'<div class="notice notice-error"><p>%s</p></div>',
-				esc_html__( 'Brak katalogu vendor. Uruchom composer install w folderze wtyczki Kasumi.', 'kasumi-ai-generator' )
+				esc_html__( 'Brak katalogu vendor. Uruchom composer install w folderze wtyczki Kasumi.', 'kasumi-ai-studio' )
 			);
 		}
 	);
@@ -103,7 +103,7 @@ add_action(
 						wp_kses_post(
 							sprintf(
 								/* translators: %s list of extensions */
-								__( 'Kasumi AI wymaga rozszerzeń PHP: %s. Skontaktuj się z administratorem serwera.', 'kasumi-ai-generator' ),
+								__( 'Kasumi AI wymaga rozszerzeń PHP: %s. Skontaktuj się z administratorem serwera.', 'kasumi-ai-studio' ),
 								implode( ', ', $missing )
 							)
 						)
@@ -132,7 +132,7 @@ add_filter(
 		$settings_link = sprintf(
 			'<a href="%s">%s</a>',
 			esc_url( admin_url( 'options-general.php?page=' . SettingsPage::get_page_slug() ) ),
-			esc_html__( 'Ustawienia', 'kasumi-ai-generator' )
+			esc_html__( 'Ustawienia', 'kasumi-ai-studio' )
 		);
 
 		array_unshift( $links, $settings_link );
@@ -153,7 +153,7 @@ add_filter(
 			'coffee' => sprintf(
 				'<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
 				esc_url( 'https://buymeacoffee.com/kemuricodes' ),
-				esc_html__( 'Postaw kawę', 'kasumi-ai-generator' )
+				esc_html__( 'Postaw kawę', 'kasumi-ai-studio' )
 			),
 		);
 

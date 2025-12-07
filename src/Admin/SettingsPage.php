@@ -69,17 +69,18 @@ use function wp_send_json_error;
 use function wp_send_json_success;
 use function wp_strip_all_tags;
 use function wp_unslash;
+use function wp_verify_nonce;
 
 use const DAY_IN_SECONDS;
 use const MINUTE_IN_SECONDS;
 use const WEEK_IN_SECONDS;
 
 /**
- * Panel konfiguracyjny modułu AI Content.
+ * Panel konfiguracyjny modułu AI Studio.
  */
 class SettingsPage
 {
-    private const PAGE_SLUG = "kasumi-ai-generator-ai-content";
+    private const PAGE_SLUG = "kasumi-ai-studio";
     private const SUPPORT_DISMISS_META = "kasumi_ai_support_hidden_until";
     private ?array $automation_snapshot = null;
 
@@ -95,8 +96,8 @@ class SettingsPage
     {
         add_submenu_page(
             "options-general.php",
-            __("AI Content", "kasumi-ai-generator"),
-            __("AI Content", "kasumi-ai-generator"),
+            __("AI Studio", "kasumi-ai-studio"),
+            __("AI Studio", "kasumi-ai-studio"),
             "manage_options",
             self::PAGE_SLUG,
             [$this, "render_page"],
@@ -140,7 +141,7 @@ class SettingsPage
             wp_die(
                 esc_html__(
                     "Brak uprawnień.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
             );
         }
@@ -174,7 +175,7 @@ class SettingsPage
             wp_die(
                 esc_html__(
                     "Brak uprawnień.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
             );
         }
@@ -191,7 +192,7 @@ class SettingsPage
                 "error",
                 __(
                     "Automatyzacja jest chwilowo niedostępna. Odśwież stronę i spróbuj ponownie.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
             );
             wp_safe_redirect($redirect);
@@ -206,21 +207,21 @@ class SettingsPage
                 $scheduler->resume();
                 $message = __(
                     "Automatyzacja została uruchomiona.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 );
                 break;
             case "stop":
                 $scheduler->pause();
                 $message = __(
                     "Automatyzacja została zatrzymana.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 );
                 break;
             case "restart":
                 $scheduler->restart();
                 $message = __(
                     "Zadania WP-Cron zostały odświeżone.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 );
                 break;
             case "run-post":
@@ -229,7 +230,7 @@ class SettingsPage
                         "error",
                         __(
                             "Nie udało się wymusić publikacji. Sprawdź konfigurację API i logi.",
-                            "kasumi-ai-generator",
+                            "kasumi-ai-studio",
                         ),
                     );
                     wp_safe_redirect($redirect);
@@ -237,14 +238,14 @@ class SettingsPage
                 }
                 $message = __(
                     "Rozpoczęto natychmiastowe generowanie posta.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 );
                 break;
             case "run-schedules":
                 $processed = $scheduler->run_manual_queue_now(false, 5);
                 $message = __(
                     "W kolejce zadań sprawdzono oczekujące wpisy.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 );
                 if ($processed > 0) {
                     $message .=
@@ -253,7 +254,7 @@ class SettingsPage
                             /* translators: %d: number of schedule jobs forced to run. */
                             __(
                                 "Wymuszono %d zadań.",
-                                "kasumi-ai-generator",
+                                "kasumi-ai-studio",
                             ),
                             $processed,
                         );
@@ -263,7 +264,7 @@ class SettingsPage
                 $type = "error";
                 $message = __(
                     "Nieobsługiwana akcja automatyzacji.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 );
         }
 
@@ -281,16 +282,19 @@ class SettingsPage
             wp_send_json_error([
                 "message" => __(
                     "Brak uprawnień do zapisywania ustawień.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
             ], 403);
         }
 
         check_ajax_referer("kasumi_ai_save_settings", "nonce");
 
+        // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+        // Input is validated by check_ajax_referer() and sanitized by map_deep() below
         $raw_values = isset($_POST[Options::OPTION_NAME])
             ? wp_unslash($_POST[Options::OPTION_NAME])
             : [];
+        // phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
         if (is_array($raw_values)) {
             $raw_values = map_deep($raw_values, "sanitize_text_field");
@@ -304,7 +308,7 @@ class SettingsPage
         wp_send_json_success([
             "message" => __(
                 "Ustawienia zostały zapisane.",
-                "kasumi-ai-generator",
+                "kasumi-ai-studio",
             ),
             "nonce" => wp_create_nonce("kasumi_ai_save_settings"),
             "settingsNonce" => wp_create_nonce(
@@ -352,11 +356,11 @@ class SettingsPage
             "i18n" => [
                 "loading" => __(
                     "Generowanie w toku…",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
                 "error" => __(
                     "Coś poszło nie tak. Spróbuj ponownie.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
             ],
         ]);
@@ -382,19 +386,19 @@ class SettingsPage
             "i18n" => [
                 "fetching" => __(
                     "Ładowanie modeli…",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
                 "noModels" => __(
                     "Brak modeli",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
                 "error" => __(
                     "Nie udało się pobrać modeli.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
                 "primaryLinkSelect" => __(
                     "Najpierw wybierz stronę z listy.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
             ],
             "settingsSave" => [
@@ -403,11 +407,11 @@ class SettingsPage
                 "nonce" => wp_create_nonce("kasumi_ai_save_settings"),
                 "messageSuccess" => __(
                     "Ustawienia zostały zapisane.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
                 "messageError" => __(
                     "Nie udało się zapisać ustawień. Spróbuj ponownie.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
             ],
             "scheduler" => $this->get_scheduler_settings(),
@@ -415,6 +419,7 @@ class SettingsPage
             "logs" => [
                 "filterSelector" => "#kasumi-log-level-filter",
                 "refreshSelector" => "#kasumi-refresh-logs",
+                "nonce" => wp_create_nonce("kasumi_ai_logs_filter"),
             ],
             "settingsActions" => [
                 "restUrl" => esc_url_raw(rest_url("kasumi/v1/settings")),
@@ -422,32 +427,32 @@ class SettingsPage
                 "messages" => [
                     "exportSuccess" => __(
                         "Ustawienia zostały wyeksportowane.",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
                     "exportError" => __(
                         "Błąd podczas eksportu ustawień.",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
                     "importSuccess" => __(
                         "Ustawienia zostały zaimportowane.",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
                     "importError" => __(
                         "Błąd podczas importu ustawień.",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
                     "resetSuccess" => __(
                         "Ustawienia zostały zresetowane.",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
                     "resetError" => __(
                         "Błąd podczas resetowania ustawień.",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
                 ],
                 "confirmReset" => __(
                     "Czy na pewno chcesz zresetować wszystkie ustawienia do domyślnych? Ta operacja jest nieodwracalna.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
             ],
         ]);
@@ -571,14 +576,14 @@ class SettingsPage
             $section,
             wp_kses_post(
                 '<i class="bi bi-key"></i> ' .
-                    __("Klucze API", "kasumi-ai-generator"),
+                    __("Klucze API", "kasumi-ai-studio"),
             ),
             function (): void {
                 printf(
                     '<p><i class="bi bi-info-circle"></i> %s</p>',
                     esc_html__(
                         "Dodaj klucze OpenAI i Pixabay wykorzystywane do generowania treści i grafik.",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
                 );
             },
@@ -588,27 +593,27 @@ class SettingsPage
         // Dostawca AI - PIERWSZE POLE
         $this->add_field(
             "ai_provider",
-            __("Dostawca AI", "kasumi-ai-generator"),
+            __("Dostawca AI", "kasumi-ai-studio"),
             $section,
             [
                 "type" => "select",
                 "choices" => [
                     "openai" => __(
                         "Tylko OpenAI",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
                     "gemini" => __(
                         "Tylko Google Gemini",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
                     "auto" => __(
                         "Automatyczny (OpenAI → Gemini)",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
                 ],
                 "description" => __(
                     "W trybie automatycznym system próbuje najpierw OpenAI, a w razie braku odpowiedzi przełącza się na Gemini.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
                 "class" => "kasumi-provider-selector",
             ],
@@ -617,7 +622,7 @@ class SettingsPage
         // Pola OpenAI - pokazywane gdy wybrano OpenAI lub Auto
         $this->add_field(
             "openai_api_key",
-            __("OpenAI API Key", "kasumi-ai-generator"),
+            __("OpenAI API Key", "kasumi-ai-studio"),
             $section,
             [
                 "type" => "password",
@@ -626,20 +631,20 @@ class SettingsPage
                     /* translators: %s is a link to the OpenAI dashboard. */
                     __(
                         "Pobierz klucz w %s.",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
                     sprintf(
                         '<a href="%s" target="_blank" rel="noopener">%s</a>',
                         esc_url("https://platform.openai.com/account/api-keys"),
                         esc_html__(
                             "panelu OpenAI",
-                            "kasumi-ai-generator",
+                            "kasumi-ai-studio",
                         ),
                     ),
                 ),
                 "help" => __(
                     "Umożliwia korzystanie z modeli GPT-4.1 / GPT-4o.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
                 "class" => "kasumi-openai-fields",
             ],
@@ -647,14 +652,14 @@ class SettingsPage
 
         $this->add_field(
             "openai_model",
-            __("Model OpenAI", "kasumi-ai-generator"),
+            __("Model OpenAI", "kasumi-ai-studio"),
             $section,
             [
                 "type" => "model-select",
                 "provider" => "openai",
                 "help" => __(
                     "Lista modeli z konta OpenAI (np. GPT-4.1, GPT-4o).",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
                 "class" => "kasumi-openai-fields",
             ],
@@ -663,7 +668,7 @@ class SettingsPage
         // Pola Gemini - pokazywane gdy wybrano Gemini lub Auto
         $this->add_field(
             "gemini_api_key",
-            __("Gemini API Key", "kasumi-ai-generator"),
+            __("Gemini API Key", "kasumi-ai-studio"),
             $section,
             [
                 "type" => "password",
@@ -672,20 +677,20 @@ class SettingsPage
                     /* translators: %s is a link to the Google AI Studio page. */
                     __(
                         "Wygeneruj klucz w %s.",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
                     sprintf(
                         '<a href="%s" target="_blank" rel="noopener">%s</a>',
                         esc_url("https://aistudio.google.com/app/apikey"),
                         esc_html__(
                             "Google AI Studio",
-                            "kasumi-ai-generator",
+                            "kasumi-ai-studio",
                         ),
                     ),
                 ),
                 "help" => __(
                     "Obsługuje modele Gemini 2.x flash/pro.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
                 "class" => "kasumi-gemini-fields",
             ],
@@ -693,31 +698,31 @@ class SettingsPage
 
         $this->add_field(
             "system_prompt",
-            __("System prompt", "kasumi-ai-generator"),
+            __("System prompt", "kasumi-ai-studio"),
             $section,
             [
                 "type" => "textarea",
                 "description" => __(
                     "Instrukcje przekazywane jako system prompt dla modeli OpenAI i Gemini.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
             ],
         );
 
         $this->add_field(
             "gemini_model",
-            __("Model Gemini", "kasumi-ai-generator"),
+            __("Model Gemini", "kasumi-ai-studio"),
             $section,
             [
                 "type" => "model-select",
                 "provider" => "gemini",
                 "description" => __(
                     "Wybierz model z Google Gemini (flash, pro, image).",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
                 "help" => __(
                     "Lista pobierana jest bezpośrednio z API na podstawie klucza.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
                 "class" => "kasumi-gemini-fields",
             ],
@@ -726,7 +731,7 @@ class SettingsPage
         // Pixabay API Key - NA KOŃCU
         $this->add_field(
             "pixabay_api_key",
-            __("Pixabay API Key", "kasumi-ai-generator"),
+            __("Pixabay API Key", "kasumi-ai-studio"),
             $section,
             [
                 "placeholder" => "12345678-abcdef...",
@@ -734,12 +739,12 @@ class SettingsPage
                     /* translators: %s link to Pixabay API page. */
                     __(
                         'Klucz API Pixabay używany do pobierania obrazów w trybie serwerowym. Darmowe API pobierzesz z %s.',
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
                     sprintf(
                         '<a href="%1$s" target="_blank" rel="noopener">%2$s</a>',
                         esc_url("https://pixabay.com/api/docs/"),
-                        esc_html__("strony Pixabay", "kasumi-ai-generator"),
+                        esc_html__("strony Pixabay", "kasumi-ai-studio"),
                     ),
                 ),
             ],
@@ -757,7 +762,7 @@ class SettingsPage
                 '<i class="bi bi-file-earmark-text"></i> ' .
                     __(
                         "Konfiguracja treści",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
             ),
             function (): void {
@@ -765,7 +770,7 @@ class SettingsPage
                     '<p><i class="bi bi-info-circle"></i> %s</p>',
                     esc_html__(
                         "Ogólne ustawienia generowania wpisów, kategorii i harmonogramu.",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
                 );
             },
@@ -774,79 +779,79 @@ class SettingsPage
 
         $this->add_field(
             "topic_strategy",
-            __("Strategia tematów", "kasumi-ai-generator"),
+            __("Strategia tematów", "kasumi-ai-studio"),
             $section,
             [
                 "description" => __(
                     "Krótka instrukcja na temat tematów artykułów.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
             ],
         );
 
         $this->add_field(
             "target_category",
-            __("Kategoria docelowa", "kasumi-ai-generator"),
+            __("Kategoria docelowa", "kasumi-ai-studio"),
             $section,
             [
                 "type" => "category-select",
                 "description" => __(
                     "Wybierz kategorię, która ma otrzymywać nowe treści.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
             ],
         );
 
         $this->add_field(
             "default_post_status",
-            __("Status wpisów", "kasumi-ai-generator"),
+            __("Status wpisów", "kasumi-ai-studio"),
             $section,
             [
                 "type" => "select",
                 "choices" => [
-                    "draft" => __("Szkic", "kasumi-ai-generator"),
+                    "draft" => __("Szkic", "kasumi-ai-studio"),
                     "publish" => __(
                         "Publikuj automatycznie",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
                 ],
                 "description" => __(
                     "Określ czy wpis ma być szkicem czy publikacją.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
             ],
         );
 
         $this->add_field(
             "default_author_mode",
-            __("Tryb domyślnego autora", "kasumi-ai-generator"),
+            __("Tryb domyślnego autora", "kasumi-ai-studio"),
             $section,
             [
                 "type" => "select",
                 "choices" => [
                     "none" => __(
                         "Brak – pozostaw według harmonogramu",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
                     "fixed" => __(
                         "Stały autor",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
                     "random_list" => __(
                         "Losowo z listy autorów",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
                 ],
                 "description" => __(
                     "Służy podczas generowania automatycznego/WP-Cron. Harmonogram z własnym autorem nadal ma pierwszeństwo.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
             ],
         );
 
         $this->add_field(
             "default_author_id",
-            __("Stały autor wpisów", "kasumi-ai-generator"),
+            __("Stały autor wpisów", "kasumi-ai-studio"),
             $section,
             [
                 "type" => "select",
@@ -854,12 +859,12 @@ class SettingsPage
                     [
                         "" => __(
                             "— Wybierz autora —",
-                            "kasumi-ai-generator",
+                            "kasumi-ai-studio",
                         ),
                     ] + $author_choices,
                 "description" => __(
                     "Wybierz osobę używaną w trybie „Stały autor”.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
                 "class" => "kasumi-author-control kasumi-author-control--fixed",
             ],
@@ -867,7 +872,7 @@ class SettingsPage
 
         $this->add_field(
             "default_author_pool",
-            __("Pula autorów do losowania", "kasumi-ai-generator"),
+            __("Pula autorów do losowania", "kasumi-ai-studio"),
             $section,
             [
                 "type" => "select",
@@ -876,7 +881,7 @@ class SettingsPage
                 "size" => 6,
                 "description" => __(
                     "Zaznacz kilku autorów – przy każdym wpisie Kasumi wylosuje jedną osobę (tryb „Losowo z listy”).",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
                 "class" =>
                     "kasumi-author-control kasumi-author-control--random",
@@ -885,21 +890,21 @@ class SettingsPage
 
         $this->add_field(
             "schedule_interval_hours",
-            __("Interwał generowania (h)", "kasumi-ai-generator"),
+            __("Interwał generowania (h)", "kasumi-ai-studio"),
             $section,
             [
                 "type" => "number",
                 "min" => 72,
                 "description" => __(
                     "Wpisz docelową liczbę godzin (min. 72). System losuje publikację w przedziale 3‑7 dni i dopasuje ją do najlepszych godzin (np. 9:00, 11:30).",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
             ],
         );
 
         $this->add_field(
             "word_count_min",
-            __("Min. liczba słów", "kasumi-ai-generator"),
+            __("Min. liczba słów", "kasumi-ai-studio"),
             $section,
             [
                 "type" => "number",
@@ -909,7 +914,7 @@ class SettingsPage
 
         $this->add_field(
             "word_count_max",
-            __("Maks. liczba słów", "kasumi-ai-generator"),
+            __("Maks. liczba słów", "kasumi-ai-studio"),
             $section,
             [
                 "type" => "number",
@@ -921,13 +926,13 @@ class SettingsPage
             "link_keywords",
             __(
                 "Słowa kluczowe do linkowania",
-                "kasumi-ai-generator",
+                "kasumi-ai-studio",
             ),
             $section,
             [
                 "description" => __(
                     "Lista słów rozdzielona przecinkami wykorzystywana przy linkach wewnętrznych.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
             ],
         );
@@ -936,7 +941,7 @@ class SettingsPage
             "enable_internal_linking",
             __(
                 "Włącz linkowanie wewnętrzne",
-                "kasumi-ai-generator",
+                "kasumi-ai-studio",
             ),
             $section,
             [
@@ -946,14 +951,14 @@ class SettingsPage
 
         $this->add_field(
             "primary_links",
-            __("Główne linki wewnętrzne", "kasumi-ai-generator"),
+            __("Główne linki wewnętrzne", "kasumi-ai-studio"),
             $section,
             [
                 "type" => "primary-links",
                 "pages" => $this->get_primary_link_page_choices(),
                 "description" => __(
                     "Dodaj kluczowe strony (oferta, landing) i powiązane frazy. Kasumi będzie próbować linkować do nich w pierwszej kolejności.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
             ],
         );
@@ -969,7 +974,7 @@ class SettingsPage
                 '<i class="bi bi-image"></i> ' .
                     __(
                         "Grafiki wyróżniające",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
             ),
             function (): void {
@@ -977,7 +982,7 @@ class SettingsPage
                     '<p><i class="bi bi-info-circle"></i> %s</p>',
                     esc_html__(
                         "Parametry zdjęć Pixabay i nadpisów tworzonych przez Imagick.",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
                 );
             },
@@ -988,7 +993,7 @@ class SettingsPage
             "enable_featured_images",
             __(
                 "Generuj grafiki wyróżniające",
-                "kasumi-ai-generator",
+                "kasumi-ai-studio",
             ),
             $section,
             [
@@ -998,88 +1003,88 @@ class SettingsPage
 
         $this->add_field(
             "image_generation_mode",
-            __("Tryb generowania grafik", "kasumi-ai-generator"),
+            __("Tryb generowania grafik", "kasumi-ai-studio"),
             $section,
             [
                 "type" => "select",
                 "choices" => [
                     "server" => __(
                         "Serwerowy (Pixabay + nakładka)",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
                     "remote" => __(
                         "Zdalne (API AI)",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
                 ],
                 "description" => __(
                     "W trybie serwerowym obrazy pochodzą z Pixabay i są modyfikowane lokalnie. Tryb zdalny generuje obraz przez API AI (OpenAI lub Gemini).",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
             ],
         );
 
         $this->add_field(
             "image_remote_provider",
-            __("Provider obrazów zdalnych", "kasumi-ai-generator"),
+            __("Provider obrazów zdalnych", "kasumi-ai-studio"),
             $section,
             [
                 "type" => "select",
                 "choices" => [
                     "openai" => __(
                         "OpenAI (DALL-E)",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
                     "gemini" => __(
                         "Gemini (Imagen)",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
                 ],
                 "description" => __(
                     "Używane tylko, gdy wybrano tryb zdalny. Wybierz provider do generowania obrazów przez API.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
             ],
         );
 
         $this->add_field(
             "image_server_engine",
-            __("Silnik serwerowy", "kasumi-ai-generator"),
+            __("Silnik serwerowy", "kasumi-ai-studio"),
             $section,
             [
                 "type" => "select",
                 "choices" => [
                     "imagick" => __(
                         "Imagick (zalecany)",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
                     "gd" => __(
                         "Biblioteka GD",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
                 ],
                 "description" => __(
                     "Używane tylko, gdy wybrano tryb serwerowy. Wybierz bibliotekę dostępna na Twoim hostingu.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
             ],
         );
 
         $this->add_field(
             "image_template",
-            __("Szablon grafiki", "kasumi-ai-generator"),
+            __("Szablon grafiki", "kasumi-ai-studio"),
             $section,
             [
                 "description" => __(
                     "Możesz odwołać się do {{title}} i {{summary}}.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
             ],
         );
 
         $this->add_field(
             "image_overlay_color",
-            __("Kolor nakładki (HEX)", "kasumi-ai-generator"),
+            __("Kolor nakładki (HEX)", "kasumi-ai-studio"),
             $section,
             [
                 "type" => "color-picker",
@@ -1088,7 +1093,7 @@ class SettingsPage
 
         $this->add_field(
             "image_overlay_opacity",
-            __("Moc nakładki (%)", "kasumi-ai-generator"),
+            __("Moc nakładki (%)", "kasumi-ai-studio"),
             $section,
             [
                 "type" => "number",
@@ -1097,89 +1102,89 @@ class SettingsPage
                 "step" => 5,
                 "description" => __(
                     "Wyższa wartość oznacza bardziej wyrazistą (ciemniejszą) nakładkę.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
             ],
         );
 
         $this->add_field(
             "image_style",
-            __("Styl kompozycji", "kasumi-ai-generator"),
+            __("Styl kompozycji", "kasumi-ai-studio"),
             $section,
             [
                 "type" => "select",
                 "choices" => [
                     "modern" => __(
                         "Nowoczesny",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
                     "classic" => __(
                         "Klasyczny",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
                     "oldschool" => __(
                         "Oldschool",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
                 ],
                 "description" => __(
                     "Dobiera krój pisma, kerning i proporcje tekstu. Wszystkie style wspierają polskie znaki.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
             ],
         );
 
         $this->add_field(
             "image_text_enabled",
-            __("Wyświetl tekst na grafice", "kasumi-ai-generator"),
+            __("Wyświetl tekst na grafice", "kasumi-ai-studio"),
             $section,
             [
                 "type" => "checkbox",
                 "description" => __(
                     "Odznacz, aby pozostawić wyłącznie zdjęcie z Pixabay lub zdalnego generatora.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
             ],
         );
 
         $this->add_field(
             "image_text_alignment",
-            __("Wyrównanie tekstu", "kasumi-ai-generator"),
+            __("Wyrównanie tekstu", "kasumi-ai-studio"),
             $section,
             [
                 "type" => "select",
                 "choices" => [
-                    "left" => __("Lewo", "kasumi-ai-generator"),
+                    "left" => __("Lewo", "kasumi-ai-studio"),
                     "center" => __(
                         "Środek",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
-                    "right" => __("Prawo", "kasumi-ai-generator"),
+                    "right" => __("Prawo", "kasumi-ai-studio"),
                 ],
                 "description" => __(
                     "Kontroluje układ względem osi poziomej.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
             ],
         );
 
         $this->add_field(
             "image_text_vertical",
-            __("Pozycja pionowa tekstu", "kasumi-ai-generator"),
+            __("Pozycja pionowa tekstu", "kasumi-ai-studio"),
             $section,
             [
                 "type" => "select",
                 "choices" => [
-                    "top" => __("Góra", "kasumi-ai-generator"),
+                    "top" => __("Góra", "kasumi-ai-studio"),
                     "middle" => __(
                         "Środek",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
-                    "bottom" => __("Dół", "kasumi-ai-generator"),
+                    "bottom" => __("Dół", "kasumi-ai-studio"),
                 ],
                 "description" => __(
                     "Nakładka zachowuje bezpieczne marginesy niezależnie od położenia.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
             ],
         );
@@ -1188,20 +1193,20 @@ class SettingsPage
             "image_canvas_preset",
             __(
                 "Szybkie ustawienia proporcji",
-                "kasumi-ai-generator",
+                "kasumi-ai-studio",
             ),
             $section,
             [
                 "type" => "canvas-presets",
                 "placeholder" => __(
                     "— Wybierz gotowy rozmiar —",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
                 "presets" => [
                     [
                         "label" => sprintf(
                             /* translators: 1: image width in px, 2: image height in px. */
-                            __('16:9 – %1$s × %2$s px', 'kasumi-ai-generator'),
+                            __('16:9 – %1$s × %2$s px', 'kasumi-ai-studio'),
                             number_format_i18n(1200),
                             number_format_i18n(675),
                         ),
@@ -1211,7 +1216,7 @@ class SettingsPage
                     [
                         "label" => sprintf(
                             /* translators: 1: image width in px, 2: image height in px. */
-                            __('4:3 – %1$s × %2$s px', 'kasumi-ai-generator'),
+                            __('4:3 – %1$s × %2$s px', 'kasumi-ai-studio'),
                             number_format_i18n(1200),
                             number_format_i18n(900),
                         ),
@@ -1221,7 +1226,7 @@ class SettingsPage
                     [
                         "label" => sprintf(
                             /* translators: 1: image width in px, 2: image height in px. */
-                            __('1:1 – %1$s × %2$s px', 'kasumi-ai-generator'),
+                            __('1:1 – %1$s × %2$s px', 'kasumi-ai-studio'),
                             number_format_i18n(1200),
                             number_format_i18n(1200),
                         ),
@@ -1231,7 +1236,7 @@ class SettingsPage
                     [
                         "label" => sprintf(
                             /* translators: 1: image width in px, 2: image height in px. */
-                            __('2:3 – %1$s × %2$s px', 'kasumi-ai-generator'),
+                            __('2:3 – %1$s × %2$s px', 'kasumi-ai-studio'),
                             number_format_i18n(1200),
                             number_format_i18n(1800),
                         ),
@@ -1241,57 +1246,57 @@ class SettingsPage
                 ],
                 "description" => __(
                     "Wybierz gotowe proporcje — pola poniżej zostaną uzupełnione automatycznie.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
             ],
         );
 
         $this->add_field(
             "image_canvas_width",
-            __("Szerokość grafiki (px)", "kasumi-ai-generator"),
+            __("Szerokość grafiki (px)", "kasumi-ai-studio"),
             $section,
             [
                 "type" => "number",
                 "description" => __(
                     "Grafika zostanie przeskalowana/przycięta do tej szerokości.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
             ],
         );
 
         $this->add_field(
             "image_canvas_height",
-            __("Wysokość grafiki (px)", "kasumi-ai-generator"),
+            __("Wysokość grafiki (px)", "kasumi-ai-studio"),
             $section,
             [
                 "type" => "number",
                 "description" => __(
                     "Pozwala zachować określone proporcje (np. 675 px dla 16:9).",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
             ],
         );
 
         $this->add_field(
             "pixabay_query",
-            __("Słowa kluczowe Pixabay", "kasumi-ai-generator"),
+            __("Słowa kluczowe Pixabay", "kasumi-ai-studio"),
             $section,
         );
 
         $this->add_field(
             "pixabay_orientation",
-            __("Orientacja Pixabay", "kasumi-ai-generator"),
+            __("Orientacja Pixabay", "kasumi-ai-studio"),
             $section,
             [
                 "type" => "select",
                 "choices" => [
                     "horizontal" => __(
                         "Pozioma",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
                     "vertical" => __(
                         "Pionowa",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
                 ],
             ],
@@ -1306,14 +1311,14 @@ class SettingsPage
             $section,
             wp_kses_post(
                 '<i class="bi bi-chat-left-text"></i> ' .
-                    __("Komentarze AI", "kasumi-ai-generator"),
+                    __("Komentarze AI", "kasumi-ai-studio"),
             ),
             function (): void {
                 printf(
                     '<p><i class="bi bi-info-circle"></i> %s</p>',
                     esc_html__(
                         "Steruj liczbą i częstotliwością komentarzy generowanych przez AI.",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
                 );
             },
@@ -1322,7 +1327,7 @@ class SettingsPage
 
         $this->add_field(
             "comments_enabled",
-            __("Generuj komentarze", "kasumi-ai-generator"),
+            __("Generuj komentarze", "kasumi-ai-studio"),
             $section,
             [
                 "type" => "checkbox",
@@ -1331,22 +1336,22 @@ class SettingsPage
 
         $this->add_field(
             "comment_frequency",
-            __("Częstotliwość", "kasumi-ai-generator"),
+            __("Częstotliwość", "kasumi-ai-studio"),
             $section,
             [
                 "type" => "select",
                 "choices" => [
                     "dense" => __(
                         "Intensywnie po publikacji",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
                     "normal" => __(
                         "Stałe tempo",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
                     "slow" => __(
                         "Sporadyczne komentarze",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
                 ],
             ],
@@ -1356,7 +1361,7 @@ class SettingsPage
             "comment_min",
             __(
                 "Minimalna liczba komentarzy",
-                "kasumi-ai-generator",
+                "kasumi-ai-studio",
             ),
             $section,
             [
@@ -1369,7 +1374,7 @@ class SettingsPage
             "comment_max",
             __(
                 "Maksymalna liczba komentarzy",
-                "kasumi-ai-generator",
+                "kasumi-ai-studio",
             ),
             $section,
             [
@@ -1380,18 +1385,18 @@ class SettingsPage
 
         $this->add_field(
             "comment_status",
-            __("Status komentarzy", "kasumi-ai-generator"),
+            __("Status komentarzy", "kasumi-ai-studio"),
             $section,
             [
                 "type" => "select",
                 "choices" => [
                     "approve" => __(
                         "Zatwierdzone",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
                     "hold" => __(
                         "Oczekujące",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
                 ],
             ],
@@ -1399,12 +1404,12 @@ class SettingsPage
 
         $this->add_field(
             "comment_author_prefix",
-            __("Prefiks pseudonimu", "kasumi-ai-generator"),
+            __("Prefiks pseudonimu", "kasumi-ai-studio"),
             $section,
             [
                 "description" => __(
                     "Opcjonalne. Gdy puste, AI generuje dowolne pseudonimy (np. mix PL/EN).",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
             ],
         );
@@ -1418,14 +1423,14 @@ class SettingsPage
             $section,
             wp_kses_post(
                 '<i class="bi bi-gear"></i> ' .
-                    __("Pozostałe", "kasumi-ai-generator"),
+                    __("Pozostałe", "kasumi-ai-studio"),
             ),
             function (): void {
                 printf(
                     '<p><i class="bi bi-info-circle"></i> %s</p>',
                     esc_html__(
                         "Logowanie, tryb podglądu oraz powiadomienia.",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
                 );
             },
@@ -1434,20 +1439,20 @@ class SettingsPage
 
         $this->add_field(
             "plugin_enabled",
-            __("Włącz wtyczkę", "kasumi-ai-generator"),
+            __("Włącz wtyczkę", "kasumi-ai-studio"),
             $section,
             [
                 "type" => "checkbox",
                 "description" => __(
                     "Wyłączenie wstrzymuje wszystkie automatyczne zadania (generowanie postów, komentarzy, harmonogramów).",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
             ],
         );
 
         $this->add_field(
             "enable_logging",
-            __("Włącz logowanie zdarzeń", "kasumi-ai-generator"),
+            __("Włącz logowanie zdarzeń", "kasumi-ai-studio"),
             $section,
             [
                 "type" => "checkbox",
@@ -1456,7 +1461,7 @@ class SettingsPage
 
         $this->add_field(
             "status_logging",
-            __("Pokaż status na stronie", "kasumi-ai-generator"),
+            __("Pokaż status na stronie", "kasumi-ai-studio"),
             $section,
             [
                 "type" => "checkbox",
@@ -1467,27 +1472,27 @@ class SettingsPage
             "preview_mode",
             __(
                 "Tryb podglądu (bez publikacji)",
-                "kasumi-ai-generator",
+                "kasumi-ai-studio",
             ),
             $section,
             [
                 "type" => "checkbox",
                 "description" => __(
                     "W tym trybie AI generuje treści tylko do logów.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
             ],
         );
 
         $this->add_field(
             "debug_email",
-            __("E-mail raportowy", "kasumi-ai-generator"),
+            __("E-mail raportowy", "kasumi-ai-studio"),
             $section,
             [
                 "type" => "email",
                 "description" => __(
                     "Adres otrzymujący krytyczne błędy modułu.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
             ],
         );
@@ -1496,14 +1501,14 @@ class SettingsPage
             "delete_tables_on_deactivation",
             __(
                 "Usuń tabele przy deaktywacji",
-                "kasumi-ai-generator",
+                "kasumi-ai-studio",
             ),
             $section,
             [
                 "type" => "checkbox",
                 "description" => __(
                     "UWAGA: Po deaktywacji wtyczki wszystkie dane harmonogramów zostaną trwale usunięte!",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
             ],
         );
@@ -1511,7 +1516,7 @@ class SettingsPage
         // Dodaj przyciski import/export/reset
         add_settings_field(
             "kasumi_ai_settings_actions",
-            __("Zarządzanie ustawieniami", "kasumi-ai-generator"),
+            __("Zarządzanie ustawieniami", "kasumi-ai-studio"),
             function (): void {
                 $this->render_settings_actions();
             },
@@ -1530,7 +1535,7 @@ class SettingsPage
                 '<i class="bi bi-bug"></i> ' .
                     __(
                         "Diagnostyka środowiska",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
             ),
             function (): void {
@@ -1538,7 +1543,7 @@ class SettingsPage
                     '<p><i class="bi bi-info-circle"></i> %s</p>',
                     esc_html__(
                         "Sprawdź czy serwer spełnia wymagania wtyczki.",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
                 );
             },
@@ -1547,7 +1552,7 @@ class SettingsPage
 
         add_settings_field(
             "kasumi_ai_diag_report",
-            __("Status serwera", "kasumi-ai-generator"),
+            __("Status serwera", "kasumi-ai-studio"),
             function (): void {
                 $this->render_diagnostics();
             },
@@ -1557,7 +1562,7 @@ class SettingsPage
 
         add_settings_field(
             "kasumi_ai_logs",
-            __("Logi wtyczki", "kasumi-ai-generator"),
+            __("Logi wtyczki", "kasumi-ai-studio"),
             function (): void {
                 $this->render_logs_section();
             },
@@ -1598,26 +1603,26 @@ class SettingsPage
 			<?php endif; ?>
 			<h1><i class="bi bi-robot"></i> <?php esc_html_e(
        "Kasumi AI – konfiguracja",
-       "kasumi-ai-generator",
+       "kasumi-ai-studio",
    ); ?></h1>
 			<p class="description"><i class="bi bi-sliders"></i> <?php esc_html_e(
        "Steruj integracjami API, harmonogramem generowania treści, komentarzy oraz grafik.",
-       "kasumi-ai-generator",
+       "kasumi-ai-studio",
    ); ?></p>
 			<?php if ($show_support_card): ?>
 				<div class="kasumi-support-card">
 					<div class="kasumi-support-card__text">
 						<p class="description" style="margin-top:0;"><?php esc_html_e(
           "Kasumi rozwijam po godzinach – jeśli automatyzacja oszczędza Ci czas, możesz postawić mi symboliczną kawę.",
-          "kasumi-ai-generator",
+          "kasumi-ai-studio",
       ); ?></p>
 						<h2 style="margin:8px 0 12px;"><?php esc_html_e(
           "Postaw kawę twórcy Kasumi",
-          "kasumi-ai-generator",
+          "kasumi-ai-studio",
       ); ?></h2>
 						<p style="margin:0;color:var(--wp-admin-text-color-dark);"><?php esc_html_e(
           "Wspierasz koszty API, serwera i rozwój nowych modułów (bez reklam i paywalla).",
-          "kasumi-ai-generator",
+          "kasumi-ai-studio",
       ); ?></p>
 					</div>
 					<div class="kasumi-support-card__actions">
@@ -1629,22 +1634,22 @@ class SettingsPage
 							<input type="hidden" name="kasumi_ai_support_action" value="dismiss">
 							<button type="submit" class="button-link button-link-delete"><i class="bi bi-eye-slash"></i> <?php esc_html_e(
            "Ukryj na 7 dni",
-           "kasumi-ai-generator",
+           "kasumi-ai-studio",
        ); ?></button>
 						</form>
 						<p style="font-weight:600;margin-bottom:12px;"><i class="bi bi-heart-fill" style="color: var(--wp-admin-notification-color);"></i> <?php esc_html_e(
           "Dziękuję za każdą kawę!",
-          "kasumi-ai-generator",
+          "kasumi-ai-studio",
       ); ?></p>
 						<div class="kasumi-support-card__button">
 							<a class="button button-primary" href="https://buymeacoffee.com/kemuricodes" target="_blank" rel="noopener noreferrer"><?php esc_html_e(
            "Postaw mi kawę",
-           "kasumi-ai-generator",
+           "kasumi-ai-studio",
        ); ?></a>
 						</div>
 						<p style="margin-top:12px;font-size:12px;color:var(--wp-admin-text-color);opacity:0.8;"><?php esc_html_e(
           "Obsługiwane przez buymeacoffee.com",
-          "kasumi-ai-generator",
+          "kasumi-ai-studio",
       ); ?></p>
 					</div>
 				</div>
@@ -1655,13 +1660,13 @@ class SettingsPage
         $support_link = sprintf(
             '<a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s</a>',
             esc_url("https://buymeacoffee.com/kemuricodes"),
-            esc_html__("postawić kawę", "kasumi-ai-generator"),
+            esc_html__("postawić kawę", "kasumi-ai-studio"),
         );
         $support_message = sprintf(
             /* translators: 1: number of days using Kasumi, 2: coffee link */
             __(
                 'Korzystasz z Kasumi od %1$s dni. Jeśli narzędzie Ci pomaga, możesz zawsze %2$s.',
-                "kasumi-ai-generator",
+                "kasumi-ai-studio",
             ),
             number_format_i18n($days_using),
             $support_link,
@@ -1677,7 +1682,7 @@ class SettingsPage
 						<input type="hidden" name="kasumi_ai_support_action" value="reset">
 						<button type="submit" class="button button-secondary"><i class="bi bi-eye"></i> <?php esc_html_e(
           "Pokaż ponownie kartę wsparcia",
-          "kasumi-ai-generator",
+          "kasumi-ai-studio",
       ); ?></button>
 					</form>
 				</div>
@@ -1687,44 +1692,44 @@ class SettingsPage
 				<div class="card kasumi-about">
 					<h2><i class="bi bi-info-circle"></i> <?php esc_html_e(
          "O wtyczce",
-         "kasumi-ai-generator",
+         "kasumi-ai-studio",
      ); ?></h2>
 					<p><?php esc_html_e(
          "Kasumi automatyzuje generowanie wpisów WordPress, komentarzy i grafik AI. Wybierz dostawcę (OpenAI lub Gemini), skonfiguruj harmonogram i podglądaj efekty na żywo.",
-         "kasumi-ai-generator",
+         "kasumi-ai-studio",
      ); ?></p>
 					<ul>
 						<li><i class="bi bi-person"></i> <?php esc_html_e(
           "Autor: Marcin Dymek (KemuriCodes)",
-          "kasumi-ai-generator",
+          "kasumi-ai-studio",
       ); ?></li>
 						<li><i class="bi bi-envelope"></i> <?php esc_html_e(
           "Kontakt: contact@kemuri.codes",
-          "kasumi-ai-generator",
+          "kasumi-ai-studio",
       ); ?></li>
 					</ul>
 				</div>
 				<div class="card kasumi-info-card">
 					<h2><i class="bi bi-link-45deg"></i> <?php esc_html_e(
          "Szybkie linki",
-         "kasumi-ai-generator",
+         "kasumi-ai-studio",
      ); ?></h2>
 					<ul>
 						<li><i class="bi bi-box-arrow-up-right"></i> <a href="<?php echo esc_url(
           "https://platform.openai.com/account/api-keys",
       ); ?>" target="_blank" rel="noopener"><?php esc_html_e(
     "Panel OpenAI",
-    "kasumi-ai-generator",
+    "kasumi-ai-studio",
 ); ?></a></li>
 						<li><i class="bi bi-box-arrow-up-right"></i> <a href="<?php echo esc_url(
           "https://aistudio.google.com/app/apikey",
       ); ?>" target="_blank" rel="noopener"><?php esc_html_e(
     "Google AI Studio",
-    "kasumi-ai-generator",
+    "kasumi-ai-studio",
 ); ?></a></li>
 						<li><i class="bi bi-envelope"></i> <a href="mailto:contact@kemuri.codes"><?php esc_html_e(
           "Wsparcie KemuriCodes",
-          "kasumi-ai-generator",
+          "kasumi-ai-studio",
       ); ?></a></li>
 					</ul>
 				</div>
@@ -1739,19 +1744,19 @@ class SettingsPage
              date_i18n($date_format, (int) $status["next_post_run"]),
              sprintf(
                  /* translators: %s – relative time */
-                 __("za %s", "kasumi-ai-generator"),
+                 __("za %s", "kasumi-ai-studio"),
                  human_time_diff($now, (int) $status["next_post_run"]),
              ),
          )
-         : __("Brak zaplanowanych zadań", "kasumi-ai-generator");
+         : __("Brak zaplanowanych zadań", "kasumi-ai-studio");
      $last_error = $status["last_error"]
          ? $status["last_error"]
-         : __("Brak błędów", "kasumi-ai-generator");
+         : __("Brak błędów", "kasumi-ai-studio");
      ?>
 					<div class="card kasumi-ai-status">
 						<h2><i class="bi bi-activity"></i> <?php esc_html_e(
           "Status modułu AI",
-          "kasumi-ai-generator",
+          "kasumi-ai-studio",
       ); ?></h2>
                         <?php if ( ! empty( $status['automation_notice'] ) ) : ?>
                             <div class="notice notice-warning kasumi-status-note">
@@ -1761,29 +1766,29 @@ class SettingsPage
 						<ul>
 							<li><i class="bi bi-file-text"></i> <?php esc_html_e(
            "Ostatni post ID:",
-           "kasumi-ai-generator",
+           "kasumi-ai-studio",
        ); ?> <strong><?php echo esc_html(
      (string) ($status["last_post_id"] ?? "–"),
  ); ?></strong></li>
 							<li><i class="bi bi-clock-history"></i> <?php esc_html_e(
            "Ostatnie uruchomienie:",
-           "kasumi-ai-generator",
+           "kasumi-ai-studio",
        ); ?> <strong><?php echo $status["last_post_time"]
      ? esc_html(date_i18n($date_format, (int) $status["last_post_time"]))
-     : esc_html__("Brak", "kasumi-ai-generator"); ?></strong></li>
+     : esc_html__("Brak", "kasumi-ai-studio"); ?></strong></li>
 							<li><i class="bi bi-calendar-event"></i> <?php esc_html_e(
            "Następne zadanie:",
-           "kasumi-ai-generator",
+           "kasumi-ai-studio",
        ); ?> <strong><?php echo esc_html($next_run); ?></strong></li>
 							<li><i class="bi bi-chat-dots"></i> <?php esc_html_e(
            "Kolejka komentarzy:",
-           "kasumi-ai-generator",
+           "kasumi-ai-studio",
        ); ?> <strong><?php echo esc_html(
      (string) ($status["queued_comment_jobs"] ?? 0),
  ); ?></strong></li>
 							<li><i class="bi bi-exclamation-triangle"></i> <?php esc_html_e(
            "Ostatni błąd:",
-           "kasumi-ai-generator",
+           "kasumi-ai-studio",
        ); ?> <strong><?php echo esc_html($last_error); ?></strong></li>
 						</ul>
 					</div>
@@ -1799,31 +1804,31 @@ class SettingsPage
 					<ul>
 						<li><a href="#kasumi-tab-api"><i class="bi bi-key"></i> <?php esc_html_e(
           "Integracje API",
-          "kasumi-ai-generator",
+          "kasumi-ai-studio",
       ); ?></a></li>
 						<li><a href="#kasumi-tab-content"><i class="bi bi-file-earmark-text"></i> <?php esc_html_e(
           "Treści i harmonogram",
-          "kasumi-ai-generator",
+          "kasumi-ai-studio",
       ); ?></a></li>
 						<li><a href="#kasumi-tab-images"><i class="bi bi-image"></i> <?php esc_html_e(
           "Grafiki AI",
-          "kasumi-ai-generator",
+          "kasumi-ai-studio",
       ); ?></a></li>
 						<li><a href="#kasumi-tab-comments"><i class="bi bi-chat-left-text"></i> <?php esc_html_e(
           "Komentarze AI",
-          "kasumi-ai-generator",
+          "kasumi-ai-studio",
       ); ?></a></li>
 						<li><a href="#kasumi-tab-stats"><i class="bi bi-bar-chart"></i> <?php esc_html_e(
           "Statystyki",
-          "kasumi-ai-generator",
+          "kasumi-ai-studio",
       ); ?></a></li>
 						<li><a href="#kasumi-tab-advanced"><i class="bi bi-gear"></i> <?php esc_html_e(
           "Zaawansowane",
-          "kasumi-ai-generator",
+          "kasumi-ai-studio",
       ); ?></a></li>
 						<li><a href="#kasumi-tab-diagnostics"><i class="bi bi-bug"></i> <?php esc_html_e(
           "Diagnostyka",
-          "kasumi-ai-generator",
+          "kasumi-ai-studio",
       ); ?></a></li>
 					</ul>
 					<div id="kasumi-tab-api" class="kasumi-tab-panel">
@@ -1853,7 +1858,7 @@ class SettingsPage
 				<div class="kasumi-settings-submit">
 					<?php
 					    submit_button(
-					        esc_html__("Zapisz ustawienia", "kasumi-ai-generator"),
+					        esc_html__("Zapisz ustawienia", "kasumi-ai-studio"),
 					        "primary",
 					        "kasumi_ai_save",
 					        false,
@@ -1867,21 +1872,21 @@ class SettingsPage
 			<details class="kasumi-preview-details">
 				<summary><i class="bi bi-eye"></i> <?php esc_html_e(
         "Podgląd wygenerowanej treści i grafiki",
-        "kasumi-ai-generator",
+        "kasumi-ai-studio",
     ); ?></summary>
 				<div class="card kasumi-ai-preview-box">
 					<p><i class="bi bi-info-circle"></i> <?php esc_html_e(
          "Wygeneruj przykładowy tekst lub obrazek, aby przetestować konfigurację bez publikacji.",
-         "kasumi-ai-generator",
+         "kasumi-ai-studio",
      ); ?></p>
 					<div class="kasumi-ai-preview-actions">
 						<button type="button" class="button button-secondary" id="kasumi-ai-preview-text"><i class="bi bi-file-text"></i> <?php esc_html_e(
           "Przykładowy tekst",
-          "kasumi-ai-generator",
+          "kasumi-ai-studio",
       ); ?></button>
 						<button type="button" class="button button-secondary" id="kasumi-ai-preview-image"><i class="bi bi-image"></i> <?php esc_html_e(
           "Podgląd grafiki",
-          "kasumi-ai-generator",
+          "kasumi-ai-studio",
       ); ?></button>
 					</div>
 					<div id="kasumi-ai-preview-output" class="kasumi-ai-preview-output" aria-live="polite"></div>
@@ -1971,7 +1976,7 @@ class SettingsPage
                 echo '<select name="' .
                     esc_attr($field_name) .
                     '"' .
-                    $this->build_attribute_string($select_attributes) .
+                    $this->build_attribute_string($select_attributes) . // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- build_attribute_string() escapes attribute names and values
                     ">";
 
                 $selected_values = $is_multiple
@@ -1999,7 +2004,7 @@ class SettingsPage
                     esc_attr(Options::OPTION_NAME),
                     esc_attr($key),
                     checked(!empty($value), true, false),
-                    esc_html__("Aktywne", "kasumi-ai-generator"),
+                    esc_html__("Aktywne", "kasumi-ai-studio"),
                 );
                 break;
             case "model-select":
@@ -2024,7 +2029,7 @@ class SettingsPage
                     echo '<option value="">' .
                         esc_html__(
                             "Wybierz model…",
-                            "kasumi-ai-generator",
+                            "kasumi-ai-studio",
                         ) .
                         "</option>";
                 }
@@ -2034,7 +2039,7 @@ class SettingsPage
                     esc_attr($provider),
                     esc_html__(
                         "Odśwież listę",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
                 );
                 echo '<span class="spinner kasumi-model-spinner" aria-hidden="true"></span>';
@@ -2054,7 +2059,7 @@ class SettingsPage
                 echo '<option value="">' .
                     esc_html__(
                         "— Wybierz kategorię —",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ) .
                     "</option>";
                 foreach ($categories as $category) {
@@ -2102,12 +2107,12 @@ class SettingsPage
                 echo "<thead><tr><th>" .
                     esc_html__(
                         "Adres URL",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ) .
                     "</th><th>" .
                     esc_html__(
                         "Frazy kluczowe",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ) .
                     "</th><th></th></tr></thead>";
                 echo "<tbody data-kasumi-primary-links-body>";
@@ -2130,7 +2135,7 @@ class SettingsPage
                     '<button type="button" class="button kasumi-primary-links-add" data-action="add-primary-link"><span class="dashicons dashicons-plus-alt2" aria-hidden="true"></span> %s</button>',
                     esc_html__(
                         "Dodaj wiersz",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
                 );
                 echo "</div>";
@@ -2154,14 +2159,14 @@ class SettingsPage
 					$args["placeholder"] ??
 					__(
 						"— Wybierz gotowy rozmiar —",
-						"kasumi-ai-generator",
+						"kasumi-ai-studio",
 					);
 
 				printf(
 					'<select class="kasumi-canvas-preset" data-kasumi-canvas-preset aria-label="%s">',
 					esc_attr__(
 						"Szybkie ustawienia proporcji",
-						"kasumi-ai-generator",
+						"kasumi-ai-studio",
 					)
 				);
 				printf(
@@ -2189,34 +2194,34 @@ class SettingsPage
 
 				echo "</select>";
 				break;
-                default:
-                    $input_attributes = [
-                        "type" => $type,
-                        "class" => "regular-text",
-                        "name" => sprintf(
-                            "%s[%s]",
-                            Options::OPTION_NAME,
-                            $key,
-                        ),
-                        "value" => (string) $value,
-                        "placeholder" => (string) ($args["placeholder"] ?? ""),
-                    ];
+            default:
+                $input_attributes = [
+                    "type" => $type,
+                    "class" => "regular-text",
+                    "name" => sprintf(
+                        "%s[%s]",
+                        Options::OPTION_NAME,
+                        $key,
+                    ),
+                    "value" => (string) $value,
+                    "placeholder" => (string) ($args["placeholder"] ?? ""),
+                ];
 
-                    if (isset($args["min"])) {
-                        $input_attributes["min"] = (string) $args["min"];
-                    }
+                if (isset($args["min"])) {
+                    $input_attributes["min"] = (string) $args["min"];
+                }
 
-                    if (isset($args["max"])) {
-                        $input_attributes["max"] = (string) $args["max"];
-                    }
+                if (isset($args["max"])) {
+                    $input_attributes["max"] = (string) $args["max"];
+                }
 
-                    if (isset($args["step"])) {
-                        $input_attributes["step"] = (string) $args["step"];
-                    }
+                if (isset($args["step"])) {
+                    $input_attributes["step"] = (string) $args["step"];
+                }
 
-                    echo "<input" .
-                        $this->build_attribute_string($input_attributes) .
-                        ">";
+                echo "<input" .
+                    $this->build_attribute_string($input_attributes) . // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- build_attribute_string() escapes attribute names and values
+                    ">";
         }
 
         if (!empty($args["description"])) {
@@ -2297,7 +2302,7 @@ class SettingsPage
 					<select data-primary-link-select>
 						<option value=""><?php esc_html_e(
           "— Wybierz stronę —",
-          "kasumi-ai-generator",
+          "kasumi-ai-studio",
       ); ?></option>
 						<?php foreach ($pages as $page): ?>
 							<option value="<?php echo esc_attr($page["url"]); ?>" <?php echo $is_template
@@ -2308,7 +2313,7 @@ class SettingsPage
 						<?php endforeach; ?>
 					</select>
 					<button type="button" class="button button-secondary" data-action="fill-primary-link">
-						<?php esc_html_e("Wstaw adres", "kasumi-ai-generator"); ?>
+						<?php esc_html_e("Wstaw adres", "kasumi-ai-studio"); ?>
 					</button>
 				</div>
 			</td>
@@ -2317,16 +2322,16 @@ class SettingsPage
         $anchors_name,
     ); ?>" rows="2" placeholder="<?php esc_attr_e(
     "np. poradnik marketingowy, oferta usług, kontakt",
-    "kasumi-ai-generator",
+    "kasumi-ai-studio",
 ); ?>"><?php echo esc_textarea($anchors_value); ?></textarea>
 				<p class="description"><?php esc_html_e(
         "Frazy rozdziel przecinkami – wybierz 2-4 naturalne warianty.",
-        "kasumi-ai-generator",
+        "kasumi-ai-studio",
     ); ?></p>
 			</td>
 			<td class="kasumi-primary-links-actions">
 				<button type="button" class="button-link-delete kasumi-primary-links-remove" data-action="remove-primary-link">
-					<?php esc_html_e("Usuń", "kasumi-ai-generator"); ?>
+					<?php esc_html_e("Usuń", "kasumi-ai-studio"); ?>
 				</button>
 			</td>
 			</tr>
@@ -2408,12 +2413,13 @@ class SettingsPage
         ) {
             $class_attr = "";
             if (!empty($field["args"]["class"])) {
-                $class_attr = sprintf(
-                    ' class="%s"',
-                    esc_attr($field["args"]["class"]),
-                );
+                $class_attr = $field["args"]["class"];
             }
-            printf("<tr%s>", $class_attr);
+            if ("" !== $class_attr) {
+                printf('<tr class="%s">', esc_attr($class_attr));
+            } else {
+                echo "<tr>";
+            }
             echo '<th scope="row">';
             if (!empty($field["args"]["label_for"])) {
                 echo '<label for="' .
@@ -2438,11 +2444,11 @@ class SettingsPage
 		<div class="kasumi-schedule-panel">
 			<h3><i class="bi bi-calendar-check"></i> <?php esc_html_e(
        "Planowanie wpisów i harmonogram",
-       "kasumi-ai-generator",
+       "kasumi-ai-studio",
    ); ?></h3>
 			<p class="description"><i class="bi bi-info-circle"></i> <?php esc_html_e(
        "Twórz własne zadania – wybierz autora, typ wpisu, status i dokładną datę publikacji. Kasumi wygeneruje treść w wybranym momencie.",
-       "kasumi-ai-generator",
+       "kasumi-ai-studio",
    ); ?></p>
 			<div id="kasumi-schedule-manager" class="kasumi-schedule-grid">
 				<div class="kasumi-schedule-form-column">
@@ -2451,26 +2457,26 @@ class SettingsPage
 						<div class="kasumi-field">
 							<label for="kasumi-schedule-title"><?php esc_html_e(
            "Tytuł roboczy",
-           "kasumi-ai-generator",
+           "kasumi-ai-studio",
        ); ?></label>
 								<input type="text" id="kasumi-schedule-title" name="postTitle" class="regular-text" placeholder="<?php esc_attr_e(
 	           "np. Raport trendów e-commerce 2026",
-	           "kasumi-ai-generator",
+	           "kasumi-ai-studio",
 	       ); ?>">
 						</div>
 						<div class="kasumi-field">
 							<label for="kasumi-schedule-status"><?php esc_html_e(
            "Status zadania",
-           "kasumi-ai-generator",
+           "kasumi-ai-studio",
        ); ?></label>
 							<select id="kasumi-schedule-status" name="status">
 								<option value="draft"><?php esc_html_e(
             "Szkic (bez daty)",
-            "kasumi-ai-generator",
+            "kasumi-ai-studio",
         ); ?></option>
 								<option value="scheduled"><?php esc_html_e(
             "Zaplanowane",
-            "kasumi-ai-generator",
+            "kasumi-ai-studio",
         ); ?></option>
 							</select>
 						</div>
@@ -2478,23 +2484,23 @@ class SettingsPage
 							<div>
 								<label for="kasumi-schedule-post-type"><?php esc_html_e(
             "Typ wpisu",
-            "kasumi-ai-generator",
+            "kasumi-ai-studio",
         ); ?></label>
 								<select id="kasumi-schedule-post-type" name="postType"></select>
 							</div>
 							<div>
 								<label for="kasumi-schedule-post-status"><?php esc_html_e(
             "Status WordPress",
-            "kasumi-ai-generator",
+            "kasumi-ai-studio",
         ); ?></label>
 								<select id="kasumi-schedule-post-status" name="postStatus">
 									<option value="draft"><?php esc_html_e(
              "Szkic",
-             "kasumi-ai-generator",
+             "kasumi-ai-studio",
          ); ?></option>
 									<option value="publish"><?php esc_html_e(
              "Publikuj automatycznie",
-             "kasumi-ai-generator",
+             "kasumi-ai-studio",
          ); ?></option>
 								</select>
 							</div>
@@ -2502,62 +2508,62 @@ class SettingsPage
 						<div class="kasumi-field">
 							<label for="kasumi-schedule-author"><?php esc_html_e(
            "Autor wpisu",
-           "kasumi-ai-generator",
+           "kasumi-ai-studio",
        ); ?></label>
 							<select id="kasumi-schedule-author" name="authorId" data-placeholder="<?php esc_attr_e(
            "— Wybierz autora —",
-           "kasumi-ai-generator",
+           "kasumi-ai-studio",
        ); ?>"></select>
 						</div>
 						<div class="kasumi-field">
 							<label for="kasumi-schedule-date"><?php esc_html_e(
            "Data publikacji",
-           "kasumi-ai-generator",
+           "kasumi-ai-studio",
        ); ?></label>
 							<input type="datetime-local" id="kasumi-schedule-date" name="publishAt">
 							<p class="description"><?php esc_html_e(
            "Wymagane, gdy status ustawisz na „Zaplanowane”. Czas zostanie zapisany w strefie WordPress.",
-           "kasumi-ai-generator",
+           "kasumi-ai-studio",
        ); ?></p>
 						</div>
 						<div class="kasumi-field">
 							<label for="kasumi-schedule-model"><?php esc_html_e(
            "Model AI (opcjonalnie)",
-           "kasumi-ai-generator",
+           "kasumi-ai-studio",
        ); ?></label>
 							<select id="kasumi-schedule-model" name="model" data-placeholder="<?php esc_attr_e(
            "Auto (globalny)",
-           "kasumi-ai-generator",
+           "kasumi-ai-studio",
        ); ?>"></select>
 						</div>
 						<div class="kasumi-field">
 							<label for="kasumi-schedule-system"><?php esc_html_e(
            "System prompt (opcjonalnie)",
-           "kasumi-ai-generator",
+           "kasumi-ai-studio",
        ); ?></label>
 							<textarea id="kasumi-schedule-system" name="systemPrompt" rows="3" class="large-text" placeholder="<?php esc_attr_e(
            "Pozostaw pusty aby użyć globalnego ustawienia.",
-           "kasumi-ai-generator",
+           "kasumi-ai-studio",
        ); ?>"></textarea>
 						</div>
 						<div class="kasumi-field">
 							<label for="kasumi-schedule-user"><?php esc_html_e(
            "Polecenie dla AI",
-           "kasumi-ai-generator",
+           "kasumi-ai-studio",
        ); ?></label>
 							<textarea id="kasumi-schedule-user" name="userPrompt" rows="5" class="large-text" placeholder="<?php esc_attr_e(
            "Opisz temat, słowa kluczowe, ton wypowiedzi itd.",
-           "kasumi-ai-generator",
+           "kasumi-ai-studio",
        ); ?>"></textarea>
 						</div>
 						<div class="kasumi-field kasumi-actions">
 							<button type="button" class="button button-primary" data-kasumi-schedule-submit><i class="bi bi-save"></i> <?php esc_html_e(
            "Zapisz zadanie",
-           "kasumi-ai-generator",
+           "kasumi-ai-studio",
        ); ?></button>
 							<button type="button" class="button" data-kasumi-reset-form><i class="bi bi-x-circle"></i> <?php esc_html_e(
            "Wyczyść formularz",
-           "kasumi-ai-generator",
+           "kasumi-ai-studio",
        ); ?></button>
 						</div>
 					</div>
@@ -2565,67 +2571,67 @@ class SettingsPage
 				<div class="kasumi-schedule-list-column">
 					<div class="kasumi-schedule-toolbar">
 						<label>
-							<span><?php esc_html_e("Status", "kasumi-ai-generator"); ?></span>
+							<span><?php esc_html_e("Status", "kasumi-ai-studio"); ?></span>
 							<select data-kasumi-filter="status">
 								<option value=""><?php esc_html_e(
             "Wszystkie",
-            "kasumi-ai-generator",
+            "kasumi-ai-studio",
         ); ?></option>
 								<option value="draft"><?php esc_html_e(
             "Szkice",
-            "kasumi-ai-generator",
+            "kasumi-ai-studio",
         ); ?></option>
 								<option value="scheduled"><?php esc_html_e(
             "Zaplanowane",
-            "kasumi-ai-generator",
+            "kasumi-ai-studio",
         ); ?></option>
 								<option value="running"><?php esc_html_e(
             "W trakcie",
-            "kasumi-ai-generator",
+            "kasumi-ai-studio",
         ); ?></option>
 								<option value="completed"><?php esc_html_e(
             "Wykonane",
-            "kasumi-ai-generator",
+            "kasumi-ai-studio",
         ); ?></option>
 								<option value="failed"><?php esc_html_e(
             "Błędy",
-            "kasumi-ai-generator",
+            "kasumi-ai-studio",
         ); ?></option>
 							</select>
 						</label>
 						<label>
-							<span><?php esc_html_e("Autor", "kasumi-ai-generator"); ?></span>
+							<span><?php esc_html_e("Autor", "kasumi-ai-studio"); ?></span>
 							<select data-kasumi-filter="author" data-placeholder="<?php esc_attr_e(
            "Wszyscy",
-           "kasumi-ai-generator",
+           "kasumi-ai-studio",
        ); ?>">
 								<option value=""><?php esc_html_e(
             "Wszyscy",
-            "kasumi-ai-generator",
+            "kasumi-ai-studio",
         ); ?></option>
 							</select>
 						</label>
 						<label class="kasumi-search-field">
 							<span class="screen-reader-text"><?php esc_html_e(
            "Szukaj",
-           "kasumi-ai-generator",
+           "kasumi-ai-studio",
        ); ?></span>
 							<input type="search" placeholder="<?php esc_attr_e(
            "Szukaj po tytule/poleceniu…",
-           "kasumi-ai-generator",
+           "kasumi-ai-studio",
        ); ?>" data-kasumi-filter="search">
 						</label>
 							<div class="kasumi-toolbar-actions">
 								<button type="button" class="button" data-kasumi-refresh><i class="bi bi-arrow-clockwise"></i> <?php esc_html_e(
 	          "Odśwież",
-	          "kasumi-ai-generator",
+	          "kasumi-ai-studio",
 	      ); ?></button>
 							</div>
 					</div>
 					<div data-kasumi-schedule-table class="kasumi-schedule-table">
 						<p class="description"><?php esc_html_e(
           "Brak zadań w kolejce.",
-          "kasumi-ai-generator",
+          "kasumi-ai-studio",
       ); ?></p>
 					</div>
 				</div>
@@ -2655,94 +2661,94 @@ class SettingsPage
             "i18n" => [
                 "saveLabel" => __(
                     "Zapisz zadanie",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
                 "save" => __(
                     "Zapisano zadanie.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
                 "updateLabel" => __(
                     "Zaktualizuj zadanie",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
                 "saved" => __(
                     "Zapisano zadanie.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
                 "updated" => __(
                     "Zaktualizowano zadanie.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
                 "deleted" => __(
                     "Usunięto zadanie.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
                 "run" => __(
                     "Uruchomiono generowanie.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
                 "error" => __(
                     "Coś poszło nie tak. Sprawdź logi i spróbuj ponownie.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
                 "loading" => __(
                     "Wczytywanie…",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
                 "empty" => __(
                     "Brak zaplanowanych zadań.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
-                "noDate" => __("Brak daty", "kasumi-ai-generator"),
+                "noDate" => __("Brak daty", "kasumi-ai-studio"),
                 "deleteConfirm" => __(
                     "Czy na pewno usunąć to zadanie?",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
-                "edit" => __("Edytuj", "kasumi-ai-generator"),
+                "edit" => __("Edytuj", "kasumi-ai-studio"),
                 "runAction" => __(
                     "Uruchom teraz",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
-                "delete" => __("Usuń", "kasumi-ai-generator"),
+                "delete" => __("Usuń", "kasumi-ai-studio"),
                 "taskLabel" => __(
                     "Zadanie",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
                 "statusLabel" => __(
                     "Status",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
                 "publishLabel" => __(
                     "Publikacja",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
                 "statusMap" => [
-                    "draft" => __("Szkic", "kasumi-ai-generator"),
+                    "draft" => __("Szkic", "kasumi-ai-studio"),
                     "scheduled" => __(
                         "Zaplanowane",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
                     "running" => __(
                         "W trakcie",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
                     "completed" => __(
                         "Zakończone",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
-                    "failed" => __("Błąd", "kasumi-ai-generator"),
+                    "failed" => __("Błąd", "kasumi-ai-studio"),
                 ],
                 "titleRequired" => __(
                     "Podaj tytuł zadania.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
                 "authorRequired" => __(
                     "Wybierz autora zadania.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
                 "dateRequired" => __(
                     "Ustaw dokładną datę publikacji.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
             ],
             "models" => $this->get_scheduler_models(),
@@ -2757,19 +2763,19 @@ class SettingsPage
             "i18n" => [
                 "checking" => __(
                     "Sprawdzanie stanu automatyzacji…",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
                 "success" => __(
                     "Status automatyzacji zaktualizowany.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
                 "error" => __(
                     "Nie udało się pobrać stanu automatyzacji. Spróbuj ponownie.",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
                 "refreshing" => __(
                     "Odświeżanie…",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
             ],
         ];
@@ -2854,7 +2860,7 @@ class SettingsPage
             [
                 "label" => __(
                     "Strona główna",
-                    "kasumi-ai-generator",
+                    "kasumi-ai-studio",
                 ),
                 "url" => home_url("/"),
             ],
@@ -2869,7 +2875,7 @@ class SettingsPage
 
             $title =
                 $page->post_title ?:
-                __("(Bez tytułu)", "kasumi-ai-generator");
+                __("(Bez tytułu)", "kasumi-ai-studio");
 
             $list[] = [
                 "label" => $title,
@@ -3000,44 +3006,44 @@ class SettingsPage
         ?>
 			<h2><i class="bi bi-bar-chart"></i> <?php esc_html_e(
       "Statystyki użycia API",
-      "kasumi-ai-generator",
+      "kasumi-ai-studio",
   ); ?></h2>
 
 		<div class="kasumi-stats-overview">
 			<div class="kasumi-stat-card">
 				<h3><i class="bi bi-file-text"></i> <?php esc_html_e(
         "Wygenerowane posty",
-        "kasumi-ai-generator",
+        "kasumi-ai-studio",
     ); ?></h3>
 				<p><?php echo esc_html(number_format_i18n($total_posts)); ?></p>
 			</div>
 			<div class="kasumi-stat-card">
 				<h3><i class="bi bi-image"></i> <?php esc_html_e(
         "Wygenerowane grafiki",
-        "kasumi-ai-generator",
+        "kasumi-ai-studio",
     ); ?></h3>
 				<p><?php echo esc_html(number_format_i18n($total_images)); ?></p>
 			</div>
 			<div class="kasumi-stat-card">
 				<h3><i class="bi bi-chat-dots"></i> <?php esc_html_e(
         "Wygenerowane komentarze",
-        "kasumi-ai-generator",
+        "kasumi-ai-studio",
     ); ?></h3>
 				<p><?php echo esc_html(number_format_i18n($total_comments)); ?></p>
 			</div>
 			<div class="kasumi-stat-card">
 				<h3><i class="bi bi-hash"></i> <?php esc_html_e(
         "Całkowita liczba tokenów",
-        "kasumi-ai-generator",
+        "kasumi-ai-studio",
     ); ?></h3>
 				<p><?php echo esc_html(number_format_i18n($total_tokens)); ?></p>
 					<p>
 						<?php
         $tokens_summary_text = sprintf(
             "%1\$s %2\$s | %3\$s %4\$s",
-            esc_html__("Wejście:", "kasumi-ai-generator"),
+            esc_html__("Wejście:", "kasumi-ai-studio"),
             number_format_i18n($total_input_tokens),
-            esc_html__("Wyjście:", "kasumi-ai-generator"),
+            esc_html__("Wyjście:", "kasumi-ai-studio"),
             number_format_i18n($total_output_tokens),
         );
         echo esc_html($tokens_summary_text);
@@ -3047,19 +3053,19 @@ class SettingsPage
 			<div class="kasumi-stat-card">
 				<h3><i class="bi bi-currency-dollar"></i> <?php esc_html_e(
         "Szacunkowy koszt",
-        "kasumi-ai-generator",
+        "kasumi-ai-studio",
     ); ?></h3>
 				<p>$<?php echo esc_html(number_format($total_cost, 4, ".", "")); ?></p>
 				<p><?php esc_html_e(
         "USD (szacunkowo)",
-        "kasumi-ai-generator",
+        "kasumi-ai-studio",
     ); ?></p>
 			</div>
 		</div>
 
         <h3 style="margin: 40px 0 20px 0;"><?php esc_html_e(
       "Użycie w ciągu ostatnich 30 dni",
-      "kasumi-ai-generator",
+      "kasumi-ai-studio",
   ); ?></h3>
         <?php
         $has_activity = array_reduce(
@@ -3073,19 +3079,19 @@ class SettingsPage
 		<?php if (!$has_activity): ?>
 			<p class="kasumi-chart-empty"><?php esc_html_e(
        "Brak danych dla ostatnich 30 dni. Wykres pojawi się po pierwszym wygenerowanym zadaniu.",
-       "kasumi-ai-generator",
+       "kasumi-ai-studio",
    ); ?></p>
 		<?php else: ?>
 			<div class="kasumi-stats-table-wrapper">
 				<table class="widefat striped">
 					<thead>
 						<tr>
-							<th><?php esc_html_e("Data", "kasumi-ai-generator"); ?></th>
-							<th><?php esc_html_e("Posty", "kasumi-ai-generator"); ?></th>
-							<th><?php esc_html_e("Grafiki", "kasumi-ai-generator"); ?></th>
-							<th><?php esc_html_e("Komentarze", "kasumi-ai-generator"); ?></th>
-							<th><?php esc_html_e("Tokeny", "kasumi-ai-generator"); ?></th>
-							<th><?php esc_html_e("Koszt (USD)", "kasumi-ai-generator"); ?></th>
+							<th><?php esc_html_e("Data", "kasumi-ai-studio"); ?></th>
+							<th><?php esc_html_e("Posty", "kasumi-ai-studio"); ?></th>
+							<th><?php esc_html_e("Grafiki", "kasumi-ai-studio"); ?></th>
+							<th><?php esc_html_e("Komentarze", "kasumi-ai-studio"); ?></th>
+							<th><?php esc_html_e("Tokeny", "kasumi-ai-studio"); ?></th>
+							<th><?php esc_html_e("Koszt (USD)", "kasumi-ai-studio"); ?></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -3123,12 +3129,12 @@ class SettingsPage
         $available = (bool) ($automation["available"] ?? false);
         $paused = (bool) ($automation["paused"] ?? false);
         $meta = $automation["meta"] ?? [];
-        $next_label = (string) ($meta["next_post"]["label"] ?? __("Brak", "kasumi-ai-generator"));
-        $manual_label = (string) ($meta["manual"]["label"] ?? __("Brak", "kasumi-ai-generator"));
-        $comment_label = (string) ($meta["comment"]["label"] ?? __("Brak", "kasumi-ai-generator"));
+        $next_label = (string) ($meta["next_post"]["label"] ?? __("Brak", "kasumi-ai-studio"));
+        $manual_label = (string) ($meta["manual"]["label"] ?? __("Brak", "kasumi-ai-studio"));
+        $comment_label = (string) ($meta["comment"]["label"] ?? __("Brak", "kasumi-ai-studio"));
         $queue_label = (string) ($automation["queue"]["label"] ?? number_format_i18n(0));
-        $last_run_label = (string) ($automation["last_run"]["label"] ?? __("Brak", "kasumi-ai-generator"));
-        $last_error_label = (string) ($automation["last_error"] ?? __("Brak błędów", "kasumi-ai-generator"));
+        $last_run_label = (string) ($automation["last_run"]["label"] ?? __("Brak", "kasumi-ai-studio"));
+        $last_error_label = (string) ($automation["last_error"] ?? __("Brak błędów", "kasumi-ai-studio"));
         $block_reason = (string) ($automation["block_reason"] ?? "");
         $notice = (string) ($automation["notice"] ?? "");
         $fetched_at = isset($automation["fetched_at"])
@@ -3143,7 +3149,7 @@ class SettingsPage
 						<div class="kasumi-automation-status">
 							<h2><i class="bi bi-repeat"></i> <?php esc_html_e(
         "Kontrola WP-Cron",
-        "kasumi-ai-generator",
+        "kasumi-ai-studio",
     ); ?></h2>
 							<p class="kasumi-automation-state" data-kasumi-automation-state><?php echo esc_html(
         $state_label,
@@ -3153,14 +3159,14 @@ class SettingsPage
 						<button type="button" class="button button-secondary" data-kasumi-automation-refresh>
 							<i class="bi bi-arrow-repeat"></i> <?php esc_html_e(
         "Odśwież status",
-        "kasumi-ai-generator",
+        "kasumi-ai-studio",
     ); ?>
 							</button>
 						</div>
 					</div>
 					<p class="description"><?php esc_html_e(
         "Startuj lub zatrzymuj automatyczne generowanie oraz wymuszaj natychmiastową publikację.",
-        "kasumi-ai-generator",
+        "kasumi-ai-studio",
     ); ?></p>
 					<div class="kasumi-automation-message" data-kasumi-automation-message aria-live="polite" hidden="hidden"></div>
 					<div class="notice notice-warning kasumi-automation-block" data-kasumi-automation-block<?php echo "" === $block_reason
@@ -3177,31 +3183,31 @@ class SettingsPage
 						<div>
 							<span><?php esc_html_e(
         "Następny post",
-        "kasumi-ai-generator",
+        "kasumi-ai-studio",
     ); ?></span>
 							<strong data-kasumi-automation-field="next_post" data-placeholder="<?php echo esc_attr__(
         "Brak",
-        "kasumi-ai-generator",
+        "kasumi-ai-studio",
     ); ?>"><?php echo esc_html($next_label); ?></strong>
 						</div>
 						<div>
 							<span><?php esc_html_e(
         "Zadania ręczne",
-        "kasumi-ai-generator",
+        "kasumi-ai-studio",
     ); ?></span>
 							<strong data-kasumi-automation-field="manual" data-placeholder="<?php echo esc_attr__(
         "Brak",
-        "kasumi-ai-generator",
+        "kasumi-ai-studio",
     ); ?>"><?php echo esc_html($manual_label); ?></strong>
 						</div>
 						<div>
 							<span><?php esc_html_e(
         "Cron komentarzy",
-        "kasumi-ai-generator",
+        "kasumi-ai-studio",
     ); ?></span>
 							<strong data-kasumi-automation-field="comment" data-placeholder="<?php echo esc_attr__(
         "Brak",
-        "kasumi-ai-generator",
+        "kasumi-ai-studio",
     ); ?>"><?php echo esc_html($comment_label); ?></strong>
 						</div>
 					</div>
@@ -3209,17 +3215,17 @@ class SettingsPage
 						<div>
 							<span><?php esc_html_e(
         "Ostatnie uruchomienie",
-        "kasumi-ai-generator",
+        "kasumi-ai-studio",
     ); ?></span>
 							<strong data-kasumi-automation-field="last_run" data-placeholder="<?php echo esc_attr__(
         "Brak",
-        "kasumi-ai-generator",
+        "kasumi-ai-studio",
     ); ?>"><?php echo esc_html($last_run_label); ?></strong>
 						</div>
 						<div>
 							<span><?php esc_html_e(
         "Kolejka komentarzy",
-        "kasumi-ai-generator",
+        "kasumi-ai-studio",
     ); ?></span>
 							<strong data-kasumi-automation-field="queue" data-placeholder="0"><?php echo esc_html(
         $queue_label,
@@ -3228,11 +3234,11 @@ class SettingsPage
 						<div>
 							<span><?php esc_html_e(
         "Ostatni błąd",
-        "kasumi-ai-generator",
+        "kasumi-ai-studio",
     ); ?></span>
 							<strong data-kasumi-automation-field="last_error" data-placeholder="<?php echo esc_attr__(
         "Brak błędów",
-        "kasumi-ai-generator",
+        "kasumi-ai-studio",
     ); ?>"><?php echo esc_html($last_error_label); ?></strong>
 						</div>
 					</div>
@@ -3240,35 +3246,35 @@ class SettingsPage
 						<?php
         $this->render_cron_button(
             "start",
-            __("Start", "kasumi-ai-generator"),
+            __("Start", "kasumi-ai-studio"),
             "button button-primary",
             "bi bi-play-fill",
             $disable_all || !$paused,
         );
         $this->render_cron_button(
             "stop",
-            __("Zatrzymaj", "kasumi-ai-generator"),
+            __("Zatrzymaj", "kasumi-ai-studio"),
             "button button-secondary",
             "bi bi-stop-fill",
             $disable_all || $paused,
         );
         $this->render_cron_button(
             "restart",
-            __("Restartuj WP-Cron", "kasumi-ai-generator"),
+            __("Restartuj WP-Cron", "kasumi-ai-studio"),
             "button",
             "bi bi-arrow-clockwise",
             $disable_all,
         );
         $this->render_cron_button(
             "run-post",
-            __("Publikuj teraz", "kasumi-ai-generator"),
+            __("Publikuj teraz", "kasumi-ai-studio"),
             "button button-link",
             "bi bi-lightning-fill",
             $disable_all,
         );
         $this->render_cron_button(
             "run-schedules",
-            __("Wykonaj harmonogram", "kasumi-ai-generator"),
+            __("Wykonaj harmonogram", "kasumi-ai-studio"),
             "button button-link",
             "bi bi-calendar-check",
             $disable_all,
@@ -3281,7 +3287,7 @@ class SettingsPage
             /* translators: %s last sync date. */
             esc_html__(
                 "Ostatnia synchronizacja: %s",
-                "kasumi-ai-generator",
+                "kasumi-ai-studio",
             ),
             '<strong data-kasumi-automation-updated>' . esc_html($fetched_label) . "</strong>",
         );
@@ -3311,7 +3317,7 @@ class SettingsPage
         $php_ok = version_compare(PHP_VERSION, "8.1", ">=");
         $rows = [
             [
-                "label" => __("Wersja PHP", "kasumi-ai-generator"),
+                "label" => __("Wersja PHP", "kasumi-ai-studio"),
                 "value" => $php_ok
                     ? '<span class="kasumi-ok">' .
                         esc_html(PHP_VERSION) .
@@ -3333,7 +3339,7 @@ class SettingsPage
                     /* translators: %s is the PHP extension name. */
                     __(
                         "Rozszerzenie %s",
-                        "kasumi-ai-generator",
+                        "kasumi-ai-studio",
                     ),
                     strtoupper($extension),
                 ),
@@ -3341,11 +3347,11 @@ class SettingsPage
                     ? '<span class="kasumi-ok">' .
                         esc_html__(
                             "dostępne",
-                            "kasumi-ai-generator",
+                            "kasumi-ai-studio",
                         ) .
                         "</span>"
                     : '<span class="kasumi-error">' .
-                        esc_html__("brak", "kasumi-ai-generator") .
+                        esc_html__("brak", "kasumi-ai-studio") .
                         "</span>",
             ];
         }
@@ -3358,10 +3364,19 @@ class SettingsPage
         $logger = new Logger();
         $logs = $logger->get_recent_logs(50);
         $level_filter = "";
-        if (isset($_GET["log_level"])) {
+        $log_filter_nonce = wp_create_nonce("kasumi_ai_logs_filter");
+        if (
+            isset($_GET["_wpnonce"], $_GET["log_level"]) &&
+            wp_verify_nonce(
+                sanitize_text_field(
+                    wp_unslash((string) $_GET["_wpnonce"]),
+                ),
+                "kasumi_ai_logs_filter",
+            )
+        ) {
             $level_filter = sanitize_text_field(
                 wp_unslash((string) $_GET["log_level"]),
-            ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            );
         }
 
         // Filtruj po poziomie jeśli wybrano
@@ -3374,55 +3389,55 @@ class SettingsPage
             });
         }
         ?>
-			<div class="kasumi-logs-section">
+			<div class="kasumi-logs-section" data-kasumi-log-nonce="<?php echo esc_attr( $log_filter_nonce ); ?>">
 				<div class="kasumi-logs-toolbar" style="margin-bottom: 12px;">
 					<select name="log_level" id="kasumi-log-level-filter" data-kasumi-log-filter style="margin-right: 8px;">
 					<option value=""><?php esc_html_e(
          "Wszystkie poziomy",
-         "kasumi-ai-generator",
+         "kasumi-ai-studio",
      ); ?></option>
 					<option value="info" <?php selected($level_filter, "info"); ?>><?php esc_html_e(
     "Info",
-    "kasumi-ai-generator",
+    "kasumi-ai-studio",
 ); ?></option>
 					<option value="warning" <?php selected(
          $level_filter,
          "warning",
      ); ?>><?php esc_html_e(
     "Ostrzeżenia",
-    "kasumi-ai-generator",
+    "kasumi-ai-studio",
 ); ?></option>
 					<option value="error" <?php selected(
          $level_filter,
          "error",
      ); ?>><?php esc_html_e(
     "Błędy",
-    "kasumi-ai-generator",
+    "kasumi-ai-studio",
 ); ?></option>
 				</select>
 					<button type="button" class="button" id="kasumi-refresh-logs" data-kasumi-log-refresh><i class="bi bi-arrow-clockwise"></i> <?php esc_html_e(
         "Odśwież",
-        "kasumi-ai-generator",
+        "kasumi-ai-studio",
     ); ?></button>
 			</div>
 			<?php if (empty($logs)): ?>
-				<p><?php esc_html_e("Brak logów.", "kasumi-ai-generator"); ?></p>
+				<p><?php esc_html_e("Brak logów.", "kasumi-ai-studio"); ?></p>
 			<?php else: ?>
 				<table class="wp-list-table widefat fixed striped">
 					<thead>
 						<tr>
 							<th style="width: 180px;"><?php esc_html_e(
            "Data/Czas",
-           "kasumi-ai-generator",
+           "kasumi-ai-studio",
        ); ?></th>
 							<th style="width: 100px;"><?php esc_html_e(
            "Poziom",
-           "kasumi-ai-generator",
+           "kasumi-ai-studio",
        ); ?></th>
-							<th><?php esc_html_e("Wiadomość", "kasumi-ai-generator"); ?></th>
+							<th><?php esc_html_e("Wiadomość", "kasumi-ai-studio"); ?></th>
 							<th style="width: 200px;"><?php esc_html_e(
            "Kontekst",
-           "kasumi-ai-generator",
+           "kasumi-ai-studio",
        ); ?></th>
 						</tr>
 					</thead>
@@ -3443,7 +3458,7 @@ class SettingsPage
 										<details>
 											<summary><?php esc_html_e(
                "Pokaż",
-               "kasumi-ai-generator",
+               "kasumi-ai-studio",
            ); ?></summary>
 											<pre style="font-size: 11px; max-height: 150px; overflow: auto;"><?php echo esc_html(
                wp_json_encode(
@@ -3471,25 +3486,25 @@ class SettingsPage
 			<div class="kasumi-settings-actions" data-kasumi-settings-actions style="margin-top: 16px;">
 				<p class="description"><?php esc_html_e(
        "Eksportuj, importuj lub zresetuj ustawienia wtyczki.",
-       "kasumi-ai-generator",
+       "kasumi-ai-studio",
    ); ?></p>
 			<div style="display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap;">
 				<button type="button" class="button" id="kasumi-export-settings">
 					<i class="bi bi-download"></i> <?php esc_html_e(
          "Eksportuj ustawienia",
-         "kasumi-ai-generator",
+         "kasumi-ai-studio",
      ); ?>
 				</button>
 				<button type="button" class="button" id="kasumi-import-settings">
 					<i class="bi bi-upload"></i> <?php esc_html_e(
          "Importuj ustawienia",
-         "kasumi-ai-generator",
+         "kasumi-ai-studio",
      ); ?>
 				</button>
 				<button type="button" class="button button-secondary" id="kasumi-reset-settings">
 					<i class="bi bi-arrow-counterclockwise"></i> <?php esc_html_e(
          "Resetuj do domyślnych",
-         "kasumi-ai-generator",
+         "kasumi-ai-studio",
      ); ?>
 				</button>
 				</div>

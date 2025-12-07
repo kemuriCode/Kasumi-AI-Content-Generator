@@ -2,8 +2,8 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: KasumiAI - Full AI Content Generator 0.1.8.4\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/kasumi-ai-generator\n"
+"Project-Id-Version: KasumiAI - Full AI Studio Generator 0.1.8.5\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/kasumi-ai-studio\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -12,47 +12,47 @@ msgstr ""
 "POT-Creation-Date: 2025-12-05T10:00:00+01:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
-"X-Domain: kasumi-ai-generator\n"
+"X-Domain: kasumi-ai-studio\n"
 
 #. Plugin Name of the plugin
-#: kasumi-ai-generator.php
-msgid "KasumiAI - Full AI Content Generator"
+#: kasumi-ai-studio.php
+msgid "KasumiAI - Full AI Studio Generator"
 msgstr ""
 
 #. Plugin URI of the plugin
-#: kasumi-ai-generator.php
-msgid "https://wordpress.org/plugins/kasumi-ai-generator"
+#: kasumi-ai-studio.php
+msgid "https://wordpress.org/plugins/kasumi-ai-studio"
 msgstr ""
 
 #. Description of the plugin
-#: kasumi-ai-generator.php
+#: kasumi-ai-studio.php
 msgid "Nowoczesna wtyczka AI z pełnym wsparciem dla najnowszych modeli GPT-5.1, GPT-4o (OpenAI) oraz Gemini 3 (Google). Obsługuje także starsze modele (GPT-4.1, GPT-4o-mini, Gemini 2.0 Flash) - wybierz model odpowiedni dla Ciebie!"
 msgstr ""
 
 #. Author of the plugin
-#: kasumi-ai-generator.php
+#: kasumi-ai-studio.php
 msgid "Marcin Dymek (KemuriCodes)"
 msgstr ""
 
-#: kasumi-ai-generator.php:32
+#: kasumi-ai-studio.php:32
 msgid "Kasumi AI wymaga PHP 8.2 lub wyższej wersji. Zaktualizuj środowisko, aby aktywować wtyczkę."
 msgstr ""
 
-#: kasumi-ai-generator.php:48
+#: kasumi-ai-studio.php:48
 msgid "Brak katalogu vendor. Uruchom composer install w folderze wtyczki Kasumi."
 msgstr ""
 
 #. translators: %s list of extensions
-#: kasumi-ai-generator.php:106
+#: kasumi-ai-studio.php:106
 #, php-format
 msgid "Kasumi AI wymaga rozszerzeń PHP: %s. Skontaktuj się z administratorem serwera."
 msgstr ""
 
-#: kasumi-ai-generator.php:135
+#: kasumi-ai-studio.php:135
 msgid "Ustawienia"
 msgstr ""
 
-#: kasumi-ai-generator.php:156
+#: kasumi-ai-studio.php:156
 msgid "Postaw kawę"
 msgstr ""
 
@@ -130,7 +130,7 @@ msgstr ""
 
 #: src/Admin/SettingsPage.php:93
 #: src/Admin/SettingsPage.php:94
-msgid "AI Content"
+msgid "AI Studio"
 msgstr ""
 
 #: src/Admin/SettingsPage.php:182

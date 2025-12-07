@@ -100,7 +100,7 @@ class Logger {
 		}
 
 		/* translators: %s – nazwa strony */
-		$subject = sprintf( __( 'Błąd modułu AI na %s', 'kasumi-ai-generator' ), get_bloginfo( 'name' ) );
+		$subject = sprintf( __( 'Błąd modułu AI na %s', 'kasumi-ai-studio' ), get_bloginfo( 'name' ) );
 		$body    = $message;
 
 		if ( ! empty( $context ) ) {

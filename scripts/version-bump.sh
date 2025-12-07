@@ -9,7 +9,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PLUGIN_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
 # Pobierz aktualną wersję z pliku głównego
-CURRENT_VERSION=$(grep -E "^\s*\*\s*Version:" "${PLUGIN_DIR}/kasumi-ai-generator.php" | sed -E 's/.*Version:\s*([0-9]+\.[0-9]+\.[0-9]+).*/\1/')
+CURRENT_VERSION=$(grep -E "^\s*\*\s*Version:" "${PLUGIN_DIR}/kasumi-ai-studio.php" | sed -E 's/.*Version:\s*([0-9]+\.[0-9]+\.[0-9]+).*/\1/')
 
 if [ -z "$CURRENT_VERSION" ]; then
     echo "❌ Nie znaleziono aktualnej wersji w pliku głównym"
@@ -50,14 +50,14 @@ NEW_VERSION="${MAJOR}.${MINOR}.${PATCH}"
 echo "🚀 Nowa wersja: $NEW_VERSION"
 
 # Aktualizuj wersję w pliku głównym wtyczki
-sed -i "s/Version: ${CURRENT_VERSION}/Version: ${NEW_VERSION}/" "${PLUGIN_DIR}/kasumi-ai-generator.php"
-sed -i "s/define( 'KASUMI_AI_VERSION', '${CURRENT_VERSION}' );/define( 'KASUMI_AI_VERSION', '${NEW_VERSION}' );/" "${PLUGIN_DIR}/kasumi-ai-generator.php"
+sed -i "s/Version: ${CURRENT_VERSION}/Version: ${NEW_VERSION}/" "${PLUGIN_DIR}/kasumi-ai-studio.php"
+sed -i "s/define( 'KASUMI_AI_VERSION', '${CURRENT_VERSION}' );/define( 'KASUMI_AI_VERSION', '${NEW_VERSION}' );/" "${PLUGIN_DIR}/kasumi-ai-studio.php"
 
 # Aktualizuj wersję w readme.txt
 sed -i "s/Stable tag: ${CURRENT_VERSION}/Stable tag: ${NEW_VERSION}/" "${PLUGIN_DIR}/readme.txt"
 
 echo "✅ Wersja zaktualizowana do $NEW_VERSION"
 echo "📝 Pamiętaj o commitowaniu zmian:"
-echo "   git add kasumi-ai-generator.php readme.txt"
+echo "   git add kasumi-ai-studio.php readme.txt"
 echo "   git commit -m \"chore: bump version to $NEW_VERSION\""
 

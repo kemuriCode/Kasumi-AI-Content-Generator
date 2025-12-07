@@ -20,7 +20,7 @@ final class StatsTrackerTest extends TestCase {
 		StatsTracker::record( 'article', 'openai', array( 'total_tokens' => 100 ) );
 
 		$stats = StatsTracker::all();
-		$today = date( 'Y-m-d' );
+		$today = gmdate( 'Y-m-d' );
 
 		$this->assertArrayHasKey( 'daily', $stats );
 		$this->assertArrayHasKey( $today, $stats['daily'] );

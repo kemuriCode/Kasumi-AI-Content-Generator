@@ -89,21 +89,25 @@ class ScheduleService {
 		$page     = max( 1, (int) $args['page'] );
 		$offset   = ( $page - 1 ) * $per_page;
 
-		$items_query = 'SELECT * FROM ' . $this->table_sql . $where_clause . ' ORDER BY publish_at IS NULL, publish_at ASC, id DESC LIMIT %d OFFSET %d';
-		$count_query = 'SELECT COUNT(id) FROM ' . $this->table_sql . $where_clause;
+		$items_query = 'SELECT * FROM ' . $this->table_sql . $where_clause . ' ORDER BY publish_at IS NULL, publish_at ASC, id DESC LIMIT %d OFFSET %d'; // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- table name is escaped with esc_sql() in constructor
+		$count_query = 'SELECT COUNT(id) FROM ' . $this->table_sql . $where_clause; // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- table name is escaped with esc_sql() in constructor
 
 		$items_params = array_merge( $params, array( $per_page, $offset ) );
 
-		$items_sql = $this->wpdb->prepare( $items_query, $items_params );
-		$rows      = $this->wpdb->get_results( $items_sql, ARRAY_A ) ?: array();
+		$rows = $this->wpdb->get_results(
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- placeholders used, table name escaped in constructor
+			$this->wpdb->prepare( $items_query, ...$items_params ),
+			ARRAY_A
+		) ?: array();
 
 		if ( ! empty( $params ) ) {
-			$count_sql = $this->wpdb->prepare( $count_query, $params );
+			$total = (int) $this->wpdb->get_var(
+				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- placeholders used, table name escaped in constructor
+				$this->wpdb->prepare( $count_query, ...$params )
+			);
 		} else {
-			$count_sql = $count_query;
+			$total = (int) $this->wpdb->get_var( $count_query ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- no user input in this branch, table name escaped in constructor
 		}
-
-		$total = (int) $this->wpdb->get_var( $count_sql );
 
 		return array(
 			'items' => array_map( fn( $row ) => $this->normalize_row( $row ), $rows ),
@@ -115,9 +119,9 @@ class ScheduleService {
 	 * @return array<string, mixed>|null
 	 */
 	public function find( int $id ): ?array {
-		$sql = 'SELECT * FROM ' . $this->table_sql . ' WHERE id = %d';
 		$row = $this->wpdb->get_row(
-			$this->wpdb->prepare( $sql, $id ),
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- placeholders used, table name escaped in constructor
+			$this->wpdb->prepare( 'SELECT * FROM ' . $this->table_sql . ' WHERE id = %d', $id ),
 			ARRAY_A
 		);
 
@@ -183,14 +187,11 @@ class ScheduleService {
 		$limit = max( 1, $limit );
 		$now   = $this->now();
 
-		$query = 'SELECT id FROM ' . $this->table_sql . ' WHERE status = %s AND publish_at IS NOT NULL AND publish_at <= %s ORDER BY publish_at ASC LIMIT %d';
-		$ids   = $this->wpdb->get_col(
-			$this->wpdb->prepare(
-				$query,
-				'scheduled',
-				$now,
-				$limit
-			)
+		$query = 'SELECT id FROM ' . $this->table_sql . ' WHERE status = %s AND publish_at IS NOT NULL AND publish_at <= %s ORDER BY publish_at ASC LIMIT %d'; // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- table name is escaped with esc_sql() in constructor
+
+		$ids = $this->wpdb->get_col(
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- placeholders used, table name escaped in constructor
+			$this->wpdb->prepare( $query, 'scheduled', $now, $limit )
 		);
 
 		if ( empty( $ids ) ) {

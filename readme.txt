@@ -1,10 +1,10 @@
-=== KasumiAI - Full AI Content Generator ===
+=== KasumiAI - Full AI Studio Generator ===
 Contributors: kemuricodes
 Donate link: https://kemuri.codes
 Requires at least: 6.0
 Tested up to: 6.9
 Requires PHP: 8.2
-Stable tag: 0.1.8.4
+Stable tag: 0.1.8.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Tags: ai, openai, gemini, pixabay, wp-cron
@@ -13,7 +13,7 @@ Generate SEO posts, featured images and AI comments with OpenAI + Gemini, Pixaba
 
 == Description ==
 
-Kasumi – AI Content & Image Generator automates long-form posts, featured images and smart comment suggestions, powered by cutting-edge AI models. **Full support for the newest models: GPT-5.1, GPT-4o (OpenAI) and Gemini 3 (Google)**. Backward compatible with all previous models including GPT-4.1, GPT-4o-mini, Gemini 2.0 Flash, and older versions. Choose the perfect model for your needs and budget! Experience the latest in AI technology with native integrations for OpenAI, Google Gemini, Imagic and Pixabay. Configure WP-Cron schedules, custom prompts, and moderation workflows to keep your WordPress site fresh without manual workload.
+Kasumi – AI Studio & Image Generator automates long-form posts, featured images and smart comment suggestions, powered by cutting-edge AI models. **Full support for the newest models: GPT-5.1, GPT-4o (OpenAI) and Gemini 3 (Google)**. Backward compatible with all previous models including GPT-4.1, GPT-4o-mini, Gemini 2.0 Flash, and older versions. Choose the perfect model for your needs and budget! Experience the latest in AI technology with native integrations for OpenAI, Google Gemini, Imagic and Pixabay. Configure WP-Cron schedules, custom prompts, and moderation workflows to keep your WordPress site fresh without manual workload.
 
 === Key features ===
 
@@ -101,6 +101,11 @@ The Diagnostics tab and admin notices alert you if PHP < 8.1 or extensions like 
 
 == Changelog ==
 
+= 0.1.8.5 =
+* Naprawione ostrzeżenia Plugin Check: atrybuty select/input oznaczone jako escapowane, a wiersze tabel otrzymują escapowane klasy.
+* Zapytania harmonogramu korzystają z `prepare()` ze spreadem i adnotacją bezpiecznej nazwy tabeli.
+* Filtr logów wymaga nonce (UI dodaje `_wpnonce`), a AJAX zapisu ustawień ma adnotację sanitizacji `$_POST`.
+
 = 0.1.8.4 =
 * Podbity OpenAI PHP SDK do `v0.18.0` (Composer + vendor) oraz lokalna kopia Chart.js do wersji 4.5.0.
 * W panelu diagnostyki logów i akcji ustawień usunięto inline `<script>` – logika została przeniesiona do `admin-ui.js`, a dane przekazywane przez `wp_localize_script()`.
@@ -161,7 +166,7 @@ The Diagnostics tab and admin notices alert you if PHP < 8.1 or extensions like 
   * Dodano nagłówek License (GPLv2 or later)
   * Usunięto przestarzałą funkcję load_plugin_textdomain()
   * Zaktualizowano "Tested up to" do WordPress 6.8
-  * Zmieniono Text Domain na kasumi-ai-generator zgodnie ze slugiem wtyczki
+  * Zmieniono Text Domain na kasumi-ai-studio zgodnie ze slugiem wtyczki
   * Ujednolicono nazwę wtyczki w readme.txt
 
 = 0.1.1 =

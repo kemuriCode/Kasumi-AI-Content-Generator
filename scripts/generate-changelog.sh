@@ -9,7 +9,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PLUGIN_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
 # Pobierz aktualną wersję
-CURRENT_VERSION=$(grep -E "^\s*\*\s*Version:" "${PLUGIN_DIR}/kasumi-ai-generator.php" | sed -E 's/.*Version:\s*([0-9]+\.[0-9]+\.[0-9]+).*/\1/')
+CURRENT_VERSION=$(grep -E "^\s*\*\s*Version:" "${PLUGIN_DIR}/kasumi-ai-studio.php" | sed -E 's/.*Version:\s*([0-9]+\.[0-9]+\.[0-9]+).*/\1/')
 
 if [ -z "$CURRENT_VERSION" ]; then
     echo "❌ Nie znaleziono aktualnej wersji"

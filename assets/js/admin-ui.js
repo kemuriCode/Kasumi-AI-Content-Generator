@@ -200,6 +200,12 @@
         }
 
         const initLogsControls = function () {
+            const container =
+                document.querySelector("[data-kasumi-log-nonce]") || null;
+            const logNonce =
+                (adminData.logs && adminData.logs.nonce) ||
+                (container ? container.getAttribute("data-kasumi-log-nonce") : "") ||
+                "";
             const filter =
                 document.querySelector("[data-kasumi-log-filter]") || null;
             const refresh =
@@ -210,8 +216,14 @@
                     const url = new URL(window.location.href);
                     if (this.value) {
                         url.searchParams.set("log_level", this.value);
+                        if (logNonce) {
+                            url.searchParams.set("_wpnonce", logNonce);
+                        } else {
+                            url.searchParams.delete("_wpnonce");
+                        }
                     } else {
                         url.searchParams.delete("log_level");
+                        url.searchParams.delete("_wpnonce");
                     }
                     window.location.href = url.toString();
                 });

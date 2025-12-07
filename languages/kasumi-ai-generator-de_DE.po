@@ -1,8 +1,8 @@
 # Copyright (C) 2025 Marcin Dymek (KemuriCodes)
-# This file is distributed under the same license as the Kasumi – Full AI Content Generator plugin.
+# This file is distributed under the same license as the Kasumi – Full AI Studio Generator plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Kasumi – Full AI Content Generator 0.1.0\n"
+"Project-Id-Version: Kasumi – Full AI Studio Generator 0.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/kasumi-ai-"
 "generator\n"
 "POT-Creation-Date: 2025-12-04T14:39:02+01:00\n"
@@ -14,21 +14,21 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: WP-CLI 2.12.0\n"
-"X-Domain: kasumi-ai-generator\n"
+"X-Domain: kasumi-ai-studio\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. Plugin Name of the plugin
-#: kasumi-ai-generator.php
-msgid "Kasumi – Full AI Content Generator"
+#: kasumi-ai-studio.php
+msgid "Kasumi – Full AI Studio Generator"
 msgstr "Kasumi – KI-Content-Generator"
 
 #. Plugin URI of the plugin
-#: kasumi-ai-generator.php
-msgid "https://wordpress.org/plugins/kasumi-ai-generator"
+#: kasumi-ai-studio.php
+msgid "https://wordpress.org/plugins/kasumi-ai-studio"
 msgstr ""
 
 #. Description of the plugin
-#: kasumi-ai-generator.php
+#: kasumi-ai-studio.php
 msgid ""
 "Nowoczesna wtyczka AI z pełnym wsparciem dla najnowszych modeli GPT-5.1, "
 "GPT-4o (OpenAI) oraz Gemini 3 (Google). Obsługuje także starsze modele "
@@ -37,11 +37,11 @@ msgid ""
 msgstr ""
 
 #. Author of the plugin
-#: kasumi-ai-generator.php
+#: kasumi-ai-studio.php
 msgid "Marcin Dymek (KemuriCodes)"
 msgstr "Marcin Dymek (KemuriCodes)"
 
-#: kasumi-ai-generator.php:32
+#: kasumi-ai-studio.php:32
 msgid ""
 "Kasumi AI wymaga PHP 8.2 lub wyższej wersji. Zaktualizuj środowisko, aby "
 "aktywować wtyczkę."
@@ -49,7 +49,7 @@ msgstr ""
 "Kasumi AI benötigt PHP 8.2 oder neuer. Aktualisiere die Umgebung, um das "
 "Plugin zu aktivieren."
 
-#: kasumi-ai-generator.php:48
+#: kasumi-ai-studio.php:48
 msgid ""
 "Brak katalogu vendor. Uruchom composer install w folderze wtyczki Kasumi."
 msgstr ""
@@ -57,7 +57,7 @@ msgstr ""
 "aus."
 
 #. translators: %s list of extensions
-#: kasumi-ai-generator.php:106
+#: kasumi-ai-studio.php:106
 #, php-format
 msgid ""
 "Kasumi AI wymaga rozszerzeń PHP: %s. Skontaktuj się z administratorem "
@@ -66,12 +66,12 @@ msgstr ""
 "Kasumi AI benötigt die PHP-Erweiterungen %s. Wende dich an den "
 "Serveradministrator."
 
-#: kasumi-ai-generator.php:135
+#: kasumi-ai-studio.php:135
 #, fuzzy
 msgid "Ustawienia"
 msgstr "Einstellungen importieren"
 
-#: kasumi-ai-generator.php:156
+#: kasumi-ai-studio.php:156
 #, fuzzy
 msgid "Postaw kawę"
 msgstr "Spendiere dem Kasumi-Entwickler einen Kaffee"
@@ -141,7 +141,7 @@ msgid "Nie udało się wygenerować grafiki poglądowej."
 msgstr "Die Vorscha﻿ugrafik konnte nicht erzeugt werden."
 
 #: src/Admin/SettingsPage.php:93 src/Admin/SettingsPage.php:94
-msgid "AI Content"
+msgid "AI Studio"
 msgstr "KI-Inhalte"
 
 #: src/Admin/SettingsPage.php:182
