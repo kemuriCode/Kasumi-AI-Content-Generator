@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Skrypt do budowania paczki ZIP wtyczki WordPress
-# Kasumi AI Generator
+# Kasumi AI Studio
 
 set -e
 
